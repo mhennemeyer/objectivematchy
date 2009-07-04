@@ -7,13 +7,12 @@
 //
 
 #import "Matcher.h"
-#import "Matcher-Eql.h"
 #import "NSObject-Expectations.h"
 
 
 @implementation Matcher
 
-@synthesize actual, isPositive, matches, positiveFailureMessage, negativeFailureMessage;
+@synthesize actual, isPositive, matches, positiveFailureMessage, negativeFailureMessage, expected;
 
 - (id) initWithActual:(id)anActual 
 		andIsPositive:(BOOL)aIsPositive
@@ -36,6 +35,18 @@
 - (BOOL) negativeFailure
 {
 	return (!self.isPositive && self.matches);
+}
+
+- (void) handleExpectation
+{
+	if ( [self positiveFailure] )
+		[NSException raise:@"PositiveExpectationNotMet" 
+					format:self.positiveFailureMessage];
+	
+	if ( [self negativeFailure] )
+		[NSException raise:@"NegativeExpectationNotMet" 
+					format:self.negativeFailureMessage];
+	
 }
 
 

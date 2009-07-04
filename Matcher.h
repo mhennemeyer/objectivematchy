@@ -12,6 +12,7 @@
 
 @interface Matcher : NSObject {
 	id   actual;
+	id   expected;
 	BOOL isPositive;
 	BOOL matches;
 	NSString * positiveFailureMessage;
@@ -23,8 +24,10 @@
 
 - (BOOL) positiveFailure;
 - (BOOL) negativeFailure;
+- (void) handleExpectation;
 
 @property (readwrite, retain) id         actual;
+@property (readwrite, retain) id         expected;
 @property (readonly)          BOOL       isPositive;
 @property (readwrite)         BOOL       matches;
 @property (readwrite, copy)   NSString * positiveFailureMessage;

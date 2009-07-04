@@ -8,7 +8,7 @@
 
 #import "IntegrationTest.h"
 #import "NSObject-Expectations.h"
-#import "Matcher-Eql.h"
+#import "Matcher-MatcherMethods.h"
 
 
 @implementation IntegrationTest

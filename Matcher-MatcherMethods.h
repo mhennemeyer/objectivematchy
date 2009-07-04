@@ -1,5 +1,5 @@
 //
-//  Matcher-Eql.h
+//  Matcher-MatcherMethods.h
 //  ObjectiveMatchy
 //
 //  Created by Matthias Hennemeyer on 02.07.09.
@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "Matcher.h"
 
-@interface Matcher (Eql)
+@interface Matcher (MatcherMethods)
 
-- (BOOL) eql:(id)expected;
+- (BOOL) eql:(id)anExpected;
 
 @end
