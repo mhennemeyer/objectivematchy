@@ -11,6 +11,9 @@
 
 @interface Matcher (MatcherMethods)
 
-- (BOOL) eql:(id)anExpected;
+- (id) eql:(id)anExpected;
+- (id) respondTo:(SEL)selector;
+- (id) haveKey:(NSString *)aKey;
+- (id) haveKey:(NSString *)aKey withValue:(id)value;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "NSObject-Expectations.h"
 #import "Matcher.h"
+#import "ObjectiveMatchyMacros.h"
 
 @implementation NSObject (Expectations)
 
