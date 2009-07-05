@@ -16,6 +16,7 @@
 // Todo autorelease
 - (id) should
 {
+	NSLog(@"\n LINE: %d", __LINE__);
 	return [[[Matcher alloc] initWithActual:self andIsPositive:YES] autorelease];
 }
 

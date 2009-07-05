@@ -45,8 +45,15 @@
 	
 	if ( [self negativeFailure] )
 		[NSException raise:@"NegativeExpectationNotMet" 
-					format:self.negativeFailureMessage];
-	
+					format:self.negativeFailureMessage];	
+}
+
+- (void) dealloc
+{
+	self.actual = nil;
+	self.expected = nil;
+	self.positiveFailureMessage = nil;
+	self.negativeFailureMessage = nil;
 }
 
 

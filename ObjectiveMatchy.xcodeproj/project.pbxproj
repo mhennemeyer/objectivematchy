@@ -14,7 +14,7 @@
 		666946A10FFA846600A1706F /* Matcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946A00FFA846600A1706F /* Matcher.m */; };
 		666946A20FFA846600A1706F /* Matcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6669469F0FFA846600A1706F /* Matcher.h */; };
 		666946A30FFA846600A1706F /* Matcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946A00FFA846600A1706F /* Matcher.m */; };
-		66F67D900FFA74ED00A657E2 /* IntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F67D8F0FFA74ED00A657E2 /* IntegrationTest.m */; };
+		66F67D900FFA74ED00A657E2 /* EqlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F67D8F0FFA74ED00A657E2 /* EqlTest.m */; };
 		66F67D950FFA757600A657E2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F67D940FFA757600A657E2 /* SenTestingKit.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -47,8 +47,8 @@
 		666946A00FFA846600A1706F /* Matcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matcher.m; sourceTree = "<group>"; };
 		66F67D850FFA74AD00A657E2 /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66F67D860FFA74AD00A657E2 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
-		66F67D8E0FFA74ED00A657E2 /* IntegrationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationTest.h; sourceTree = "<group>"; };
-		66F67D8F0FFA74ED00A657E2 /* IntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTest.m; sourceTree = "<group>"; };
+		66F67D8E0FFA74ED00A657E2 /* EqlTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqlTest.h; sourceTree = "<group>"; };
+		66F67D8F0FFA74ED00A657E2 /* EqlTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EqlTest.m; sourceTree = "<group>"; };
 		66F67D940FFA757600A657E2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* ObjectiveMatchy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectiveMatchy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,8 +161,8 @@
 		66F67D8D0FFA74C500A657E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				66F67D8E0FFA74ED00A657E2 /* IntegrationTest.h */,
-				66F67D8F0FFA74ED00A657E2 /* IntegrationTest.m */,
+				66F67D8E0FFA74ED00A657E2 /* EqlTest.h */,
+				66F67D8F0FFA74ED00A657E2 /* EqlTest.m */,
 				666946980FFA835200A1706F /* MatcherTest.h */,
 				666946990FFA835200A1706F /* MatcherTest.m */,
 			);
@@ -281,7 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66F67D900FFA74ED00A657E2 /* IntegrationTest.m in Sources */,
+				66F67D900FFA74ED00A657E2 /* EqlTest.m in Sources */,
 				6669468A0FFA7F8400A1706F /* NSObject-Expectations.m in Sources */,
 				6669469A0FFA835200A1706F /* MatcherTest.m in Sources */,
 				F51B089A0FFCB8D100F453BE /* Matcher-MatcherMethods.m in Sources */,
