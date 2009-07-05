@@ -15,45 +15,128 @@
 
 @implementation MatcherTest
 
+- (void) setUp
+{
+	filename = @"MatcherTest.m";
+	linenumber = 20;
+	actual  = [[NSObject alloc] init];
+	positiveMatcherWithActual = [[Matcher alloc] initWithActual:actual 
+												  andIsPositive:YES
+													   filename:filename 
+													 linenumber:linenumber];
+	negativeMatcherWithActual = [[Matcher alloc] initWithActual:actual 
+												  andIsPositive:NO
+													   filename:filename 
+													 linenumber:linenumber];
+}
+
+#pragma mark Properties
+
 - (void) testMatcherWithActualAndPositive
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[[actual should] eql:matcher.actual];
-	STAssertEquals((id) actual, matcher.actual, @"Matcher should set actual.");
-	STAssertTrue(matcher.isPositive, @"Matcher should set isPositive.");
+	STAssertEquals((id) actual, positiveMatcherWithActual.actual, @"Matcher should set actual.");
+	STAssertTrue(positiveMatcherWithActual.isPositive, @"Matcher should set isPositive.");
 }
 
-- (void) testMatcherHasMatchesProperty
+- (void) testMatcherHasLineNumber
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
-	STAssertTrue(matcher.matches, @"Matcher should match.");
+	STAssertEquals(linenumber, positiveMatcherWithActual.linenumber, @"matcher should have linenumber.");
 }
 
-- (void) testMatcherHasExpectedProperty
+- (void) testMatcherHasFilename
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
-	STAssertEquals(matcher.actual, matcher.expected, @"Matcher should have expected Property.");
+	STAssertEquals(filename, positiveMatcherWithActual.filename, @"matcher should have Filename.");
 }
 
 
-- (void) testMatcherKnowsPositiveFailureMessage
+- (void) testMatcherHasMatchesKey
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertNotNil(matcher.positiveFailureMessage, @"Matcher should know positiveFailureMessage.");
+	[positiveMatcherWithActual eql:actual];
+	STAssertTrue(positiveMatcherWithActual.matches, @"Matcher should match.");
 }
 
-- (void) testMatcherKnowsNegativeFailureMessage
+- (void) testMatcherHasExpectedKey
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertNotNil(matcher.negativeFailureMessage, @"Matcher should know negativeFailureMessage.");
+	[positiveMatcherWithActual eql:actual];
+	STAssertEquals(positiveMatcherWithActual.actual, 
+				   positiveMatcherWithActual.expected, 
+				   @"Matcher should have expected Property.");
 }
+
+
+- (void) testMatcherHasPositiveFailureMessage
+{
+	STAssertNotNil(positiveMatcherWithActual.positiveFailureMessage, @"Matcher should know positiveFailureMessage.");
+}
+
+- (void) testMatcherHasNegativeFailureMessage
+{
+	STAssertNotNil(positiveMatcherWithActual.negativeFailureMessage, @"Matcher should know negativeFailureMessage.");
+}
+
+#pragma mark -
+
+#pragma mark positiveException
+
+- (void) testMatcherRespondsToPositiveException
+{
+	STAssertTrue([positiveMatcherWithActual respondsToSelector:@selector(positiveException)] , 
+				 @"Matcher should respond to positiveException.");
+}
+
+- (void) testPositiveExceptionKnowsFilename
+{
+	STAssertEquals([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestFilenameKey],
+	               filename,
+	               @"Exception should know filename");
+}
+
+- (void) testPositiveExceptionKnowsLinenumber
+{
+	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestLineNumberKey],
+	               [NSNumber numberWithInt:linenumber],
+	               @"Exception should know linenumber");
+}
+
+- (void) testPositiveExceptionKnowsPositiveFailureMessage
+{
+	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestDescriptionKey],
+						 positiveMatcherWithActual.positiveFailureMessage,
+						 @"Exception should know positiveFailureMessage");
+}
+
+
+#pragma mark -
+
+#pragma mark negativeException
+
+- (void) testMatcherRespondsToNegativeException
+{
+	STAssertTrue([positiveMatcherWithActual respondsToSelector:@selector(negativeException)] , 
+				 @"Matcher should respond to positiveException.");
+}
+
+- (void) testNegativeExceptionKnowsFilename
+{
+	STAssertEquals([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestFilenameKey],
+	               filename,
+	               @"Exception should know filename");
+}
+
+- (void) testNegativeExceptionKnowsLinenumber
+{
+	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestLineNumberKey],
+						 [NSNumber numberWithInt:linenumber],
+						 @"Exception should know linenumber");
+}
+
+- (void) testNegativeExceptionHasPositiveFailureMessage
+{
+	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestDescriptionKey],
+						 positiveMatcherWithActual.negativeFailureMessage,
+						 @"Negative Exception should know negativeFailureMessage");
+}
+
 
 #pragma mark -
 
@@ -61,45 +144,35 @@
 
 - (void) testMatcherRespondsToPositiveFailure
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertTrue([matcher respondsToSelector:@selector(positiveFailure)] , 
-				 @"Matcher should respondTo positiveFailure.");
+	STAssertTrue([positiveMatcherWithActual respondsToSelector:@selector(positiveFailure)] , 
+				 @"Matcher should respond to positiveFailure.");
 }
 
 - (void) testMatcherRespondsToPositiveFailureWithYESIfPositiveAndNotMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertThrows([matcher eql:[NSMutableArray array]], @"Should throw");
-	STAssertTrue([matcher positiveFailure] , 
+	STAssertThrows([positiveMatcherWithActual eql:[NSMutableArray array]], @"Should throw");
+	STAssertTrue([positiveMatcherWithActual positiveFailure] , 
 				 @"Matcher should respond to positiveFailure with YES for positive Expectation and no match.");
 }
 
 - (void) testMatcherRespondsToPositiveFailureWithNOIfPositiveAndMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
-	STAssertFalse([matcher positiveFailure] , 
+	[positiveMatcherWithActual eql:actual];
+	STAssertFalse([positiveMatcherWithActual positiveFailure] , 
 				 @"Matcher should respond to positiveFailure with NO for positive Expectation and match.");
 }
 
 - (void) testMatcherRespondsToPositiveFailureWithNOIfNOTPositiveAndMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:NO];
-	STAssertThrows([matcher eql:actual], @"Should throw");
-	STAssertFalse([matcher positiveFailure] , 
+	STAssertThrows([negativeMatcherWithActual eql:actual], @"Should throw");
+	STAssertFalse([negativeMatcherWithActual positiveFailure] , 
 				  @"Matcher should respond to positiveFailure with NO for negative Expectation and match.");
 }
 
 - (void) testMatcherRespondsToPositiveFailureWithNOIfNOTPositiveAndNOTMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:NO];
-	[matcher eql:[NSMutableArray array]];
-	STAssertFalse([matcher positiveFailure] , 
+	[negativeMatcherWithActual eql:[NSMutableArray array]];
+	STAssertFalse([negativeMatcherWithActual positiveFailure] , 
 				  @"Matcher should respond to positiveFailure with NO for negative Expectation and no match.");
 }
 
@@ -109,45 +182,35 @@
 
 - (void) testMatcherRespondsToNegativeFailure
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertTrue([matcher respondsToSelector:@selector(negativeFailure)] , 
+	STAssertTrue([positiveMatcherWithActual respondsToSelector:@selector(negativeFailure)] , 
 				 @"Matcher should respondTo negativeFailure.");
 }
 
 - (void) testMatcherRespondsToNegativeFailureWithYESIfNotPositiveAndMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:NO];
-	STAssertThrows([matcher eql:actual], @"Should throw");
-	STAssertTrue([matcher negativeFailure] , 
+	STAssertThrows([negativeMatcherWithActual eql:actual], @"Should throw");
+	STAssertTrue([negativeMatcherWithActual negativeFailure] , 
 				 @"Matcher should respond to negativeFailure with YES for negative Expectation and match.");
 }
 
 - (void) testMatcherRespondsToNegativeFailureWithNOIfNotPositiveAndNotMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:NO];
-	[matcher eql:[NSMutableArray array]];
-	STAssertFalse([matcher negativeFailure] , 
+	[negativeMatcherWithActual eql:[NSMutableArray array]];
+	STAssertFalse([negativeMatcherWithActual negativeFailure] , 
 				  @"Matcher should respond to negativeFailure with NO for negative Expectation and no match.");
 }
 
 - (void) testMatcherRespondsToNegativeFailureWithNOIfPositiveAndMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
-	STAssertFalse([matcher negativeFailure] , 
+	[positiveMatcherWithActual eql:actual];
+	STAssertFalse([positiveMatcherWithActual negativeFailure] , 
 				  @"Matcher should respond to negativeFailure with NO for positive Expectation and match.");
 }
 
 - (void) testMatcherRespondsToNegativeFailureWithNOIfPositiveAndNOTMatches
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertThrows([matcher eql:[NSMutableArray array]], @"Should throw");
-	STAssertFalse([matcher negativeFailure] , 
+	STAssertThrows([positiveMatcherWithActual eql:[NSMutableArray array]], @"Should throw");
+	STAssertFalse([positiveMatcherWithActual negativeFailure] , 
 				  @"Matcher should respond to negativeFailure with NO for positive Expectation and no match.");
 }
 
@@ -157,56 +220,114 @@
 
 - (void) testMatcherRespondsToHandleExpectation
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertTrue([matcher respondsToSelector:@selector(handleExpectation)] , 
+	STAssertTrue([positiveMatcherWithActual respondsToSelector:@selector(handleExpectation)] , 
 				 @"Matcher should respond to handleExpectation.");
 }
 
 - (void) testMatcherRaisesOnHandleExpectationIfPositiveFailure
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertThrows([matcher eql:[NSMutableArray array]], @"Should throw");
-	STAssertThrows([matcher handleExpectation], @"Should throw");
+	STAssertThrows([positiveMatcherWithActual eql:[NSMutableArray array]], @"Should throw");
+	STAssertThrows([positiveMatcherWithActual handleExpectation], @"Should throw");
 }
 
 - (void) testMatcherRaisesOnHandleExpectationIfNegativeFailure
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:NO];
-	STAssertThrows([matcher eql:actual], @"Should throw");
-	STAssertThrows([matcher handleExpectation], @"Should throw");
+	STAssertThrows([negativeMatcherWithActual eql:actual], @"Should throw");
+	STAssertThrows([negativeMatcherWithActual handleExpectation], @"Should throw");
 }
 
 - (void) testMatcherDoesntRaiseOnHandleExpectationIfNoFailure
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
-	[matcher handleExpectation];
+	[positiveMatcherWithActual eql:actual];
+	[positiveMatcherWithActual handleExpectation];
 }
 
+- (void) testHandleExpectationRaisesWithPositiveFailureMessageOnPositiveFailure
+{
+	@try {
+		[positiveMatcherWithActual eql:[NSMutableArray array]];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestDescriptionKey], 
+					   positiveMatcherWithActual.positiveFailureMessage,
+		               @"handleExpectation raises with positiveFailureMessage");
+	}
+}
+
+- (void) testHandleExpectationRaisesWithLinenumberOnPositiveFailure
+{
+	@try {
+		[positiveMatcherWithActual eql:[NSMutableArray array]];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestLineNumberKey], 
+							 [NSNumber numberWithInt:positiveMatcherWithActual.linenumber],
+							 @"handleExpectation raises with linenumber");
+	}
+}
+
+- (void) testHandleExpectationRaisesWithFilenameOnPositiveFailure
+{
+	@try {
+		[positiveMatcherWithActual eql:[NSMutableArray array]];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestFilenameKey], 
+							 positiveMatcherWithActual.filename,
+							 @"handleExpectation raises with filename");
+	}
+}
+
+- (void) testHandleExpectationRaisesWithPositiveFailureMessageOnNegativeFailure
+{
+	@try {
+		[negativeMatcherWithActual eql:actual];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestDescriptionKey], 
+							 negativeMatcherWithActual.negativeFailureMessage,
+							 @"handleExpectation raises with positiveFailureMessage");
+	}
+}
+
+- (void) testHandleExpectationRaisesWithLinenumberOnNegativeFailure
+{
+	@try {
+		[negativeMatcherWithActual eql:actual];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestLineNumberKey], 
+							 [NSNumber numberWithInt:negativeMatcherWithActual.linenumber],
+							 @"handleExpectation raises with linenumber");
+	}
+}
+
+- (void) testHandleExpectationRaisesWithFilenameOnNegativeFailure
+{
+	@try {
+		[negativeMatcherWithActual eql:actual];
+	}
+	@catch (NSException * e) {
+		STAssertEqualObjects([[e userInfo] valueForKey:SenTestFilenameKey], 
+							 negativeMatcherWithActual.filename,
+							 @"handleExpectation raises with filename");
+	}
+}
+
+
 #pragma mark -
-
-
-
 
 #pragma mark eql
 
 - (void) testMatcherKnowsEqlMessage
 {
-	NSObject * actual  = [[NSObject alloc] init];
-	Matcher  * matcher = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	[matcher eql:actual];
+	[positiveMatcherWithActual eql:actual];
 }
 
 - (void) testMatcherThrowsForExpectingNonEqualToEqlActual
 {
-	NSObject * actual         = [[NSObject alloc] init];
 	NSMutableArray * expected = [NSMutableArray array];
-	Matcher  * matcher        = [[Matcher alloc] initWithActual:actual andIsPositive:YES];
-	STAssertThrows([matcher eql:expected], @"Should throw");
+	STAssertThrows([positiveMatcherWithActual eql:expected], @"Should throw");
 }
 
 

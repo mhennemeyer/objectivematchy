@@ -13,12 +13,17 @@
 @implementation Matcher
 
 @synthesize actual, isPositive, matches, positiveFailureMessage, negativeFailureMessage, expected;
+@synthesize linenumber, filename;
 
 - (id) initWithActual:(id)anActual 
-		andIsPositive:(BOOL)aIsPositive
+		andIsPositive:(BOOL)aIsPositive 
+			 filename:(NSString *)file 
+		   linenumber:(int)line
 {
 	self = [super init];
 	if (self != nil) {
+		self.linenumber = line;
+		self.filename = file;
 		self.actual = anActual;
 		isPositive = aIsPositive;
 		self.positiveFailureMessage = @"Positive Expectation not met.";
@@ -37,15 +42,28 @@
 	return (!self.isPositive && self.matches);
 }
 
+- (NSException *) positiveException
+{
+	return [NSException failureInFile:self.filename 
+							   atLine:self.linenumber 
+					  withDescription:self.positiveFailureMessage];
+}
+
+- (NSException *) negativeException
+{
+	return [NSException failureInFile:self.filename 
+							   atLine:self.linenumber 
+					  withDescription:self.negativeFailureMessage];
+}
+
+
 - (void) handleExpectation
 {
 	if ( [self positiveFailure] )
-		[NSException raise:@"PositiveExpectationNotMet" 
-					format:self.positiveFailureMessage];
+		@throw [self positiveException];
 	
 	if ( [self negativeFailure] )
-		[NSException raise:@"NegativeExpectationNotMet" 
-					format:self.negativeFailureMessage];	
+		@throw [self negativeException];	
 }
 
 - (void) dealloc
@@ -54,6 +72,7 @@
 	self.expected = nil;
 	self.positiveFailureMessage = nil;
 	self.negativeFailureMessage = nil;
+	[super dealloc];
 }
 
 

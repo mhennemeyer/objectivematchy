@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <SenTestingKit/SenTestingKit.h>
 
 
 
@@ -17,20 +18,28 @@
 	BOOL matches;
 	NSString * positiveFailureMessage;
 	NSString * negativeFailureMessage;
+	NSString * filename;
+	int linenumber;
 }
 
 - (id) initWithActual:(id)anActual 
-		andIsPositive:(BOOL)aIsPositive;
+		andIsPositive:(BOOL)aIsPositive 
+			 filename:(NSString *)file 
+		   linenumber:(int)line;
 
 - (BOOL) positiveFailure;
 - (BOOL) negativeFailure;
+- (NSException *) positiveException;
+- (NSException *) negativeException;
 - (void) handleExpectation;
 
 @property (readwrite, retain) id         actual;
 @property (readwrite, retain) id         expected;
 @property (readonly)          BOOL       isPositive;
+@property (readwrite)          int        linenumber;
 @property (readwrite)         BOOL       matches;
 @property (readwrite, copy)   NSString * positiveFailureMessage;
 @property (readwrite, copy)   NSString * negativeFailureMessage;
+@property (readwrite, copy)   NSString * filename;
 
 @end

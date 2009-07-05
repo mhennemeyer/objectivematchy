@@ -14,8 +14,12 @@
 {
 	self.expected               = anExpected;
 	self.matches                = (self.actual == self.expected);
-	self.positiveFailureMessage = @"Hello";
-	self.negativeFailureMessage = @"Hello";
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"%@ should have been equal to: %d, but wasn't (using ==).", 
+								   self.actual, self.expected];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"%@ should not be equal to: %@, but was (using ==).", 
+								   self.actual, self.expected];
 	
 	[self handleExpectation];
 	

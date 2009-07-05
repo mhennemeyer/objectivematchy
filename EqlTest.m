@@ -19,6 +19,7 @@
 {
 	NSNumber * one = [NSNumber numberWithInt:1];
 	[[one should] eql:one];
+	
 }
 
 - (void) testNumberEqualsDifferentNumberPositive

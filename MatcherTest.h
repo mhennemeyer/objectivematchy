@@ -7,10 +7,15 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+@class Matcher;
 
 
 @interface MatcherTest : SenTestCase {
-
+	id actual;
+	Matcher * positiveMatcherWithActual;
+	Matcher * negativeMatcherWithActual;
+	int linenumber;
+	NSString * filename;
 }
 
 @end

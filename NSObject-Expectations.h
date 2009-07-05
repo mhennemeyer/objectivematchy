@@ -7,15 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ObjectiveMatchyMacros.h"
 
 /*!
- Create a Matcher Object from any NSObject by 
- sending it a should (positive Expectation) or
- shouldNot (negative Expectation) Message.
+ Create a Matcher Object from any NSObject.
  */
 @interface NSObject (Expectations)
 
-- (id) should;
-- (id) shouldNot;
+- (id) addPositiveExpectation:(NSString *)file line:(int) line;
+- (id) addNegativeExpectation:(NSString *)file line:(int) line;
 
 @end

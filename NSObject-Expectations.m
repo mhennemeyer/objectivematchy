@@ -9,20 +9,23 @@
 #import "NSObject-Expectations.h"
 #import "Matcher.h"
 
-
 @implementation NSObject (Expectations)
 
-
-// Todo autorelease
-- (id) should
+- (id) addPositiveExpectation:(NSString *)file line:(int)line
 {
-	NSLog(@"\n LINE: %d", __LINE__);
-	return [[[Matcher alloc] initWithActual:self andIsPositive:YES] autorelease];
+	return [[[Matcher alloc] initWithActual:self 
+							  andIsPositive:YES 
+								   filename:file 
+								 linenumber:line] autorelease];
 }
 
-- (id) shouldNot
+- (id) addNegativeExpectation:(NSString *)file line:(int)line
 {
-	return [[[Matcher alloc] initWithActual:self andIsPositive:NO] autorelease];
+	return [[[Matcher alloc] initWithActual:self 
+							  andIsPositive:NO 
+								   filename:file 
+								 linenumber:line] autorelease];
 }
+
 
 @end
