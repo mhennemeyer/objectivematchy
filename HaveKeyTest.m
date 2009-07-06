@@ -86,3 +86,11 @@
 #pragma mark -
 
 @end
+
+
+describe([[ObjectWithKey alloc] init],
+		 [sut setValue:@"someValue"  forKey:@"aKey"];, 
+		 [sut release];, 
+		 itShould(haveKey:@"aKey" withValue:@"someValue")
+		 itShouldNot(haveKey:@"aKey")
+)
