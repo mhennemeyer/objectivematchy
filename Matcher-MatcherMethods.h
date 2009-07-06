@@ -12,7 +12,9 @@
 @interface Matcher (MatcherMethods)
 
 - (id) eql:(id)anExpected;
-- (id) respondTo:(SEL)selector;
+- (id) respondToSelector:(SEL)selector;
+- (id) respondToSelector:(SEL)selector andReturn:(id)expectedValue;
+- (id) respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue;
 - (id) haveKey:(NSString *)aKey;
 - (id) haveKey:(NSString *)aKey withValue:(id)value;
 

@@ -76,6 +76,24 @@
 	STAssertThrows([[arr shouldNot] eql:arr], @"arr should eql arr." );
 }
 
+- (void) testArrayEqualsEqualArrayPositive
+{
+	NSNumber * one = [NSNumber numberWithInt:1];
+	NSNumber * two = [NSNumber numberWithInt:2];
+	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
+	[[arr should] eql:equalArr];
+}
+
+- (void) testArrayEqualsEqualArrayNegative
+{
+	NSNumber * one = [NSNumber numberWithInt:1];
+	NSNumber * two = [NSNumber numberWithInt:2];
+	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
+	STAssertThrows([[arr shouldNot] eql:equalArr], @"arr should eql equalArr." );
+}
+
 #pragma mark -
 
 @end

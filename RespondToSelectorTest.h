@@ -1,5 +1,5 @@
 //
-//  RespondToTest.h
+//  RespondToSelectorTest.h
 //  ObjectiveMatchy
 //
 //  Created by Matthias Hennemeyer on 05.07.09.
@@ -9,8 +9,8 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 
-@interface RespondToTest : SenTestCase {
-
+@interface RespondToSelectorTest : SenTestCase {
+	NSObject * anObject;
 }
 
 @end

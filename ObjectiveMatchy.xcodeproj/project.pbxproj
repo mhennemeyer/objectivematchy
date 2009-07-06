@@ -21,9 +21,11 @@
 		F51B089A0FFCB8D100F453BE /* Matcher-MatcherMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F51B08990FFCB8D100F453BE /* Matcher-MatcherMethods.m */; };
 		F51B089B0FFCB8D100F453BE /* Matcher-MatcherMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = F51B08980FFCB8D100F453BE /* Matcher-MatcherMethods.h */; };
 		F51B089C0FFCB8D100F453BE /* Matcher-MatcherMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F51B08990FFCB8D100F453BE /* Matcher-MatcherMethods.m */; };
+		F53D10901002488900E62C14 /* OMWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F53D108F1002488900E62C14 /* OMWrapperTest.m */; };
+		F5981F3A100211E70027F0CC /* OMWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F5981F39100211E70027F0CC /* OMWrapper.m */; };
 		F5E3E9E51000D17F00D432D7 /* ObjectiveMatchyMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = F5E3E9E31000D17F00D432D7 /* ObjectiveMatchyMacros.h */; };
 		F5E3EAA81000E18A00D432D7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F67D940FFA757600A657E2 /* SenTestingKit.framework */; };
-		F5E3EB181000EECF00D432D7 /* RespondToTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB171000EECF00D432D7 /* RespondToTest.m */; };
+		F5E3EB181000EECF00D432D7 /* RespondToSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB171000EECF00D432D7 /* RespondToSelectorTest.m */; };
 		F5E3EB511000F4C800D432D7 /* HaveKeyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB501000F4C800D432D7 /* HaveKeyTest.m */; };
 		F5E3EB581000F5DB00D432D7 /* ObjectWithKey.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB571000F5DB00D432D7 /* ObjectWithKey.m */; };
 /* End PBXBuildFile section */
@@ -60,9 +62,13 @@
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		F51B08980FFCB8D100F453BE /* Matcher-MatcherMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Matcher-MatcherMethods.h"; sourceTree = "<group>"; };
 		F51B08990FFCB8D100F453BE /* Matcher-MatcherMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Matcher-MatcherMethods.m"; sourceTree = "<group>"; };
+		F53D108E1002488900E62C14 /* OMWrapperTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMWrapperTest.h; sourceTree = "<group>"; };
+		F53D108F1002488900E62C14 /* OMWrapperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMWrapperTest.m; sourceTree = "<group>"; };
+		F5981F38100211E70027F0CC /* OMWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMWrapper.h; sourceTree = "<group>"; };
+		F5981F39100211E70027F0CC /* OMWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMWrapper.m; sourceTree = "<group>"; };
 		F5E3E9E31000D17F00D432D7 /* ObjectiveMatchyMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveMatchyMacros.h; sourceTree = "<group>"; };
-		F5E3EB161000EECF00D432D7 /* RespondToTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondToTest.h; sourceTree = "<group>"; };
-		F5E3EB171000EECF00D432D7 /* RespondToTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondToTest.m; sourceTree = "<group>"; };
+		F5E3EB161000EECF00D432D7 /* RespondToSelectorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespondToSelectorTest.h; sourceTree = "<group>"; };
+		F5E3EB171000EECF00D432D7 /* RespondToSelectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespondToSelectorTest.m; sourceTree = "<group>"; };
 		F5E3EB4F1000F4C800D432D7 /* HaveKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaveKeyTest.h; sourceTree = "<group>"; };
 		F5E3EB501000F4C800D432D7 /* HaveKeyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaveKeyTest.m; sourceTree = "<group>"; };
 		F5E3EB561000F5DB00D432D7 /* ObjectWithKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectWithKey.h; sourceTree = "<group>"; };
@@ -141,6 +147,8 @@
 				666946A00FFA846600A1706F /* Matcher.m */,
 				F51B08980FFCB8D100F453BE /* Matcher-MatcherMethods.h */,
 				F51B08990FFCB8D100F453BE /* Matcher-MatcherMethods.m */,
+				F5981F38100211E70027F0CC /* OMWrapper.h */,
+				F5981F39100211E70027F0CC /* OMWrapper.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -183,8 +191,10 @@
 				66F67D8F0FFA74ED00A657E2 /* EqlTest.m */,
 				666946980FFA835200A1706F /* MatcherTest.h */,
 				666946990FFA835200A1706F /* MatcherTest.m */,
-				F5E3EB161000EECF00D432D7 /* RespondToTest.h */,
-				F5E3EB171000EECF00D432D7 /* RespondToTest.m */,
+				F5E3EB161000EECF00D432D7 /* RespondToSelectorTest.h */,
+				F5E3EB171000EECF00D432D7 /* RespondToSelectorTest.m */,
+				F53D108E1002488900E62C14 /* OMWrapperTest.h */,
+				F53D108F1002488900E62C14 /* OMWrapperTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -315,9 +325,11 @@
 				6669469A0FFA835200A1706F /* MatcherTest.m in Sources */,
 				F51B089A0FFCB8D100F453BE /* Matcher-MatcherMethods.m in Sources */,
 				666946A10FFA846600A1706F /* Matcher.m in Sources */,
-				F5E3EB181000EECF00D432D7 /* RespondToTest.m in Sources */,
+				F5E3EB181000EECF00D432D7 /* RespondToSelectorTest.m in Sources */,
 				F5E3EB511000F4C800D432D7 /* HaveKeyTest.m in Sources */,
 				F5E3EB581000F5DB00D432D7 /* ObjectWithKey.m in Sources */,
+				F5981F3A100211E70027F0CC /* OMWrapper.m in Sources */,
+				F53D10901002488900E62C14 /* OMWrapperTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
