@@ -88,9 +88,11 @@
 @end
 
 
-describe([[ObjectWithKey alloc] init],
-		 [sut setValue:@"someValue"  forKey:@"aKey"];, 
-		 [sut release];, 
-		 itShould(haveKey:@"aKey" withValue:@"someValue")
-		 itShouldNot(haveKey:@"aKey")
-)
+testCase(HaveKeyWithMacro, ObjectWithKey * sut ,
+		 setUp(sut = [[ObjectWithKey alloc] init])
+		 tearDown([sut release]) 
+		 test(HasKey,
+			  [sut setValue:@"someValue"  forKey:@"aKey"];
+			  [[sut should] haveKey:@"aKey" withValue:@"someValue"]))
+
+
