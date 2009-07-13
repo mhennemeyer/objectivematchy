@@ -8,28 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		6669468A0FFA7F8400A1706F /* OMExpectations-NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946890FFA7F8400A1706F /* OMExpectations-NSObject.m */; };
-		6669468B0FFA7F8400A1706F /* OMExpectations-NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 666946880FFA7F8400A1706F /* OMExpectations-NSObject.h */; };
+		6669468B0FFA7F8400A1706F /* OMExpectations-NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 666946880FFA7F8400A1706F /* OMExpectations-NSObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6669468C0FFA7F8400A1706F /* OMExpectations-NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946890FFA7F8400A1706F /* OMExpectations-NSObject.m */; };
 		6669469A0FFA835200A1706F /* OMMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946990FFA835200A1706F /* OMMatcherTest.m */; };
 		666946A10FFA846600A1706F /* OMMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946A00FFA846600A1706F /* OMMatcher.m */; };
-		666946A20FFA846600A1706F /* OMMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6669469F0FFA846600A1706F /* OMMatcher.h */; };
+		666946A20FFA846600A1706F /* OMMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6669469F0FFA846600A1706F /* OMMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		666946A30FFA846600A1706F /* OMMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 666946A00FFA846600A1706F /* OMMatcher.m */; };
 		66F67D900FFA74ED00A657E2 /* EqlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F67D8F0FFA74ED00A657E2 /* EqlTest.m */; };
 		66F67D950FFA757600A657E2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F67D940FFA757600A657E2 /* SenTestingKit.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		F51B089A0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F51B08990FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.m */; };
-		F51B089B0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = F51B08980FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.h */; };
+		F51B089B0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = F51B08980FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F51B089C0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F51B08990FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.m */; };
 		F53D10901002488900E62C14 /* OMWrapperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F53D108F1002488900E62C14 /* OMWrapperTest.m */; };
 		F571DB15100B35CD008F2E09 /* TestCaseMacroTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F571DB14100B35CD008F2E09 /* TestCaseMacroTest.m */; };
-		F571DB34100B38AD008F2E09 /* ObjectiveMatchy.h in Headers */ = {isa = PBXBuildFile; fileRef = F571DB32100B38AD008F2E09 /* ObjectiveMatchy.h */; };
-		F571DB48100B3E26008F2E09 /* OM-NSException.h in Headers */ = {isa = PBXBuildFile; fileRef = F571DB46100B3E26008F2E09 /* OM-NSException.h */; };
+		F571DB34100B38AD008F2E09 /* ObjectiveMatchy.h in Headers */ = {isa = PBXBuildFile; fileRef = F571DB32100B38AD008F2E09 /* ObjectiveMatchy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F571DB48100B3E26008F2E09 /* OM-NSException.h in Headers */ = {isa = PBXBuildFile; fileRef = F571DB46100B3E26008F2E09 /* OM-NSException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F571DB49100B3E26008F2E09 /* OM-NSException.m in Sources */ = {isa = PBXBuildFile; fileRef = F571DB47100B3E26008F2E09 /* OM-NSException.m */; };
 		F571DB4A100B3E26008F2E09 /* OM-NSException.m in Sources */ = {isa = PBXBuildFile; fileRef = F571DB47100B3E26008F2E09 /* OM-NSException.m */; };
+		F571DC74100B63E9008F2E09 /* OMWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F5981F38100211E70027F0CC /* OMWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F571DC75100B63EC008F2E09 /* OMWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F5981F39100211E70027F0CC /* OMWrapper.m */; };
 		F5981F3A100211E70027F0CC /* OMWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F5981F39100211E70027F0CC /* OMWrapper.m */; };
-		F5E3E9E51000D17F00D432D7 /* ObjectiveMatchyMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = F5E3E9E31000D17F00D432D7 /* ObjectiveMatchyMacros.h */; };
-		F5E3EAA81000E18A00D432D7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66F67D940FFA757600A657E2 /* SenTestingKit.framework */; };
+		F5E3E9E51000D17F00D432D7 /* ObjectiveMatchyMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = F5E3E9E31000D17F00D432D7 /* ObjectiveMatchyMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F5E3EB181000EECF00D432D7 /* RespondToSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB171000EECF00D432D7 /* RespondToSelectorTest.m */; };
 		F5E3EB511000F4C800D432D7 /* HaveKeyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB501000F4C800D432D7 /* HaveKeyTest.m */; };
 		F5E3EB581000F5DB00D432D7 /* ObjectWithKey.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E3EB571000F5DB00D432D7 /* ObjectWithKey.m */; };
@@ -98,7 +99,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				F5E3EAA81000E18A00D432D7 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +235,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F571DC74100B63E9008F2E09 /* OMWrapper.h in Headers */,
 				6669468B0FFA7F8400A1706F /* OMExpectations-NSObject.h in Headers */,
 				666946A20FFA846600A1706F /* OMMatcher.h in Headers */,
 				F51B089B0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.h in Headers */,
@@ -362,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F571DC75100B63EC008F2E09 /* OMWrapper.m in Sources */,
 				6669468C0FFA7F8400A1706F /* OMExpectations-NSObject.m in Sources */,
 				F51B089C0FFCB8D100F453BE /* OMMatcher-OMMatcherMethods.m in Sources */,
 				666946A30FFA846600A1706F /* OMMatcher.m in Sources */,

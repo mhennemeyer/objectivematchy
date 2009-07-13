@@ -9,3 +9,6 @@ build/*
 # osx noise
 .DS_Store
 profile
+
+#Release Folder for Github
+ObjectiveMatchy/*
