@@ -6,9 +6,8 @@
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //
 
+#import "ObjectiveMatchy.h"
 #import <SenTestingKit/SenTestingKit.h>
-#import "ObjectiveMatchyMacros.h"
-#import "OMWrapper.h"
 
 
 @interface OMWrapperTest : SenTestCase {

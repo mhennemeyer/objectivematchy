@@ -7,8 +7,6 @@
 //
 
 #import "OMWrapperTest.h"
-#import "NSObject-Expectations.h"
-#import "Matcher-MatcherMethods.h"
 
 
 @implementation OMWrapperTest

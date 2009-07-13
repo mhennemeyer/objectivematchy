@@ -1,30 +1,25 @@
 //
-//  MatcherTest.m
+//  OMMatcherTest.m
 //  ObjectiveMatchy
 //
 //  Created by muster muster on 30.06.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "MatcherTest.h"
-#import "Matcher.h"
-#import "Matcher-MatcherMethods.h"
-#import "NSObject-Expectations.h"
+#import "OMMatcherTest.h"
 
-
-
-@implementation MatcherTest
+@implementation OMMatcherTest
 
 - (void) setUp
 {
-	filename = @"MatcherTest.m";
+	filename = @"OMMatcherTest.m";
 	linenumber = 20;
 	actual  = [[NSObject alloc] init];
-	positiveMatcherWithActual = [[Matcher alloc] initWithActual:actual 
+	positiveMatcherWithActual = [[OMMatcher alloc] initWithActual:actual 
 												  andIsPositive:YES
 													   filename:filename 
 													 linenumber:linenumber];
-	negativeMatcherWithActual = [[Matcher alloc] initWithActual:actual 
+	negativeMatcherWithActual = [[OMMatcher alloc] initWithActual:actual 
 												  andIsPositive:NO
 													   filename:filename 
 													 linenumber:linenumber];
@@ -86,21 +81,21 @@
 
 - (void) testPositiveExceptionKnowsFilename
 {
-	STAssertEquals([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestFilenameKey],
+	STAssertEquals([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:OMFilenameKey],
 	               filename,
 	               @"Exception should know filename");
 }
 
 - (void) testPositiveExceptionKnowsLinenumber
 {
-	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestLineNumberKey],
+	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:OMLineNumberKey],
 	               [NSNumber numberWithInt:linenumber],
 	               @"Exception should know linenumber");
 }
 
 - (void) testPositiveExceptionKnowsPositiveFailureMessage
 {
-	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:SenTestDescriptionKey],
+	STAssertEqualObjects([[[positiveMatcherWithActual positiveException] userInfo] valueForKey:OMFailureMessageKey],
 						 positiveMatcherWithActual.positiveFailureMessage,
 						 @"Exception should know positiveFailureMessage");
 }
@@ -118,21 +113,21 @@
 
 - (void) testNegativeExceptionKnowsFilename
 {
-	STAssertEquals([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestFilenameKey],
+	STAssertEquals([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:OMFilenameKey],
 	               filename,
 	               @"Exception should know filename");
 }
 
 - (void) testNegativeExceptionKnowsLinenumber
 {
-	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestLineNumberKey],
+	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:OMLineNumberKey],
 						 [NSNumber numberWithInt:linenumber],
 						 @"Exception should know linenumber");
 }
 
 - (void) testNegativeExceptionHasPositiveFailureMessage
 {
-	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:SenTestDescriptionKey],
+	STAssertEqualObjects([[[positiveMatcherWithActual negativeException] userInfo] valueForKey:OMFailureMessageKey],
 						 positiveMatcherWithActual.negativeFailureMessage,
 						 @"Negative Exception should know negativeFailureMessage");
 }
@@ -248,7 +243,7 @@
 		[positiveMatcherWithActual eql:[NSMutableArray array]];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestDescriptionKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMFailureMessageKey], 
 					   positiveMatcherWithActual.positiveFailureMessage,
 		               @"handleExpectation raises with positiveFailureMessage");
 	}
@@ -260,7 +255,7 @@
 		[positiveMatcherWithActual eql:[NSMutableArray array]];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestLineNumberKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMLineNumberKey], 
 							 [NSNumber numberWithInt:positiveMatcherWithActual.linenumber],
 							 @"handleExpectation raises with linenumber");
 	}
@@ -272,7 +267,7 @@
 		[positiveMatcherWithActual eql:[NSMutableArray array]];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestFilenameKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMFilenameKey], 
 							 positiveMatcherWithActual.filename,
 							 @"handleExpectation raises with filename");
 	}
@@ -284,7 +279,7 @@
 		[negativeMatcherWithActual eql:actual];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestDescriptionKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMFailureMessageKey], 
 							 negativeMatcherWithActual.negativeFailureMessage,
 							 @"handleExpectation raises with positiveFailureMessage");
 	}
@@ -296,7 +291,7 @@
 		[negativeMatcherWithActual eql:actual];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestLineNumberKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMLineNumberKey], 
 							 [NSNumber numberWithInt:negativeMatcherWithActual.linenumber],
 							 @"handleExpectation raises with linenumber");
 	}
@@ -308,7 +303,7 @@
 		[negativeMatcherWithActual eql:actual];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:SenTestFilenameKey], 
+		STAssertEqualObjects([[e userInfo] valueForKey:OMFilenameKey], 
 							 negativeMatcherWithActual.filename,
 							 @"handleExpectation raises with filename");
 	}

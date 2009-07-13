@@ -6,6 +6,7 @@
 //  Copyright 2009 ChocolateCode. All rights reserved.
 //
 
+#import "ObjectiveMatchy.h"
 #import <SenTestingKit/SenTestingKit.h>
 
 

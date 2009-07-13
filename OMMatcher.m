@@ -2,15 +2,16 @@
 //  Matcher.m
 //  ObjectiveMatchy
 //
-//  Created by muster muster on 30.06.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Matthias Hennemeyer on 30.06.09.
+//  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //
 
-#import "Matcher.h"
-#import "NSObject-Expectations.h"
+#import "OMMatcher.h"
+#import "OMExpectations-NSObject.h"
+#import "OM-NSException.h"
 
 
-@implementation Matcher
+@implementation OMMatcher
 
 @synthesize actual, isPositive, matches, positiveFailureMessage, negativeFailureMessage, expected;
 @synthesize linenumber, filename;
@@ -44,16 +45,16 @@
 
 - (NSException *) positiveException
 {
-	return [NSException failureInFile:self.filename 
-							   atLine:self.linenumber 
-					  withDescription:self.positiveFailureMessage];
+	return [NSException oMfailure:self.filename 
+						   atLine:self.linenumber 
+				  withDescription:self.positiveFailureMessage];
 }
 
 - (NSException *) negativeException
 {
-	return [NSException failureInFile:self.filename 
-							   atLine:self.linenumber 
-					  withDescription:self.negativeFailureMessage];
+	return [NSException oMfailure:self.filename 
+						   atLine:self.linenumber 
+				  withDescription:self.negativeFailureMessage];
 }
 
 

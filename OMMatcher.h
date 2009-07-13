@@ -1,17 +1,14 @@
 //
-//  Matcher.h
+//  OMMatcher.h
 //  ObjectiveMatchy
 //
-//  Created by muster muster on 30.06.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Matthias Hennemeyer on 30.06.09.
+//  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SenTestingKit/SenTestingKit.h>
 
-
-
-@interface Matcher : NSObject {
+@interface OMMatcher : NSObject {
 	id   actual;
 	id   expected;
 	BOOL isPositive;
@@ -36,7 +33,7 @@
 @property (readwrite, retain) id         actual;
 @property (readwrite, retain) id         expected;
 @property (readonly)          BOOL       isPositive;
-@property (readwrite)          int        linenumber;
+@property (readwrite)         int        linenumber;
 @property (readwrite)         BOOL       matches;
 @property (readwrite, copy)   NSString * positiveFailureMessage;
 @property (readwrite, copy)   NSString * negativeFailureMessage;

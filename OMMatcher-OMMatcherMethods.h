@@ -1,15 +1,15 @@
 //
-//  Matcher-MatcherMethods.h
+//  OMMatcher-OMMatcherMethods.h
 //  ObjectiveMatchy
 //
 //  Created by Matthias Hennemeyer on 02.07.09.
-//  Copyright 2009 ChocolateCode. All rights reserved.
+//  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Matcher.h"
+#import "OMMatcher.h"
 
-@interface Matcher (MatcherMethods)
+@interface OMMatcher (OMMatcherMethods)
 
 - (id) eql:(id)anExpected;
 - (id) respondToSelector:(SEL)selector;

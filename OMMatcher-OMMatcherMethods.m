@@ -1,14 +1,14 @@
 //
-//  Matcher-MatcherMethods.m
+//  OMMatcher-OMMatcherMethods.m
 //  ObjectiveMatchy
 //
 //  Created by Matthias Hennemeyer on 02.07.09.
-//  Copyright 2009 ChocolateCode. All rights reserved.
+//  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //
 
-#import "Matcher-MatcherMethods.h"
+#import "OMMatcher-OMMatcherMethods.h"
 
-@implementation Matcher (MatcherMethods)
+@implementation OMMatcher (OMMatcherMethods)
 
 #pragma mark eql:
 
@@ -154,12 +154,6 @@
 									   self.actual, aKey, self.expected];
 	}
 	
-	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should have key: '%@', with Value: '%@', but was '%@'.", 
-								   self.actual, aKey ,self.expected, actualValue];
-	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not have key: '%@', with Value: '%@'. But it has.", 
-								   self.actual, aKey, self.expected];
 	[self handleExpectation];
 	
 	return actualValue;

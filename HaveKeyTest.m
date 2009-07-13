@@ -7,10 +7,6 @@
 //
 #import "ObjectWithKey.h"
 #import "HaveKeyTest.h"
-#import "NSObject-Expectations.h"
-#import "Matcher-MatcherMethods.h"
-
-
 
 @implementation HaveKeyTest
 
@@ -86,13 +82,3 @@
 #pragma mark -
 
 @end
-
-
-testCase(HaveKeyWithMacro, ObjectWithKey * sut ,
-		 setUp(sut = [[ObjectWithKey alloc] init])
-		 tearDown([sut release]) 
-		 test(HasKey,
-			  [sut setValue:@"someValue"  forKey:@"aKey"];
-			  [[sut should] haveKey:@"aKey" withValue:@"someValue"]))
-
-
