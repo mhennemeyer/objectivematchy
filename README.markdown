@@ -31,15 +31,54 @@ standalone as an alternative to NSAssert().
 
 1. Download [ObjectiveMatchy.zip](http://cloud.github.com/downloads/mhennemeyer/objectivematchy/ObjectiveMatchy.zip)
 2. Copy the included 'ObjectiveMatchy.framework' to your Frameworks folder.
-3. #import  &lt;ObjectiveMatchy/ObjectiveMatchy.h&gt;
+3. `#import  <ObjectiveMatchy/ObjectiveMatchy.h>`
 
 ## Using ObjectiveMatchy standalone
 
+Let's say you have an Object: 'obj'.   
+At Runtime, you want to assure that 'obj'  
+maintains a key: 'assoc' with the value of
+a pointer to some other Object: 'assocObj'.
+
+With ObjectiveMatchy you can express this intent as follows:  
+
+`[[obj should] haveKey:@"assoc" 
+            withValue:assocObj];`
+            
+With NSAssert it would rather sound like:
+
+`NSAssert([assocObj isEqualTo:[obj valueForKey:@"assoc"]], 
+     @"obj should have key 'assoc' with value assocObj.");`
+     
+Don't forget to include the ObjectiveMatchy-Framework in the implementation file that should use it.:    
+`#import  <ObjectiveMatchy/ObjectiveMatchy.h>`
 
 
-## Using ObjectiveMatchy with OCUnit
+## Using ObjectiveMatchy with OCUnit/SenTesting
 
+Again: Include the ObjectiveMatchy-Framework `#import <ObjectiveMatchy/ObjectiveMatchy.h>`
 
+You can use the Assertion building system in your tests now:
+
+      - (void) testEqualArrays
+      {
+      	NSNumber * one = [NSNumber numberWithInt:1];
+      	NSNumber * two = [NSNumber numberWithInt:2];
+      	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+      	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
+      	
+      	[[arr should] eql:equalArr];
+      }
+
+      - (void) testDistinctArrays
+      {
+      	NSNumber * one = [NSNumber numberWithInt:1];
+      	NSNumber * two = [NSNumber numberWithInt:2];
+      	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+      	NSArray  * distinctArr = [NSArray arrayWithObjects:one, two, nil];
+      	
+      	[[arr shouldNot] eql:distinctArr];
+      }
 
 
 ## Built in matchers
@@ -61,6 +100,18 @@ standalone as an alternative to NSAssert().
         [o setValue:@"Value" forKey:@"Key"];
         [[o should] haveKey:@"Key" withValue:@"Value"];
         [[o shouldNot] haveKey:@"Key" withValue:@"OtherValue"];
+        
+* returnValue:forMessage: ...
+
+* contain: ...
+
+* be: ...
+
+* throw:forMessage: ...
+
+* changeValueForKey:forMessage: ...
+
+* changeValueForKey:from:to:forMessage: ...
 
 * respondToSelector:(SEL)selector
        
@@ -84,14 +135,78 @@ standalone as an alternative to NSAssert().
         					  withObject:o 
         					   andReturn:OM_YES];
         [[o shouldNot] respondToSelector:@selector(isEqualTo:) 
-         					            withObject:@"Something Else"
-         					             andReturn:OM_YES];
+         					        withObject:@"Something Else"
+         					         andReturn:OM_YES];
          					             
 ## Scalar Value Wrapper
 
 Because ObjectiveMatchy can only handle Objects, there are Wrappers for 
-the scalar values like 'OM_YES' for YES and 'OM_NO' for NO.
-        					              
+the scalar values like `OM_YES` for YES and `OM_NO` for NO.
+
+## Custom Matchers
+
+Matchers are Instance-Methods of the OMMatcher class,  
+so custom matchers can be added as a category to OMMatcher.  
+In the implementation of your custom matcher method, you have to  
+configure the matcher object (ie set some properties),  
+that is available as the current self object.   
+You have to set the matchers 'matches' property that   
+the matcher will use to decide if the expectation has    
+been satisfied or not and call handleExpectation on self.   
+One should further provide custom positive (should)   
+and negative (shouldNot) failure messages,   
+set self.expected and return the expected Object.
+Also add the method definition to the category's   
+interface, or the compiler will yell.
+
+### Example: eql-Matcher: Mandatory Implementation
+
+    - (id) eql:(id)anExpected
+    { 
+    	self.matches = [self.actual isEqualTo:anExpected];
+    	[self handleExpectation];
+    	return anExpected;
+    }
+
+### Example: eql-Matcher: Complete Implementation
+      - (id) eql:(id)anExpected
+      { 
+      	self.expected               = anExpected;
+      	self.matches                = [self.actual isEqualTo:self.expected];
+      	self.positiveFailureMessage = [NSString stringWithFormat:
+      			@"'%@' should be equal to: '%@', but isn't (with isEqualTo).", 
+      			self.actual, self.expected];
+      	self.negativeFailureMessage = [NSString stringWithFormat:
+      			@"'%@' should not be equal to: '%@', but is (with isEqualTo).", 
+      			self.actual, self.expected];
+	
+      	[self handleExpectation];
+	
+      	return self.expected;
+      }
+      
+### Template
+
+      - (id) matcherName:(id)expectedValue
+      {
+      	self.expected = expectedValue;
+      	
+      	// Specify the condition ...
+      	self.matches = NO; // todo
+      	
+      	// if expectedValue is a OMWrapper Object
+      	if ( [self.expected respondsToSelector:@selector(isAOMWrapper)] ) {
+      	  // take care: scalar values in a format string.
+      		self.positiveFailureMessage = @"format string with scalar values";
+      		self.negativeFailureMessage = @"format string with scalar values";
+      	} else {
+      		self.positiveFailureMessage = @"positive Failure: should but wasn't";
+      		self.negativeFailureMessage = @"negative Failure: shouldn't but was";
+      	}
+
+      	[self handleExpectation];
+      	return self.expected;
+      }
 
 ## Contribution
 
