@@ -42,13 +42,13 @@ a pointer to some other Object: 'assocObj'.
 
 With ObjectiveMatchy you can express this intent as follows:  
 
-`[[obj should] haveKey:@"assoc" 
-            withValue:assocObj];`
+		[[obj should] haveKey:@"assoc" 
+		            withValue:assocObj];
             
 With NSAssert it would rather sound like:
 
-`NSAssert([assocObj isEqualTo:[obj valueForKey:@"assoc"]], 
-     @"obj should have key 'assoc' with value assocObj.");`
+		NSAssert([assocObj isEqualTo:[obj valueForKey:@"assoc"]], 
+		     @"obj should have key 'assoc' with value assocObj.");
      
 Don't forget to include the ObjectiveMatchy-Framework in the implementation file that should use it.:    
 `#import  <ObjectiveMatchy/ObjectiveMatchy.h>`
