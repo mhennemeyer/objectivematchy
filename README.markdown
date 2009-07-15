@@ -4,21 +4,22 @@
 
 ObjectiveMatchy is a Matcher System for Objective C.
 
-A Matcher System is a Framework that provides a painless way to compose Assertions without the need to provide custom Failure Messages.
-Thus built Assertions consist of two parts:
+A Matcher System is a Framework that provides a painless way   
+to compose Assertions without the need to provide custom Failure Messages.   
+Thus built Assertions consist of two parts:   
 
 1. An Expectation that is added to an Object.
 2. A Matcher Message that is sent to the Expectation.
 
-The Expectation understands the Matcher Messages (like eql:) and verifies that 
-the object that was used to build the Expectation actually satisfies the condition 
-that is specified by the Matcher Message or throws an Exception.
+The Expectation understands the Matcher Messages (like eql:) and verifies that    
+the object that was used to build the Expectation actually satisfies the condition    
+that is specified by the Matcher Message or throws an Exception.   
 
-If an Exception is thrown, it will be shown inline in Xcode, together with a
+If an Exception is thrown, it will be shown inline in Xcode, together with a   
 meaningful Failure Message.
 
-ObjectiveMatchy can be used together with a Unit Testing Framework or
-standalone as an alternative to NSAssert().
+ObjectiveMatchy can be used together with a Unit Testing Framework or   
+standalone as an alternative to NSAssert().   
 
 ## Features:
 
@@ -36,9 +37,9 @@ standalone as an alternative to NSAssert().
 ## Using ObjectiveMatchy standalone
 
 Let's say you have an Object: 'obj'.   
-At Runtime, you want to assure that 'obj'  
-maintains a key: 'assoc' with the value of
-a pointer to some other Object: 'assocObj'.
+At Runtime, you want to assure that 'obj'    
+maintains a key: 'assoc' with the value of   
+a pointer to some other Object: 'assocObj'.  
 
 With ObjectiveMatchy you can express this intent as follows:  
 
@@ -50,13 +51,15 @@ With NSAssert it would rather sound like:
 		NSAssert([assocObj isEqualTo:[obj valueForKey:@"assoc"]], 
 		     @"obj should have key 'assoc' with value assocObj.");
      
-Don't forget to include the ObjectiveMatchy-Framework in the implementation file that should use it.:    
+Don't forget to include the ObjectiveMatchy-Framework   
+in the implementation file that should use it.:    
 `#import  <ObjectiveMatchy/ObjectiveMatchy.h>`
 
 
 ## Using ObjectiveMatchy with OCUnit/SenTesting
 
-Again: Include the ObjectiveMatchy-Framework `#import <ObjectiveMatchy/ObjectiveMatchy.h>`
+Again: Include the ObjectiveMatchy-Framework:   
+`#import <ObjectiveMatchy/ObjectiveMatchy.h>`
 
 You can use the Assertion building system in your tests now:
 
@@ -104,14 +107,24 @@ You can use the Assertion building system in your tests now:
 * returnValue:forMessage: ...
 
 * contain: ...
+  
+    ...soon
 
 * be: ...
 
+    ...soon
+
 * throw:forMessage: ...
+
+    ...soon
 
 * changeValueForKey:forMessage: ...
 
+    ...soon
+
 * changeValueForKey:from:to:forMessage: ...
+
+    ...soon
 
 * respondToSelector:(SEL)selector
        
@@ -140,8 +153,9 @@ You can use the Assertion building system in your tests now:
          					             
 ## Scalar Value Wrapper
 
-Because ObjectiveMatchy can only handle Objects, there are Wrappers for 
-the scalar values like `OM_YES` for YES and `OM_NO` for NO.
+Because ObjectiveMatchy can only handle Objects,   
+there are Wrappers for the scalar values like   
+`OM_YES` for YES and `OM_NO` for NO.
 
 ## Custom Matchers
 
@@ -155,9 +169,9 @@ the matcher will use to decide if the expectation has
 been satisfied or not and call handleExpectation on self.   
 One should further provide custom positive (should)   
 and negative (shouldNot) failure messages,   
-set self.expected and return the expected Object.
+set self.expected and return the expected Object.   
 Also add the method definition to the category's   
-interface, or the compiler will yell.
+interface, or the compiler will yell.  
 
 ### Example: eql-Matcher: Mandatory Implementation
 
@@ -220,21 +234,21 @@ interface, or the compiler will yell.
 
 Copyright (c) Matthias Hennemeyer
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
+Permission is hereby granted, free of charge, to any person obtaining   
+a copy of this software and associated documentation files (the   
+'Software'), to deal in the Software without restriction, including   
+without limitation the rights to use, copy, modify, merge, publish,   
+distribute, sublicense, and/or sell copies of the Software, and to   
+permit persons to whom the Software is furnished to do so, subject to   
 the following conditions:
 
-The above copyright notice and this permission notice shall be
+The above copyright notice and this permission notice shall be   
 included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,   
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF   
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY   
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,   
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE   
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
