@@ -19,10 +19,18 @@ addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
 #pragma mark Wrapper
 
 #define OM_YES \
-[OMWrapper wrapperWithBool:YES]
+[OMBoolWrapper wrapperWithValue:YES]
 
 #define OM_NO \
-[OMWrapper wrapperWithBool:NO]
+[OMBoolWrapper wrapperWithValue:NO]
+
+#define OM_INT(value) \
+[OMIntWrapper wrapperWithValue:value]
+
+#define OM_SEL(sel) \
+[OMSELWrapper wrapperWithValue:@selector(sel)]
+
+#pragma mark -
 
 #pragma mark Macros for testCase
 

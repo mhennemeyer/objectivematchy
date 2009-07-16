@@ -11,8 +11,6 @@
 
 
 @interface OMWrapperTest : SenTestCase {
-	OMWrapper * yesWrapper;
-	OMWrapper * noWrapper;
 }
 
 @end

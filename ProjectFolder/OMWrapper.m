@@ -8,23 +8,11 @@
 
 #import "OMWrapper.h"
 
-
 @implementation OMWrapper
 
-@synthesize boolValue;
-
-+ (id) wrapperWithBool:(BOOL)aBoolValue
++ (id) wrapperWithValue:(id)aValue
 {
-	OMWrapper * wrapper = [[[OMWrapper alloc] init] autorelease];
-	
-	wrapper.boolValue = aBoolValue;
-	
-	return wrapper;
-}
-
-- (BOOL) isEqualTo:(BOOL)aBoolValue
-{
-	return (boolValue == aBoolValue);
+	return @"Make Compiler Happy";
 }
 
 - (BOOL)isAOMWrapper

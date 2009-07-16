@@ -8,6 +8,8 @@
 
 #import "OM-NSException.h"
 
+// Maybe it would be better to subclass NSException, because now i overwrite SenTests
+// category added to NSException and so ST... Failures are not longer shown inline.
 
 @implementation NSException (OM)
 + (NSException *) oMfailure:(NSString *)filename 

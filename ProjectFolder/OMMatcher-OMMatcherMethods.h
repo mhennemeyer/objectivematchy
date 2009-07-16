@@ -17,5 +17,6 @@
 - (id) respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue;
 - (id) haveKey:(NSString *)aKey;
 - (id) haveKey:(NSString *)aKey withValue:(id)value;
+- (id) returnValue:(id)expectedValue forMessage:(id) aMessage, ...;
 
 @end

@@ -15,17 +15,17 @@
 - (id) addPositiveExpectation:(NSString *)file line:(int)line
 {
 	return [[[OMMatcher alloc] initWithActual:self 
-							  andIsPositive:YES 
-								   filename:file 
-								 linenumber:line] autorelease];
+							    andIsPositive:YES 
+								     filename:file 
+								   linenumber:line] autorelease];
 }
 
 - (id) addNegativeExpectation:(NSString *)file line:(int)line
 {
 	return [[[OMMatcher alloc] initWithActual:self 
-							  andIsPositive:NO 
-								   filename:file 
-								 linenumber:line] autorelease];
+							    andIsPositive:NO 
+								     filename:file 
+								   linenumber:line] autorelease];
 }
 
 

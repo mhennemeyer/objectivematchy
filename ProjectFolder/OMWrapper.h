@@ -10,14 +10,8 @@
 
 
 @interface OMWrapper : NSObject
-{
-	BOOL boolValue;
-}
-
-@property (readwrite) BOOL boolValue;
-
-+ (id)wrapperWithBool:(BOOL)aBoolValue;
-
-- (BOOL)isEqualTo:(BOOL)aBoolValue;
++ (id) wrapperWithValue:(id)aValue;
 - (BOOL)isAOMWrapper;
 @end
+
+

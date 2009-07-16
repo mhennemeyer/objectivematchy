@@ -4,7 +4,7 @@
 //
 //  Created by Matthias Hennemeyer on 05.07.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
-//
+//  Released under the terms of the MIT Licence.
 
 #pragma mark Expectations
 
@@ -19,10 +19,18 @@ addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
 #pragma mark Wrapper
 
 #define OM_YES \
-[OMWrapper wrapperWithBool:YES]
+[OMBoolWrapper wrapperWithValue:YES]
 
 #define OM_NO \
-[OMWrapper wrapperWithBool:NO]
+[OMBoolWrapper wrapperWithValue:NO]
+
+#define OM_INT(value) \
+[OMIntWrapper wrapperWithValue:value]
+
+#define OM_SEL(sel) \
+[OMSELWrapper wrapperWithValue:@selector(sel)]
+
+#pragma mark -
 
 #pragma mark Macros for testCase
 

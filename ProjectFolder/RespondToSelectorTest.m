@@ -72,8 +72,8 @@
 - (void) testRespondToSelectorWithObjectAndReturnPositivePass
 {
 	[[anObject should] respondToSelector:@selector(isEqualTo:) 
-					  withObject:anObject 
-					   andReturn:OM_YES];
+					          withObject:anObject 
+					           andReturn:OM_YES];
 }
 
 - (void) testRespondToSelectorWithObjectAndReturnPositiveFail

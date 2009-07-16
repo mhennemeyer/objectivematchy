@@ -8,5 +8,10 @@
 
 #import "ObjectiveMatchyMacros.h"
 #import "OMExpectations-NSObject.h"
+#import "OMWrapper.h"
+#import "OMBoolWrapper.h"
+#import "OMIntWrapper.h"
+#import "OMSELWrapper.h"
+#import "OMSimpleInvocation-NSObject.h"
 #import "OM-NSException.h"
 #import "OMMatcher-OMMatcherMethods.h"
