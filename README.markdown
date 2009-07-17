@@ -106,6 +106,11 @@ You can use the Assertion building system in your tests now:
         
 * returnValue:forMessage: ...
 
+		ObjectWithKey * o = [[ObjectWithKey alloc] init];
+        [o setValue:@"Value" forKey:@"Key"];
+		[[o should] returnValue:@"Value" 
+		             forMessage:@"valueForKey:", @"Key", nil];
+
 * contain: ...
   
     ...soon
