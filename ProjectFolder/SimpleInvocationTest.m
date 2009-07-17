@@ -7,24 +7,57 @@
 //  Released under the terms of the MIT Licence.
 
 #import "SimpleInvocationTest.h"
+#import "ObjectWithKey.h"
 
 
 @implementation SimpleInvocationTest
 
-- (void) testSimpleInvocationReturnsInvocation
+- (void) setUp
 {
-	NSObject * obj = [[NSObject alloc] init];
-	NSArray * arr = [NSArray arrayWithObjects:@"isEqual:", [NSNumber numberWithInt:1], nil];
-	STAssertEquals([[obj simpleInvocationFromArray:arr] class], [NSInvocation class], @"");
+	obj = [[NSObject alloc] init];
 }
 
-- (void) testSimpleInvocationSetsAppropriateSelector
+- (void) testSimpleInvocationReturnsInvocation
 {
-	NSObject * obj = [[NSObject alloc] init];
-	NSArray * arr = [NSArray arrayWithObjects:@"isEqual:", [NSNumber numberWithInt:1], nil];
-	NSInvocation * inv = [obj simpleInvocationFromArray:arr];
-	[inv description];
-	//[[inv should] haveKey:@"selector" withValue:@selector(isEqual:)]; 
+	STAssertEquals([[obj simpleInvocationFromSelector:@selector(isEqual:) 
+											 withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]]] class], 
+				   [NSInvocation class], @"");
+}
+
+- (void) testSimpleInvocationSetsAppropriateSelector_IsEqualTo
+{
+	NSInvocation * inv = [obj simpleInvocationFromSelector:@selector(isEqual:) 
+											 withArguments:[NSArray arrayWithObject:[NSNumber numberWithInt:1]]];
+	[[inv should] respondToSelector:@selector(selector) andReturn:OM_SEL(@selector(isEqual:))]; 
+}
+
+- (void) testSimpleInvocationSetsAppropriateSelector_setValue_forKey
+{
+	NSInvocation * inv = [obj simpleInvocationFromSelector:@selector(setValue:forKey:) 
+											 withArguments:[NSArray arrayWithObjects:@"value", @"key", nil]];
+	[[inv should] respondToSelector:@selector(selector) andReturn:OM_SEL(@selector(setValue:forKey:))]; 
+}
+
+- (void) testSimpleInvocationInvokes
+{
+	ObjectWithKey * objectWithKey = [[ObjectWithKey alloc] init];
+	[[objectWithKey shouldNot] haveKey:@"aKey" withValue:@"value"];
+	NSInvocation * inv = [objectWithKey simpleInvocationFromSelector:@selector(setValue:forKey:) 
+											 withArguments:[NSArray arrayWithObjects:@"value", @"aKey", nil]];
+	[inv invoke];
+	[[objectWithKey should] haveKey:@"aKey" withValue:@"value"];
+}
+
+- (void) testSimpleInvocationReturnsObject
+{
+	ObjectWithKey * objectWithKey = [[ObjectWithKey alloc] init];
+	[objectWithKey setValue:@"aValue" forKey:@"aKey"];
+	NSInvocation * inv = [objectWithKey simpleInvocationFromSelector:@selector(valueForKey:) 
+													   withArguments:[NSArray arrayWithObject:@"aKey"]];
+	[inv invoke];
+	id returnValue;
+	[inv getReturnValue:&returnValue];
+	[[returnValue should] eql:@"aValue"];
 }
 
 @end

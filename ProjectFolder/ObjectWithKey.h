@@ -13,4 +13,6 @@
 	id aKey;
 }
 
+- (int) integerValueOne;
+
 @end

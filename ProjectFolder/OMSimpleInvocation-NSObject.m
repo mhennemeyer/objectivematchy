@@ -11,32 +11,26 @@
 
 @implementation NSObject (OMSimpleInvocation)
 
-- (NSInvocation *) simpleInvocationFromArray:(NSArray *)anArray
+- (NSInvocation *) simpleInvocationFromSelector:(SEL)aSelector withArguments:(NSArray *)arguments
 {
-	// create selector
-	SEL sel;
-	sel = @selector(isEqual:);
-	
+
 	// create signature
 	NSMethodSignature * sig = nil;
-	sig = [[self class] instanceMethodSignatureForSelector:sel];
+	sig = [[self class] instanceMethodSignatureForSelector:aSelector];
 	
 	// create invocation
 	NSInvocation * inv = nil;
 	inv = [NSInvocation invocationWithMethodSignature:sig];
 	[inv setTarget:self];
-	[inv setSelector:sel];
-	
-	NSArray * arguments = [NSArray arrayWithObject:[NSNumber numberWithInt:1]];
+	[inv setSelector:aSelector];
 	
 	// add args to invocation
 	int index = 2; // Arguments start at index 2
 	for (id arg in arguments) {
-		[inv setArgument:&arg atIndex:2];
+		[inv setArgument:&arg atIndex:index];
 		index++;
 	}
-	
-	
+		
 	return inv;
 }
 

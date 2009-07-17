@@ -9,6 +9,7 @@
 #import "OMMatcher-OMMatcherMethods.h"
 #import "OMSimpleInvocation-NSObject.h"
 #import "OMWrapper.h"
+#import "ObjectiveMatchyMacros.h"
 
 @implementation OMMatcher (OMMatcherMethods)
 
@@ -52,8 +53,8 @@
 
 - (id) respondToSelector:(SEL)selector andReturn:(id)expectedValue
 {
-	BOOL isWrapped = [self.expected respondsToSelector:@selector(isAOMWrapper)];
 	self.expected = expectedValue;
+	BOOL isWrapped = [self.expected respondsToSelector:@selector(isAOMWrapper)];
 	id actualValue = isWrapped ? [[self.expected class] 
 								    wrapperWithValue:[self.actual performSelector:selector]]
 	                           : [self.actual performSelector:selector];
@@ -74,7 +75,6 @@
 {
 	
 	self.expected               = expectedValue;
-	NSLog(@"\n !!!! CLASS: %@", [self.expected class]);
 	BOOL isWrapped = [self.expected respondsToSelector:@selector(isAOMWrapper)];
 	id actualValue = isWrapped ? [[ self.expected class] 
 								  wrapperWithValue:[self.actual performSelector:selector withObject:argument]] 
@@ -149,10 +149,50 @@
 
 - (id) returnValue:(id)expectedValue forMessage:(id) aMessage, ...;
 {
-	self.expected               = expectedValue;
-	//id actualValue              = [self.actual performSelector:selector withObject:argument];
-	//NSString *              key = [NSString stringWithCString:(char *)selector];
-	self.matches                = NO;
+	self.expected = expectedValue;
+	
+	// Throw if wrapped
+	if ([self.expected respondsToSelector:@selector(isAOMWrapper)]) {
+		self.positiveFailureMessage = @"returnValue:forMessage won't work with wrapped values. Sorry.";
+		@throw [self positiveException];
+	}
+	
+	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+
+	OM_EXTRACT_DICT_FROM_VARARGS(dict, aMessage);
+	
+	NSString * selectorString = [dict valueForKey:@"selectorString"];
+	NSArray * arguments = [dict valueForKey:@"arguments"];
+
+	//create selector
+	SEL sel = NSSelectorFromString(selectorString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, selectorString];
+		@throw [self positiveException];
+	}
+	
+	// create invocation
+	NSInvocation * inv = [self.actual simpleInvocationFromSelector:sel withArguments:arguments];
+	
+	// invoke	
+	[inv invoke];
+	
+	// Get return value
+	id actualValue;
+	[inv getReturnValue:&actualValue];
+	
+	self.matches                = [self.expected isEqualTo:actualValue];
+	
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should return: '%@', forMessage: '%@', but was '%@'.", 
+								   self.actual, actualValue, selectorString, self.expected];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should not return: '%@', forMessage: '%@', but did.", 
+								   self.actual, actualValue, selectorString];
+	
+	
 	[self handleExpectation];
 	return expectedValue;
 }

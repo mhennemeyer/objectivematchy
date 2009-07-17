@@ -9,9 +9,11 @@
 #import "ObjectiveMatchy.h"
 #import <SenTestingKit/SenTestingKit.h>
 
+@class ObjectReturnsForMessage;
+
 
 @interface ReturnValueForMessageTest : SenTestCase {
-
+	ObjectReturnsForMessage * objThatReturnsHelloForMessage;
 }
 
 @end

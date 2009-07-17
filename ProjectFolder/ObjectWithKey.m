@@ -11,4 +11,9 @@
 
 @implementation ObjectWithKey
 
+- (int) integerValueOne
+{
+	return 1;
+}
+
 @end

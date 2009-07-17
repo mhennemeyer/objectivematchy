@@ -86,25 +86,26 @@
 
 - (void) testOM_SEL_MacroInstantiatesOMSELWrapper
 {
-	STAssertTrue([OM_SEL(isEqualTo:) isMemberOfClass:[OMSELWrapper class]], @"");
+	
+	STAssertTrue([OM_SEL(@selector(isEqualTo:)) isMemberOfClass:[OMSELWrapper class]], @"");
 }
 
 - (void) testOM_SEL_EqualsOM_SEL_IfSameValues
 {
-	STAssertTrue([OM_SEL(isEqualTo:) isEqualTo:OM_SEL(isEqualTo:)], @"");
+	STAssertTrue([OM_SEL(@selector(isEqualTo:)) isEqualTo:OM_SEL(@selector(isEqualTo:))], @"");
 }
 
 - (void) testOM_SELNotEqualsOM_SEL_IfDifferentValues
 {
-	STAssertFalse([OM_SEL(isEqualTo:) isEqualTo:OM_SEL(copy)], @"");
+	STAssertFalse([OM_SEL(@selector(isEqualTo:)) isEqualTo:OM_SEL(@selector(copy))], @"");
 }
 
 - (void) testOM_SEL_For_isEqualTo_OneDescribesItselfAsStringisEqualTo{
-	[[[OM_SEL(isEqualTo:) description] should]  eql:@"isEqualTo:"];
+	[[[OM_SEL(@selector(isEqualTo:)) description] should]  eql:@"isEqualTo:"];
 }
 
 - (void) testOM_SEL_For_isEqualTo_andBlah_OneDescribesItselfAsStringisEqualTo_andBlah{
-	[[[OM_SEL(isEqualTo:andBlah:) description] should]  eql:@"isEqualTo:andBlah:"];
+	[[[OM_SEL(@selector(isEqualTo:andBlah:)) description] should]  eql:@"isEqualTo:andBlah:"];
 }
 
 #pragma mark -

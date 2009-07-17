@@ -11,5 +11,5 @@
 
 @interface NSObject (OMSimpleInvocation)
 
-- (NSInvocation *) simpleInvocationFromArray:(NSArray *)anArray;
+- (NSInvocation *) simpleInvocationFromSelector:(SEL)aSelector withArguments:(NSArray *)arguments;
 @end
