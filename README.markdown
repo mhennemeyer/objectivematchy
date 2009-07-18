@@ -6,7 +6,7 @@ Xcode Project and build the framework or run the tests.
 
 # ObjectiveMatchy
 
-    [[@"Hello, World!" should] eql:@"Hello, World"];
+    [[@"Hello, World!" should] eql:@"Hello, World!"];
 
 ObjectiveMatchy is a Matcher System for Objective C.
 
