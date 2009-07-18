@@ -1,6 +1,6 @@
 This is prealpha software that hasn't been released yet.  
 This Software is developed testdriven, so there may   
-be fewer bugs than in other prealpha software.  
+be fewer bugs than in other prealpha software but be careful anyway.  
 If you want to try it, please clone the repository, open the   
 Xcode Project and build the framework or run the tests.   
 
