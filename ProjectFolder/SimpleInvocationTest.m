@@ -17,6 +17,8 @@
 	obj = [[NSObject alloc] init];
 }
 
+#pragma mark simpleInvocationFromSelector:withArguments:
+
 - (void) testSimpleInvocationReturnsInvocation
 {
 	STAssertEquals([[obj simpleInvocationFromSelector:@selector(isEqual:) 
@@ -59,5 +61,39 @@
 	[inv getReturnValue:&returnValue];
 	[[returnValue should] eql:@"aValue"];
 }
+
+#pragma mark -
+
+#pragma mark simpleInvoke:withArguments:
+
+- (void) testSimpleInvokeInvokes
+{
+	ObjectWithKey * objectWithKey = [[ObjectWithKey alloc] init];
+	[[objectWithKey shouldNot] haveKey:@"aKey" withValue:@"value"];
+	[objectWithKey simpleInvoke:@selector(setValue:forKey:) 
+				  withArguments:[NSArray arrayWithObjects:@"value", @"aKey", nil]];
+	[[objectWithKey should] haveKey:@"aKey" withValue:@"value"];
+}
+
+- (void) testSimpleInvokeReturnsNilIfVoidMessage
+{
+	ObjectWithKey * objectWithKey = [[ObjectWithKey alloc] init];
+	[[objectWithKey shouldNot] haveKey:@"aKey" withValue:@"value"];
+	id returnValue = [objectWithKey simpleInvoke:@selector(setValue:forKey:) 
+								   withArguments:[NSArray arrayWithObjects:@"value", @"aKey", nil]];
+	STAssertNil(returnValue, nil);
+}
+
+- (void) testSimpleInvokeReturnsValue
+{
+	ObjectWithKey * objectWithKey = [[ObjectWithKey alloc] init];
+	[objectWithKey setValue:@"aValue" forKey:@"aKey"];
+	id returnValue = [objectWithKey simpleInvoke:@selector(valueForKey:)
+								   withArguments:[NSArray arrayWithObject:@"aKey"]];
+	[[returnValue should] eql:@"aValue"];
+}
+
+
+#pragma mark -
 
 @end

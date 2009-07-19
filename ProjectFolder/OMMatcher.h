@@ -29,6 +29,7 @@
 - (NSException *) positiveException;
 - (NSException *) negativeException;
 - (void) handleExpectation;
+- (BOOL) isWrapped;
 
 @property (readwrite, retain) id         actual;
 @property (readwrite, retain) id         expected;

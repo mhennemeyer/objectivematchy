@@ -34,4 +34,22 @@
 	return inv;
 }
 
+- (id) simpleInvoke:(SEL)aSelector withArguments:(NSArray *)arguments
+{
+	// create invocation
+	NSInvocation * inv = [self simpleInvocationFromSelector:aSelector withArguments:arguments];
+	
+	// invoke
+	[inv invoke];
+	
+	if ( ![[inv methodSignature] methodReturnLength] )
+		return nil;
+	
+	// get return Value
+	id returnValue;
+	[inv getReturnValue:&returnValue];
+	
+	return returnValue;
+}
+
 @end

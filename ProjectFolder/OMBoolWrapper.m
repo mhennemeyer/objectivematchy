@@ -13,12 +13,14 @@
 
 @synthesize wrapperValue;
 
-+ (id) wrapperWithValue:(BOOL)aBoolValue
++ (OMBoolWrapper *) wrapperWithValue:(BOOL)aBoolValue
 {
-	OMBoolWrapper * wrapper = [[[OMBoolWrapper alloc] init] autorelease];
+	OMBoolWrapper * wrapper = [[OMBoolWrapper alloc] init];
+	[wrapper autorelease];
 	wrapper.wrapperValue = aBoolValue;
 	return wrapper;
 }
+
 
 - (BOOL) isEqualTo:(id)aValue
 {

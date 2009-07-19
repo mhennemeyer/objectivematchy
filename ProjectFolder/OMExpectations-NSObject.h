@@ -7,8 +7,8 @@
 //  Released under the terms of the MIT Licence.
 
 #import <Cocoa/Cocoa.h>
-#import "ObjectiveMatchyMacros.h"
-#import "OMWrapper.h"
+
+
 /*!
  Create a Matcher Object from any NSObject.
  */

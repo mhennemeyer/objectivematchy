@@ -123,11 +123,14 @@ You can use the Assertion building system in your tests now:
 
 * be: ...
 
-    ...soon
+    	[[anObject should] be:@"Equal:", anObject, nil];
+		[[anObject shouldNot] be:@"Equal:", anotherObject, nil];
 
 * throw:forMessage: ...
 
-    ...soon
+    	// BadObject throws an Exception for 'raise'
+		BadObject * badObject = [[BadObject alloc] init];
+		[[badObject should] throw:@"" forMessage:@"raise", nil]; 
 
 * changeValueForKey:forMessage: ...
 

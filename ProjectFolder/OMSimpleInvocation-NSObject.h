@@ -12,4 +12,5 @@
 @interface NSObject (OMSimpleInvocation)
 
 - (NSInvocation *) simpleInvocationFromSelector:(SEL)aSelector withArguments:(NSArray *)arguments;
+- (id) simpleInvoke:(SEL)aSelector withArguments:(NSArray *)arguments;
 @end

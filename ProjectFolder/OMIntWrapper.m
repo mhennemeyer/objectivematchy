@@ -13,9 +13,10 @@
 
 @synthesize wrapperValue;
 
-+ (id) wrapperWithValue:(int)anIntValue
++ (OMIntWrapper *) wrapperWithValue:(int)anIntValue
 {
-	OMIntWrapper * wrapper = [[[OMIntWrapper alloc] init] autorelease];
+	OMIntWrapper * wrapper = [[OMIntWrapper alloc] init];
+	[wrapper autorelease];
 	wrapper.wrapperValue = anIntValue;
 	return wrapper;
 }

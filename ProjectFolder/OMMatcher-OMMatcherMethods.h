@@ -18,5 +18,7 @@
 - (id) haveKey:(NSString *)aKey;
 - (id) haveKey:(NSString *)aKey withValue:(id)value;
 - (id) returnValue:(id)expectedValue forMessage:(id) aMessage, ...;
+- (id) throw:(NSString *)expectedException forMessage:(id) aMessage, ...;
+- (id) be:(id)expectedValue, ... ;
 
 @end

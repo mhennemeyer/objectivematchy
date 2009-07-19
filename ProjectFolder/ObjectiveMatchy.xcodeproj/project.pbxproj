@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5D6FC5AB1010835F00B70742 /* ObjectReturnsForMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6FC5AA1010835F00B70742 /* ObjectReturnsForMessage.m */; };
 		5D6FC6A11010D98900B70742 /* ThrowForMessageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6FC6A01010D98900B70742 /* ThrowForMessageTest.m */; };
+		5D8F7DC010134D4E0072FE0A /* BadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F7DBF10134D4E0072FE0A /* BadObject.m */; };
+		5D8F7DE81013568A0072FE0A /* BeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F7DE71013568A0072FE0A /* BeTest.m */; };
 		5DC0E563100F1E3600F0303C /* ReturnValueForMessageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC0E562100F1E3600F0303C /* ReturnValueForMessageTest.m */; };
 		5DF32B49100F29B50054B62A /* SimpleInvocationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF32B48100F29B50054B62A /* SimpleInvocationTest.m */; };
 		5DF32B50100F2BC10054B62A /* OMSimpleInvocation-NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF32B4E100F2BC10054B62A /* OMSimpleInvocation-NSObject.h */; };
@@ -72,6 +74,10 @@
 		5D6FC5AA1010835F00B70742 /* ObjectReturnsForMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectReturnsForMessage.m; sourceTree = "<group>"; };
 		5D6FC69F1010D98900B70742 /* ThrowForMessageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThrowForMessageTest.h; sourceTree = "<group>"; };
 		5D6FC6A01010D98900B70742 /* ThrowForMessageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThrowForMessageTest.m; sourceTree = "<group>"; };
+		5D8F7DBE10134D4E0072FE0A /* BadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadObject.h; sourceTree = "<group>"; };
+		5D8F7DBF10134D4E0072FE0A /* BadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadObject.m; sourceTree = "<group>"; };
+		5D8F7DE61013568A0072FE0A /* BeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeTest.h; sourceTree = "<group>"; };
+		5D8F7DE71013568A0072FE0A /* BeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeTest.m; sourceTree = "<group>"; };
 		5DC0E561100F1E3600F0303C /* ReturnValueForMessageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnValueForMessageTest.h; sourceTree = "<group>"; };
 		5DC0E562100F1E3600F0303C /* ReturnValueForMessageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnValueForMessageTest.m; sourceTree = "<group>"; };
 		5DF32B47100F29B50054B62A /* SimpleInvocationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleInvocationTest.h; sourceTree = "<group>"; };
@@ -240,8 +246,12 @@
 				F571DB14100B35CD008F2E09 /* TestCaseMacroTest.m */,
 				F5E3EB561000F5DB00D432D7 /* ObjectWithKey.h */,
 				F5E3EB571000F5DB00D432D7 /* ObjectWithKey.m */,
+				5D8F7DE61013568A0072FE0A /* BeTest.h */,
+				5D8F7DE71013568A0072FE0A /* BeTest.m */,
 				5D6FC5A91010835F00B70742 /* ObjectReturnsForMessage.h */,
 				5D6FC5AA1010835F00B70742 /* ObjectReturnsForMessage.m */,
+				5D8F7DBE10134D4E0072FE0A /* BadObject.h */,
+				5D8F7DBF10134D4E0072FE0A /* BadObject.m */,
 				F5E3EB4F1000F4C800D432D7 /* HaveKeyTest.h */,
 				F5E3EB501000F4C800D432D7 /* HaveKeyTest.m */,
 				66F67D8E0FFA74ED00A657E2 /* EqlTest.h */,
@@ -416,6 +426,8 @@
 				5DF32FEA100F9A470054B62A /* OMSELWrapper.m in Sources */,
 				5D6FC5AB1010835F00B70742 /* ObjectReturnsForMessage.m in Sources */,
 				5D6FC6A11010D98900B70742 /* ThrowForMessageTest.m in Sources */,
+				5D8F7DC010134D4E0072FE0A /* BadObject.m in Sources */,
+				5D8F7DE81013568A0072FE0A /* BeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

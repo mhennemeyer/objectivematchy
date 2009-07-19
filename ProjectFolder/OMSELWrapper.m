@@ -13,9 +13,10 @@
 
 @synthesize wrapperValue;
 
-+ (id) wrapperWithValue:(SEL)aSELValue
++ (OMSELWrapper *) wrapperWithValue:(SEL)aSELValue
 {
-	OMSELWrapper * wrapper = [[[OMSELWrapper alloc] init] autorelease];
+	OMSELWrapper * wrapper = [[OMSELWrapper alloc] init];
+	[wrapper autorelease];
 	wrapper.wrapperValue = aSELValue;
 	return wrapper;
 }

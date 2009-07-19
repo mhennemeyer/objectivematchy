@@ -13,45 +13,47 @@
 
 #pragma mark with Numbers
 
+- (void) setUp
+{
+	one = [NSNumber numberWithInt:1];
+	two = [NSNumber numberWithInt:2];
+	arr = [NSArray arrayWithObjects:one, two, nil];
+}
+
 - (void) testNumberEqualsSameNumberPositive
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
 	[[one should] eql:one];
 	
 }
 
 - (void) testNumberEqualsDifferentNumberPositive
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
-	STAssertThrows([[one should] eql:two], @"One should not equal two");
+	OMMatcher * matcher = [one should];
+	[[matcher should] throw:@"" forMessage:@"eql:", two, nil];
 }
 
 - (void) testNumberNotEqualsDifferentNumberNegative
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
 	[[one shouldNot] eql:two];
 }
 
 - (void) testNumberNotEqualsSameNumberNegative
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	STAssertThrows([[one shouldNot] eql:one], @"One should not equal two");
+	OMMatcher * matcher = [one shouldNot];
+	[[matcher should] throw:@"" forMessage:@"eql:", one, nil];
 }
 
 - (void) testNumberEqualsEqualNumberPositive
 {
-	NSNumber * one        = [NSNumber numberWithInt:1];
 	NSNumber * anotherOne = [NSNumber numberWithInt:1];
 	[[one should] eql:anotherOne];
 }
 
 - (void) testNumberNotEqualsEqualNumberNegative
 {
-	NSNumber * one        = [NSNumber numberWithInt:1];
 	NSNumber * anotherOne = [NSNumber numberWithInt:1];
-	STAssertThrows([[one shouldNot] eql:anotherOne], @"one should eql one");
+	OMMatcher * matcher = [one shouldNot];
+	[[matcher should] throw:@"" forMessage:@"eql:", anotherOne, nil];
 }
 
 #pragma mark -
@@ -60,37 +62,29 @@
 
 - (void) testArrayEqualsSameArrayPositive
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
-	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
 	[[arr should] eql:arr];
 }
 
 - (void) testArrayEqualsSameArrayNegative
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
-	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
-	STAssertThrows([[arr shouldNot] eql:arr], @"arr should eql arr." );
+	OMMatcher * matcher = [arr shouldNot];
+	[[matcher should] throw:@"" forMessage:@"eql:", arr, nil];
 }
 
 - (void) testArrayEqualsEqualArrayPositive
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
-	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
-	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
+	NSArray  * equalArr = [NSArray arrayWithArray:arr];
 	[[arr should] eql:equalArr];
 }
 
 - (void) testArrayEqualsEqualArrayNegative
 {
-	NSNumber * one = [NSNumber numberWithInt:1];
-	NSNumber * two = [NSNumber numberWithInt:2];
-	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
-	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
-	STAssertThrows([[arr shouldNot] eql:equalArr], @"arr should eql equalArr." );
+	NSArray  * equalArr = [NSArray arrayWithArray:arr];
+	OMMatcher * matcher = [arr shouldNot];
+	[[matcher should] throw:@"" forMessage:@"eql:", equalArr, nil];
 }
+
+
 
 #pragma mark -
 

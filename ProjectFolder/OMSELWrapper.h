@@ -14,7 +14,7 @@
 	SEL wrapperValue;
 }
 @property (readwrite) SEL wrapperValue;
-+ (id) wrapperWithValue:(SEL)aSELValue;
++ (OMSELWrapper *) wrapperWithValue:(SEL)aSELValue;
 - (BOOL) isEqualTo:(id)aValue;
 - (NSString *) description;
 @end

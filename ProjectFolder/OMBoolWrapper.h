@@ -14,7 +14,7 @@
 	BOOL wrapperValue;
 }
 @property (readwrite) BOOL wrapperValue;
-+ (id)wrapperWithValue:(BOOL)aBoolValue;
++ (OMBoolWrapper *)wrapperWithValue:(BOOL)aBoolValue;
 - (BOOL) isEqualTo:(id)aValue;
 - (NSString *) description;
 @end

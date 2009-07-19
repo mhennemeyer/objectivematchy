@@ -11,7 +11,9 @@
 
 
 @interface EqlTest : SenTestCase {
-
+	NSNumber * one;
+	NSNumber * two;
+	NSArray  * arr;
 }
 
 @end

@@ -312,20 +312,19 @@
 
 #pragma mark -
 
-#pragma mark eql
+#pragma mark isWrapped
 
-- (void) testMatcherKnowsEqlMessage
+- (void) testMatcherKnowsThatExpectedIsWrapped
 {
-	[positiveMatcherWithActual eql:actual];
+	positiveMatcherWithActual.expected = OM_NO;
+	STAssertTrue([positiveMatcherWithActual isWrapped], nil);
 }
 
-- (void) testMatcherThrowsForExpectingNonEqualToEqlActual
+- (void) testMatcherKnowsThatExpectedIsNotWrapped
 {
-	NSMutableArray * expected = [NSMutableArray array];
-	STAssertThrows([positiveMatcherWithActual eql:expected], @"Should throw");
+	positiveMatcherWithActual.expected = [[NSObject alloc] init] ;
+	STAssertFalse([positiveMatcherWithActual isWrapped], nil);
 }
-
-
-
+	
 
 @end

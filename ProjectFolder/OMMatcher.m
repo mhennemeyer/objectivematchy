@@ -67,6 +67,11 @@
 		@throw [self negativeException];	
 }
 
+- (BOOL) isWrapped
+{
+	return [self.expected respondsToSelector:@selector(isAOMWrapper)];
+}
+
 - (void) dealloc
 {
 	self.actual = nil;

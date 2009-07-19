@@ -15,7 +15,7 @@
 }
 @property (readwrite) int wrapperValue;
 
-+ (id)wrapperWithValue:(int)anIntValue;
++ (OMIntWrapper *)wrapperWithValue:(int)anIntValue;
 - (BOOL) isEqualTo:(id)aValue;
 
 @end
