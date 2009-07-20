@@ -4,7 +4,7 @@
 //
 //  Created by Matthias Hennemeyer on 30.06.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
-//
+//  Released under the terms of the MIT Licence.
 
 #import <Cocoa/Cocoa.h>
 
@@ -29,6 +29,7 @@
 - (NSException *) positiveException;
 - (NSException *) negativeException;
 - (void) handleExpectation;
+- (BOOL) isWrapped;
 
 @property (readwrite, retain) id         actual;
 @property (readwrite, retain) id         expected;

@@ -20,10 +20,10 @@
 	self.expected               = anExpected;
 	self.matches                = [self.actual isEqualTo:self.expected];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should be equal to: '%@', but isn't (with isEqualTo).", 
+								   @"'%@' should be equal to: '%@', but isn't (with isEqualTo:).", 
 								   self.actual, self.expected];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not be equal to: '%@', but is (with isEqualTo).", 
+								   @"'%@' should not be equal to: '%@', but is (with isEqualTo:).", 
 								   self.actual, self.expected];
 	
 	[self handleExpectation];
@@ -32,6 +32,24 @@
 }
 
 #pragma mark -
+
+#pragma mark containObject:
+
+- (id) containObject:(id)anExpected
+{
+	self.expected               = anExpected;
+	self.matches                = [self.actual containsObject:self.expected];
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"Array should contain: '%@', but didn't (with containsObject:).", self.expected];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"Array should not contain: '%@', but did (with containsObject:).", self.expected];	
+	[self handleExpectation];
+	
+	return self.expected;
+}
+
+#pragma mark -
+
 
 #pragma mark respondTo:
 

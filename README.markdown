@@ -90,7 +90,7 @@ You can use the Assertion building system in your tests now:
       }
 
 
-## Built in matchers
+## Built in matchers - Quick ShowCase
 
 * eql:(id)obj
     
@@ -110,23 +110,29 @@ You can use the Assertion building system in your tests now:
         [[o should] haveKey:@"Key" withValue:@"Value"];
         [[o shouldNot] haveKey:@"Key" withValue:@"OtherValue"];
         
-* returnValue:forMessage: ...
+* returnValue:(id)expectedValue forMessage:(id) aMessage, ...
 
 		ObjectWithKey * o = [[ObjectWithKey alloc] init];
         [o setValue:@"Value" forKey:@"Key"];
 		[[o should] returnValue:@"Value" 
 		             forMessage:@"valueForKey:", @"Key", nil];
 
-* contain: ...
+* containObject:(id)anObject
   
-    ...soon
+	    NSNumber * aContainedObject    = [NSNumber numberWithInt:1];    
+		NSNumber * two                 = [NSNumber numberWithInt:2];
+		NSArray  * anArray             = [NSArray arrayWithObjects:aContainedObject, two, nil];
+		NSObject * anUnContainedObject = [[NSObject alloc] init];
+	
+		[[anArray should]    containObject:aContainedObject];
+		[[anArray shouldNot] containObject:anUnContainedObject];
 
-* be: ...
+* be:(id)expectedValue, ... 
 
-    	[[anObject should] be:@"Equal:", anObject, nil];
+    	[[anObject should]    be:@"Equal:", anObject, nil];
 		[[anObject shouldNot] be:@"Equal:", anotherObject, nil];
 
-* throw:forMessage: ...
+* throw:(NSString *)expectedException forMessage:(id) aMessage, ...
 
     	// BadObject throws an Exception for 'raise'
 		BadObject * badObject = [[BadObject alloc] init];
@@ -168,8 +174,13 @@ You can use the Assertion building system in your tests now:
 ## Scalar Value Wrapper
 
 Because ObjectiveMatchy can only handle Objects,   
-there are Wrappers for the scalar values like   
-`OM_YES` for YES and `OM_NO` for NO.
+there are Wrappers for scalar values for some special cases:  
+
+* `OM_YES` for YES 
+* `OM_NO` for NO
+* `OM_INT(int)` for int values
+* `OM_FLOAT(float)` for float values
+* `OM_SEL(SEL)` for selectors
 
 ## Custom Matchers
 
@@ -218,19 +229,22 @@ interface, or the compiler will yell.
       - (id) matcherName:(id)expectedValue
       {
       	self.expected = expectedValue;
-      	
-      	// Specify the condition ...
+
+		// expectedValue might be an OMWrapper Object. In that case, 
+		// the actual Value is expected to be scalar and thus must also be wrapped.
+		id actualValue = [self isWrapped] ? [[self.expected class] wrapperWithValue:[self.actual doSomethingToGetActualValue]] 
+									      : [self.actual doSomethingToGetActualValue];
+									
+		// Specify the condition ...
       	self.matches = NO; // todo
-      	
-      	// if expectedValue is a OMWrapper Object
-      	if ( [self.expected respondsToSelector:@selector(isAOMWrapper)] ) {
-      	  // take care: scalar values in a format string.
-      		self.positiveFailureMessage = @"format string with scalar values";
-      		self.negativeFailureMessage = @"format string with scalar values";
-      	} else {
-      		self.positiveFailureMessage = @"positive Failure: should but wasn't";
-      		self.negativeFailureMessage = @"negative Failure: shouldn't but was";
-      	}
+
+		// Set the failure messages that will be shown inline if the condition evaluates to false.
+      	self.positiveFailureMessage = 
+				@"positive Failure: should but wasn't. Actual Object: '%@', Expected Value: '%@', Actual Value: '%@'", 
+			    	self.actual, self.expected, actualValue;
+      	self.negativeFailureMessage = 
+				@"negative Failure: shouldn't but was. Actual Object: '%@', Expected Value: '%@', Actual Value: '%@'",
+					self.actual, self.expected, actualValue;
 
       	[self handleExpectation];
       	return self.expected;

@@ -60,17 +60,17 @@
 
 - (void) testOM_INT_MacroInstantiatesOMIntWrapper
 {
-	STAssertTrue([OM_INT(1) isMemberOfClass:[OMIntWrapper class]], @"");
+	[[OM_INT(1) should] be:@"MemberOfClass:", [OMIntWrapper class], nil];
 }
 
 - (void) testOM_INTEqualsOM_INT_IfSameValues
 {
-	STAssertTrue([OM_INT(1) isEqualTo:OM_INT(1)], @"");
+	[[OM_INT(1) should] be:@"EqualTo:", OM_INT(1), nil];
 }
 
 - (void) testOM_INTNotEqualsOM_INT_IfDifferentValues
 {
-	STAssertFalse([OM_INT(1) isEqualTo:OM_INT(2)], @"");
+	[[OM_INT(1) shouldNot] be:@"EqualTo:", OM_INT(2), nil];
 }
 
 - (void) testOM_INTOneDescribesItselfAsString1{
@@ -79,6 +79,31 @@
 
 - (void) testOM_INT132DescribesItselfAsString123{
 	[[[OM_INT(123) description] should]  eql:@"123"];
+}
+#pragma mark -
+
+#pragma mark floatWrapper
+
+- (void) testOM_FLOAT_MacroInstantiatesOMFloatWrapper
+{
+	[[OM_FLOAT(1.5) should] be:@"MemberOfClass:", [OMFloatWrapper class], nil];
+}
+
+- (void) testOM_FLOATEqualsOM_FLOAT_IfSameValues
+{
+	[[OM_FLOAT(1.5) should] be:@"EqualTo:", OM_FLOAT(1.5), nil];
+}
+
+- (void) testOM_FLOATDontEqualsOM_FLOAT_IfDifferentValues
+{
+	[[OM_FLOAT(1.5) shouldNot] be:@"EqualTo:", OM_FLOAT(1.6), nil];
+}
+- (void) testOM_FLOATOnePointFiveDescribesItselfAsString1DotFive{
+	[[[OM_FLOAT(1.5) description] should]  eql:@"1.500000"];
+}
+
+- (void) testOM_FLOAT1Point234567DescribesItselfAsString1dot234567{
+	[[[OM_FLOAT(1.234567) description] should]  eql:@"1.234567"];
 }
 #pragma mark -
 

@@ -12,6 +12,7 @@
 @interface OMMatcher (OMMatcherMethods)
 
 - (id) eql:(id)anExpected;
+- (id) containObject:(id)anExpected;
 - (id) respondToSelector:(SEL)selector;
 - (id) respondToSelector:(SEL)selector andReturn:(id)expectedValue;
 - (id) respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue;

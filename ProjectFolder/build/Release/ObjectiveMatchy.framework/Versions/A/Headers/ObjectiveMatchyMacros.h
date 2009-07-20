@@ -4,7 +4,7 @@
 //
 //  Created by Matthias Hennemeyer on 05.07.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
-//
+//  Released under the terms of the MIT Licence.
 
 #pragma mark Expectations
 
@@ -19,10 +19,18 @@ addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
 #pragma mark Wrapper
 
 #define OM_YES \
-[OMWrapper wrapperWithBool:YES]
+[OMBoolWrapper wrapperWithValue:YES]
 
 #define OM_NO \
-[OMWrapper wrapperWithBool:NO]
+[OMBoolWrapper wrapperWithValue:NO]
+
+#define OM_INT(value) \
+[OMIntWrapper wrapperWithValue:value]
+
+#define OM_SEL(sel) \
+[OMSELWrapper wrapperWithValue:sel]
+
+#pragma mark -
 
 #pragma mark Macros for testCase
 
@@ -57,6 +65,32 @@ addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
 //#define OMBefore
 //
 //#pragma mark -
+
+#pragma mark OM_EXTRACT_DICT_FROM_VARARGS
+
+#define OM_EXTRACT_DICT_FROM_VARARGS(aDict, first) \
+NSMutableArray * om_arr = [NSMutableArray arrayWithObject:first]; \
+id om_arg; \
+va_list om_argumentList; \
+va_start(om_argumentList, first); \
+while (om_arg = va_arg(om_argumentList, id)) { \
+	[om_arr addObject: om_arg]; \
+	va_end(om_argumentList); \
+} \
+NSMutableString * om_selectorString = [NSMutableString string]; \
+NSMutableArray * om_arguments = [NSMutableArray array]; \
+for (int i = 0; i < [om_arr count]; i++) { \
+	if ((i % 2) == 0) { \
+		[om_selectorString appendString:[om_arr objectAtIndex:i]]; \
+	} \
+	else { \
+		[om_arguments addObject:[om_arr objectAtIndex:i]]; \
+	} \
+} \
+[aDict setValue:om_selectorString forKey:@"selectorString"]; \
+[aDict setValue:om_arguments forKey:@"arguments"]; 
+
+
 
 
 

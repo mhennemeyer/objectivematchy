@@ -27,6 +27,9 @@ addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
 #define OM_INT(value) \
 [OMIntWrapper wrapperWithValue:value]
 
+#define OM_FLOAT(value) \
+[OMFloatWrapper wrapperWithValue:value]
+
 #define OM_SEL(sel) \
 [OMSELWrapper wrapperWithValue:sel]
 

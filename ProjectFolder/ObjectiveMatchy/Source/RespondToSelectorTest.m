@@ -4,7 +4,7 @@
 //
 //  Created by Matthias Hennemeyer on 05.07.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
-//
+//  Released under the terms of the MIT Licence.
 
 #import "RespondToSelectorTest.h"
 
@@ -72,8 +72,8 @@
 - (void) testRespondToSelectorWithObjectAndReturnPositivePass
 {
 	[[anObject should] respondToSelector:@selector(isEqualTo:) 
-					  withObject:anObject 
-					   andReturn:OM_YES];
+					          withObject:anObject 
+					           andReturn:OM_YES];
 }
 
 - (void) testRespondToSelectorWithObjectAndReturnPositiveFail

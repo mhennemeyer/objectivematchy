@@ -11,6 +11,7 @@
 #import "OMWrapper.h"
 #import "OMBoolWrapper.h"
 #import "OMIntWrapper.h"
+#import "OMFloatWrapper.h"
 #import "OMSELWrapper.h"
 #import "OMSimpleInvocation-NSObject.h"
 #import "OM-NSException.h"

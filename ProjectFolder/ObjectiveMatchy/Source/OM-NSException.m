@@ -4,10 +4,12 @@
 //
 //  Created by Matthias Hennemeyer on 13.07.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
-//
+//  Released under the terms of the MIT Licence.
 
 #import "OM-NSException.h"
 
+// Maybe it would be better to subclass NSException, because now i overwrite SenTests
+// category added to NSException and so ST... Failures are not longer shown inline.
 
 @implementation NSException (OM)
 + (NSException *) oMfailure:(NSString *)filename 

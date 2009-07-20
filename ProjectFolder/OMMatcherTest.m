@@ -239,14 +239,16 @@
 
 - (void) testHandleExpectationRaisesWithPositiveFailureMessageOnPositiveFailure
 {
+	NSException * exception = nil;
 	@try {
 		[positiveMatcherWithActual eql:[NSMutableArray array]];
 	}
 	@catch (NSException * e) {
-		STAssertEqualObjects([[e userInfo] valueForKey:OMFailureMessageKey], 
-					   positiveMatcherWithActual.positiveFailureMessage,
-		               @"handleExpectation raises with positiveFailureMessage");
+		exception = e;
 	}
+	STAssertEqualObjects([[exception userInfo] valueForKey:OMFailureMessageKey], 
+						 positiveMatcherWithActual.positiveFailureMessage,
+						 @"handleExpectation raises with positiveFailureMessage");
 }
 
 - (void) testHandleExpectationRaisesWithLinenumberOnPositiveFailure
