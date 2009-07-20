@@ -33,6 +33,27 @@
 
 #pragma mark -
 
+#pragma mark match:
+
+- (id) match:(NSString *)aRegEx
+{
+	self.expected               = aRegEx;
+	
+	NSString * cmd = [NSString stringWithFormat:@"ruby -e ' exit 1 unless ( \"%@\" =~ %@ ) '", self.actual, self.expected];
+
+	self.matches = system([cmd cStringUsingEncoding:NSASCIIStringEncoding]) ? NO : YES;
+
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should match: '%@', but didn't (using ruby).", self.actual, self.expected];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should not match: '%@', but did (using ruby).", self.actual, self.expected];
+	[self handleExpectation];
+	
+	return self.expected;
+}
+
+#pragma mark -
+
 #pragma mark containObject:
 
 - (id) containObject:(id)anExpected
@@ -491,6 +512,49 @@
 	[self handleExpectation];
 	return self.expected;
 }
+
+- (id) changeValueForKey:(NSString *)aKey ofObject:(id)anObject from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+{
+	self.expected = aKey;
+	
+	//create selector
+	SEL sel = NSSelectorFromString(messageString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
+		@throw [self positiveException];
+	}
+	
+	id valueBeforeInvocation = [anObject valueForKey:aKey];
+	
+	// invoke
+	[self.actual simpleInvoke:sel withArguments:arguments];
+	
+	id valueAfterInvocation = [anObject valueForKey:aKey];
+	
+	BOOL didChange = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqualTo:valueAfterInvocation]
+	: !(nil == valueAfterInvocation);
+	
+	BOOL fromCondition = (nil != valueBeforeInvocation) ? [valueBeforeInvocation isEqualTo:fromValue]
+	: (nil ==  valueBeforeInvocation);
+	
+	BOOL toCondition = (nil != valueAfterInvocation) ? [valueAfterInvocation isEqualTo:toValue]
+	: (nil ==  valueAfterInvocation);
+	
+	self.matches = (fromValue == toValue) ? !didChange : fromCondition && toCondition && didChange;
+	
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' expected change: '%@', of: '%@', from: '%@', to: '%@', for: '%@', but: Before '%@', After: '%@'.", 
+								   self.actual, self.expected, anObject,  fromValue, toValue, messageString, valueBeforeInvocation,  valueAfterInvocation];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' expected not change: '%@', of: '%@', from: '%@', to: '%@', for: '%@', but did.", 
+								   self.actual, self.expected, anObject, fromValue, toValue, messageString];
+	
+	[self handleExpectation];
+	return self.expected;
+}
+
 
 
 

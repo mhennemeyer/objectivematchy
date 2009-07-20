@@ -17,6 +17,7 @@
 		5DC3BF921014614800D388D5 /* OMFloatWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DC3BF8F1014614800D388D5 /* OMFloatWrapper.h */; };
 		5DC3BF931014614800D388D5 /* OMFloatWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC3BF901014614800D388D5 /* OMFloatWrapper.m */; };
 		5DC3BFA41014757800D388D5 /* ChangeValueForKeyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC3BFA31014757800D388D5 /* ChangeValueForKeyTest.m */; };
+		5DC3C14A1014CFB000D388D5 /* MatchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC3C1491014CFB000D388D5 /* MatchTest.m */; };
 		5DF32B49100F29B50054B62A /* SimpleInvocationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF32B48100F29B50054B62A /* SimpleInvocationTest.m */; };
 		5DF32B50100F2BC10054B62A /* OMSimpleInvocation-NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF32B4E100F2BC10054B62A /* OMSimpleInvocation-NSObject.h */; };
 		5DF32B51100F2BC10054B62A /* OMSimpleInvocation-NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF32B4F100F2BC10054B62A /* OMSimpleInvocation-NSObject.m */; };
@@ -91,6 +92,8 @@
 		5DC3BF901014614800D388D5 /* OMFloatWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMFloatWrapper.m; sourceTree = "<group>"; };
 		5DC3BFA21014757800D388D5 /* ChangeValueForKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeValueForKeyTest.h; sourceTree = "<group>"; };
 		5DC3BFA31014757800D388D5 /* ChangeValueForKeyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeValueForKeyTest.m; sourceTree = "<group>"; };
+		5DC3C1481014CFB000D388D5 /* MatchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchTest.h; sourceTree = "<group>"; };
+		5DC3C1491014CFB000D388D5 /* MatchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchTest.m; sourceTree = "<group>"; };
 		5DF32B47100F29B50054B62A /* SimpleInvocationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleInvocationTest.h; sourceTree = "<group>"; };
 		5DF32B48100F29B50054B62A /* SimpleInvocationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleInvocationTest.m; sourceTree = "<group>"; };
 		5DF32B4E100F2BC10054B62A /* OMSimpleInvocation-NSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OMSimpleInvocation-NSObject.h"; sourceTree = "<group>"; };
@@ -273,6 +276,8 @@
 				5DC3BFA31014757800D388D5 /* ChangeValueForKeyTest.m */,
 				66F67D8E0FFA74ED00A657E2 /* EqlTest.h */,
 				66F67D8F0FFA74ED00A657E2 /* EqlTest.m */,
+				5DC3C1481014CFB000D388D5 /* MatchTest.h */,
+				5DC3C1491014CFB000D388D5 /* MatchTest.m */,
 				666946980FFA835200A1706F /* OMMatcherTest.h */,
 				666946990FFA835200A1706F /* OMMatcherTest.m */,
 				F5E3EB161000EECF00D432D7 /* RespondToSelectorTest.h */,
@@ -449,6 +454,7 @@
 				5DC3BF711014593400D388D5 /* ContainTest.m in Sources */,
 				5DC3BF911014614800D388D5 /* OMFloatWrapper.m in Sources */,
 				5DC3BFA41014757800D388D5 /* ChangeValueForKeyTest.m in Sources */,
+				5DC3C14A1014CFB000D388D5 /* MatchTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

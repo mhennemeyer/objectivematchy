@@ -12,6 +12,7 @@
 @interface OMMatcher (OMMatcherMethods)
 
 - (id) eql:(id)anExpected;
+- (id) match:(NSString *)aRegEx;
 - (id) containObject:(id)anExpected;
 - (id) respondToSelector:(SEL)selector;
 - (id) respondToSelector:(SEL)selector andReturn:(id)expectedValue;
@@ -28,6 +29,7 @@
 - (id) changeValueForKey:(NSString *)aKey forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
 - (id) changeValueForKey:(NSString *)aKey from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
 - (id) changeValueForKey:(NSString *)aKey ofObject:(id)anObject forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
+- (id) changeValueForKey:(NSString *)aKey ofObject:(id)anObject from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
 
 
 @end

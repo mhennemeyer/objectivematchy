@@ -85,7 +85,12 @@
 	
 	[[matcher should] throw:OMFailure 
 				 forMessage:@"changeValueForKey:from:to:forMessage:withArguments:"
-			  withArguments:[NSArray arrayWithObjects:@"aKey", [NSNull null], @"aValue", @"setValue:forKey:", [NSArray arrayWithObjects:@"aValue", @"aKey", nil], nil]];
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 [NSNull null], 
+							 @"aValue", 
+							 @"setValue:forKey:", 
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", nil], 
+							 nil]];
 	
 }
 
@@ -95,7 +100,12 @@
 	
 	[[matcher should] throw:OMFailure 
 				 forMessage:@"changeValueForKey:from:to:forMessage:withArguments:"
-			  withArguments:[NSArray arrayWithObjects:@"aKey", [NSNull null], @"aValue", @"setValue:forKey:", [NSArray arrayWithObjects:@"aValue", @"aKey", nil], nil]];
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 [NSNull null], 
+							 @"aValue", 
+							 @"setValue:forKey:", 
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", nil], 
+							 nil]];
 }
 
 #pragma mark -
@@ -127,7 +137,11 @@
 	
 	[[matcher should] throw:OMFailure 
 				 forMessage:@"changeValueForKey:ofObject:forMessage:withArguments:"
-			  withArguments:[NSArray arrayWithObjects:@"aKey", otherObj,  @"setValue:forKey:ofObject:", [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], nil]];
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 otherObj, 
+							 @"setValue:forKey:ofObject:", 
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], 
+							 nil]];
 	
 }
 
@@ -137,7 +151,70 @@
 	
 	[[matcher should] throw:OMFailure 
 				 forMessage:@"changeValueForKey:ofObject:forMessage:withArguments:"
-			  withArguments:[NSArray arrayWithObjects:@"aKey", otherObj,  @"setValue:forKey:ofObject:", [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], nil]];
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 otherObj,  
+							 @"setValue:forKey:ofObject:", 
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], 
+							 nil]];
 }
+
+#pragma mark -
+
+#pragma mark changeValueForKey:ofObject:from:to:forMessage:withArguments:
+
+- (void) testChangeValueForKeyOfObjectFromToForMessageWithArgumentsPositivePass
+{
+	[[obj should] changeValueForKey:@"aKey" 
+						   ofObject:otherObj
+							   from:nil 
+								 to:@"aValue"
+						 forMessage:@"setValue:forKey:ofObject:" 
+					  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
+}
+
+- (void) testChangeValueForKeyOfObjectFromToForMessageWithArgumentsNegativePass
+{
+	[otherObj setValue:@"aValue" forKey:@"aKey"];
+	
+	[[obj shouldNot] changeValueForKey:@"aKey"  
+							  ofObject:otherObj
+								  from:nil 
+									to:@"aValue"
+							forMessage:@"setValue:forKey:ofObject:" 
+						 withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
+}
+
+- (void) testChangeValueForKeyOfObjectFromToForMessageWithArgumentsPositiveFail
+{
+	OMMatcher * matcher = [obj should];
+	[otherObj setValue:@"aValue" forKey:@"aKey"];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"changeValueForKey:ofObject:from:to:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 otherObj, 
+							 [NSNull null], 
+							 @"aValue", 
+							 @"setValue:forKey:ofObject:",
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], 
+							 nil]];
+	
+}
+
+- (void) testChangeValueForKeyOfObjectFromToForMessageWithArgumentsNegativeFail
+{
+	OMMatcher * matcher = [obj shouldNot];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"changeValueForKey:ofObject:from:to:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"aKey", 
+							 otherObj, 
+							 [NSNull null], 
+							 @"aValue", 
+							 @"setValue:forKey:ofObject:", 
+							 [NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil], 
+							 nil]];
+}
+
 
 @end

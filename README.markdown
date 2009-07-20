@@ -33,6 +33,7 @@ standalone as an alternative to NSAssert().
 * Use ObjectiveMatchy's built in Matchers.
 * Specify Assertions for your TestCases.
 * Use it as an alternative to NSAssert().
+* Regular Expectation Matcher.
 * Build your own custom matchers for special cases. This can save you   
   from writing hundreds of lines of meaningless test-setUp code.
 
@@ -102,6 +103,12 @@ You can use the Assertion building system in your tests now:
         [[@"Hello, World!" should] eql:@"Hello, World"];
 
         [[@"Hello, World!" shouldNot] eql:@"Something Else"];
+
+### match:(NSString *)regEx
+
+        [[@"Hello" should] match:@"/.*/"];
+
+		[[@"Hello" shouldNot] match:@"/World/"];
         
 ### haveKey:(NSString *)akey
 
@@ -174,7 +181,7 @@ You can use the Assertion building system in your tests now:
 							 forMessage:@"setValue:forKey:" 
 						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", nil]];
 
-### changeValueForKey:from:to:forMessage:(NSString *) withArguments:(NSArray *)
+### changeValueForKey:(NSString *)aKey from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
 
 		ObjectWithKey * obj = [ObjectWithKey object];
 		
@@ -196,9 +203,18 @@ You can use the Assertion building system in your tests now:
 							 forMessage:@"setValue:forKey:ofObject:" 
 						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
 
-### changeValueForKey:from:to:ofObject:forMessage:(NSString *) withArguments:(NSArray *)
+### changeValueForKey:(NSString *)aKey ofObject:(id)anObject from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
 
-    ...soon
+    	ObjectWithKey * obj      = [ObjectWithKey object];
+		
+		ObjectWithKey * otherObj = [ObjectWithKey object];
+		
+		[[obj should] changeValueForKey:@"aKey" 
+							   ofObject:otherObj
+								   from:nil 
+									 to:@"aValue"
+							 forMessage:@"setValue:forKey:ofObject:" 
+						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
 
 
 ### respondToSelector:(SEL)selector
