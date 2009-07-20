@@ -8,7 +8,7 @@ Xcode Project and build the framework or run the tests.
 
     [[@"Hello, World!" should] eql:@"Hello, World!"];
 
-ObjectiveMatchy is a Matcher System for Objective C.
+ObjectiveMatchy is a Matcher System for Objective C 2.0.
 
 A Matcher System is a Framework that provides a painless way   
 to compose Assertions without the need to provide custom Failure Messages.   
