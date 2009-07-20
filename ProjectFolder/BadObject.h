@@ -12,8 +12,11 @@
 @interface BadObject : NSObject {
 
 }
-
++ (BadObject *) badObject;
 - (void) raise;
 - (void) raise:(NSString *) anException;
+- (void) dontRaise;
+- (BOOL) isBad;
+- (BOOL) isGood;
 
 @end

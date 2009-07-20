@@ -1,20 +1,19 @@
 //
-//  BeTest.h
+//  ChangeValueForKeyTest.h
 //  ObjectiveMatchy
 //
-//  Created by Matthias Hennemeyer on 19.07.09.
+//  Created by Matthias Hennemeyer on 20.07.09.
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //  Released under the terms of the MIT Licence.
 
 #import "ObjectiveMatchy.h"
 #import <SenTestingKit/SenTestingKit.h>
 
-@class BadObject;
+@class ObjectWithKey;
 
-@interface BeTest : SenTestCase {
-	NSObject * anObject;
-	NSObject * anotherObject;
-	BadObject * badObject;
+@interface ChangeValueForKeyTest : SenTestCase {
+	ObjectWithKey * obj;
+	ObjectWithKey * otherObj;
 }
 
 @end

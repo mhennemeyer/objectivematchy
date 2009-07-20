@@ -31,4 +31,41 @@
 	[[badObject should] throw:@"VeryBad" forMessage:@"raise:", @"VeryBad", nil]; 
 }
 
+- (void) testThrowForMessageWithEmptyExceptionPositiveFail
+{
+	OMMatcher * matcher = [badObject should];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"throw:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"", @"dontRaise", [NSArray array], nil]]; 
+}
+
+- (void) testThrowForMessageWithEmptyExceptionNegativeFail
+{
+	OMMatcher * matcher = [badObject shouldNot];
+	
+	[[matcher should] throw:OMFailure
+				 forMessage:@"throw:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"", @"raise", [NSArray array], nil]];
+}
+
+- (void) testThrowForMessageWithVeryBadExceptionPositiveFail
+{
+	OMMatcher * matcher = [badObject should];
+	
+	[[matcher should] throw:OMFailure
+				 forMessage:@"throw:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"VeryGood", @"raise:", [NSArray arrayWithObject:@"VeryBad"], nil]];
+}
+
+- (void) testThrowForMessageWithVeryBadExceptionNegativeFail
+{
+	OMMatcher * matcher = [badObject shouldNot];
+	
+	[[matcher should] throw:OMFailure
+				 forMessage:@"throw:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"VeryBad", @"raise:", [NSArray arrayWithObject:@"VeryBad"], nil]];
+}
+
+
 @end

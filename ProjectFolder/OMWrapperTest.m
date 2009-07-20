@@ -60,17 +60,17 @@
 
 - (void) testOM_INT_MacroInstantiatesOMIntWrapper
 {
-	[[OM_INT(1) should] be:@"MemberOfClass:", [OMIntWrapper class], nil];
+	[[OM_INT(1) should] be:@"MemberOfClass:" with:[OMIntWrapper class]];
 }
 
 - (void) testOM_INTEqualsOM_INT_IfSameValues
 {
-	[[OM_INT(1) should] be:@"EqualTo:", OM_INT(1), nil];
+	[[OM_INT(1) should] be:@"EqualTo:"  with:OM_INT(1)];
 }
 
 - (void) testOM_INTNotEqualsOM_INT_IfDifferentValues
 {
-	[[OM_INT(1) shouldNot] be:@"EqualTo:", OM_INT(2), nil];
+	[[OM_INT(1) shouldNot] be:@"EqualTo:" with:OM_INT(2)];
 }
 
 - (void) testOM_INTOneDescribesItselfAsString1{
@@ -86,17 +86,17 @@
 
 - (void) testOM_FLOAT_MacroInstantiatesOMFloatWrapper
 {
-	[[OM_FLOAT(1.5) should] be:@"MemberOfClass:", [OMFloatWrapper class], nil];
+	[[OM_FLOAT(1.5) should] be:@"MemberOfClass:" with:[OMFloatWrapper class]];
 }
 
 - (void) testOM_FLOATEqualsOM_FLOAT_IfSameValues
 {
-	[[OM_FLOAT(1.5) should] be:@"EqualTo:", OM_FLOAT(1.5), nil];
+	[[OM_FLOAT(1.5) should] be:@"EqualTo:" with:OM_FLOAT(1.5)];
 }
 
 - (void) testOM_FLOATDontEqualsOM_FLOAT_IfDifferentValues
 {
-	[[OM_FLOAT(1.5) shouldNot] be:@"EqualTo:", OM_FLOAT(1.6), nil];
+	[[OM_FLOAT(1.5) shouldNot] be:@"EqualTo:" with:OM_FLOAT(1.6)];
 }
 - (void) testOM_FLOATOnePointFiveDescribesItselfAsString1DotFive{
 	[[[OM_FLOAT(1.5) description] should]  eql:@"1.500000"];

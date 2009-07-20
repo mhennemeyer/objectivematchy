@@ -171,19 +171,33 @@
 		@throw [self positiveException];
 	}
 	
+	// VARARGS HACK
 	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
 
 	OM_EXTRACT_DICT_FROM_VARARGS(dict, aMessage); // temporary Hack :)
 	
 	NSString * selectorString = [dict valueForKey:@"selectorString"];
 	NSArray * arguments = [dict valueForKey:@"arguments"];
+	
+	return [self returnValue:expectedValue forMessage:selectorString withArguments:arguments];
+}
 
+- (id) returnValue:(id)expectedValue forMessage:(NSString *) aMessageString withArguments:(NSArray *) arguments
+{
+	self.expected = expectedValue;
+	
+	// Throw if wrapped
+	if ([self isWrapped]) {
+		self.positiveFailureMessage = @"returnValue:forMessage won't work with wrapped values. Sorry.";
+		@throw [self positiveException];
+	}
+	
 	//create selector
-	SEL sel = NSSelectorFromString(selectorString);
+	SEL sel = NSSelectorFromString(aMessageString);
 	
 	// throw if self.actual wont respond to selector
 	if (! [self.actual respondsToSelector:sel] ) {
-		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, selectorString];
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, aMessageString];
 		@throw [self positiveException];
 	}
 	
@@ -201,15 +215,16 @@
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should return: '%@', forMessage: '%@', but was '%@'.", 
-								   self.actual, self.expected, selectorString, actualValue];
+								   self.actual, self.expected, aMessageString, actualValue];
 	self.negativeFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should not return: '%@', forMessage: '%@', but did.", 
-								   self.actual, actualValue, selectorString];
+								   self.actual, actualValue, aMessageString];
 	
 	
 	[self handleExpectation];
 	return expectedValue;
 }
+
 
 #pragma mark  -
 
@@ -227,12 +242,19 @@
 	NSString * selectorString = [dict valueForKey:@"selectorString"];
 	NSArray * arguments = [dict valueForKey:@"arguments"];
 	
+	return [self throw:expectedException forMessage:selectorString withArguments:arguments];
+}
+
+- (id) throw:(NSString *)expectedException forMessage:(NSString *) aMessageString withArguments:(NSArray *) arguments
+{
+	self.expected = expectedException;
+		
 	//create selector
-	SEL sel = NSSelectorFromString(selectorString);
+	SEL sel = NSSelectorFromString(aMessageString);
 	
 	// throw if self.actual wont respond to selector
 	if (! [self.actual respondsToSelector:sel] ) {
-		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, selectorString];
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, aMessageString];
 		@throw [self positiveException];
 	}
 	
@@ -250,10 +272,10 @@
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should throw: '%@', forMessage: '%@', but was '%@'.", 
-								   self.actual, self.expected, selectorString, @"todo"];
+								   self.actual, self.expected, aMessageString, ((nil == exception) ? @"none" : [exception name])];
 	self.negativeFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should not throw: '%@', forMessage: '%@', but did.", 
-								   self.actual, self.expected, selectorString];
+								   self.actual, self.expected, aMessageString];
 	
 	
 	[self handleExpectation];
@@ -264,30 +286,23 @@
 
 #pragma mark be:
 
-- (id) be:(id)expectedValue, ... 
+- (id) be:(NSString *)omitIs
 {
-	self.expected = expectedValue;
-
+	self.expected = omitIs;
 	
-	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-	
-	OM_EXTRACT_DICT_FROM_VARARGS(dict, expectedValue); // temporary Hack :)
-	
-	NSMutableString * selectorString = [NSMutableString stringWithString:[dict valueForKey:@"selectorString"]];
-	selectorString = [NSMutableString stringWithFormat:@"is%@", selectorString];
-	NSArray * arguments = [dict valueForKey:@"arguments"];
+	NSMutableString * messageString = [NSMutableString stringWithFormat:@"is%@", omitIs];
 	
 	//create selector
-	SEL sel = NSSelectorFromString(selectorString);
+	SEL sel = NSSelectorFromString(messageString);
 	
 	// throw if self.actual wont respond to selector
 	if (! [self.actual respondsToSelector:sel] ) {
-		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, selectorString];
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
 		@throw [self positiveException];
 	}
 	
 	// create invocation
-	NSInvocation * inv = [self.actual simpleInvocationFromSelector:sel withArguments:arguments];
+	NSInvocation * inv = [self.actual simpleInvocationFromSelector:sel withArguments:nil];
 	
 	// invoke	
 	[inv invoke];
@@ -300,14 +315,184 @@
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should return true for: '%@' but didn't.", 
-								   self.actual, selectorString];
+								   self.actual, messageString];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should return false for: '%@' but didn't.", 
-								   self.actual, selectorString];
+								   @"'%@' should not return true for: '%@' but did.", 
+								   self.actual, messageString];
 	
 	
 	[self handleExpectation];
-	return expectedValue;
+	return self.expected;
 }
+
+- (id) be:(NSString *)omitIs with:(id)anObject
+{
+	self.expected = omitIs;
+	// prepend is
+	NSMutableString * messageString = [NSMutableString stringWithFormat:@"is%@", omitIs];
+	
+	//create selector
+	SEL sel = NSSelectorFromString(messageString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
+		@throw [self positiveException];
+	}
+	
+	// create invocation
+	NSInvocation * inv = [self.actual simpleInvocationFromSelector:sel withArguments:[NSArray arrayWithObject:anObject]];
+	
+	// invoke	
+	[inv invoke];
+	
+	// Get BOOL return value
+	BOOL * buffer = (BOOL *)malloc(1);
+	[inv getReturnValue:buffer];
+	
+	self.matches                = *buffer;
+	
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should return true for: '%@' with: '%@' but didn't.", 
+								   self.actual, messageString, anObject];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should not return true for: '%@' with: '%@' but did.", 
+								   self.actual, messageString, anObject];
+	
+	
+	[self handleExpectation];
+	return self.expected;
+}
+
+#pragma mark -
+
+#pragma mark changeValueForKey:forMessage
+
+
+- (id) changeValueForKey:(NSString *)aKey forMessage:(id) aMessage, ...
+{
+	self.expected = aKey;
+	
+	// VARARGS HACK
+	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+	OM_EXTRACT_DICT_FROM_VARARGS(dict, aMessage); // temporary Hack :)
+	NSString * selectorString = [dict valueForKey:@"selectorString"];
+	NSArray  * arguments      = [dict valueForKey:@"arguments"];
+	
+	return [self changeValueForKey:aKey forMessage:selectorString withArguments:arguments];
+}
+
+- (id) changeValueForKey:(NSString *)aKey forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+{
+	self.expected = aKey;
+	
+	//create selector
+	SEL sel = NSSelectorFromString(messageString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
+		@throw [self positiveException];
+	}
+	
+	id valueBeforeInvocation = [self.actual valueForKey:aKey];
+	
+	// invoke
+	[self.actual simpleInvoke:sel withArguments:arguments];
+	
+	id valueAfterInvocation = [self.actual valueForKey:aKey];
+	
+	self.matches                = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqualTo:valueAfterInvocation]
+																 : !(nil == valueAfterInvocation);
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should change value for key: '%@', forMessage: '%@', but didn't; is '%@'.", 
+								   self.actual, self.expected, messageString, valueAfterInvocation];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should not change value for key: '%@', forMessage: '%@', but did:Before: '%@', After: '@%'.", 
+								   self.actual, self.expected, messageString, valueBeforeInvocation,  valueAfterInvocation];
+	
+	
+	[self handleExpectation];
+	return self.expected;
+}
+
+- (id) changeValueForKey:(NSString *)aKey from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+{
+	self.expected = aKey;
+	
+	//create selector
+	SEL sel = NSSelectorFromString(messageString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
+		@throw [self positiveException];
+	}
+	
+	id valueBeforeInvocation = [self.actual valueForKey:aKey];
+	
+	// invoke
+	[self.actual simpleInvoke:sel withArguments:arguments];
+	
+	id valueAfterInvocation = [self.actual valueForKey:aKey];
+	
+	BOOL didChange = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqualTo:valueAfterInvocation]
+													: !(nil == valueAfterInvocation);
+	
+	BOOL fromCondition = (nil != valueBeforeInvocation) ? [valueBeforeInvocation isEqualTo:fromValue]
+														: (nil ==  valueBeforeInvocation);
+	
+	BOOL toCondition = (nil != valueAfterInvocation) ? [valueAfterInvocation isEqualTo:toValue]
+													  : (nil ==  valueAfterInvocation);
+	
+	self.matches = (fromValue == toValue) ? !didChange : fromCondition && toCondition && didChange;
+	
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' expected change: '%@', from: '%@', to: '%@', for: '%@', but: Before '%@', After: '%@'.", 
+								   self.actual, self.expected, fromValue, toValue, messageString, valueBeforeInvocation,  valueAfterInvocation];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' expected not change: '%@', from: '%@', to: '%@', for: '%@', but did.", 
+								   self.actual, self.expected, fromValue, toValue, messageString];
+	
+	[self handleExpectation];
+	return self.expected;
+}
+
+- (id) changeValueForKey:(NSString *)aKey ofObject:(id)anObject forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+{
+	self.expected = aKey;
+	
+	//create selector
+	SEL sel = NSSelectorFromString(messageString);
+	
+	// throw if self.actual wont respond to selector
+	if (! [self.actual respondsToSelector:sel] ) {
+		self.positiveFailureMessage = [NSString stringWithFormat:@"%@ won't respond to '%@'", self.actual, messageString];
+		@throw [self positiveException];
+	}
+	
+	id valueBeforeInvocation = [anObject valueForKey:aKey];
+	
+	// invoke
+	[self.actual simpleInvoke:sel withArguments:arguments];
+	
+	id valueAfterInvocation = [anObject valueForKey:aKey];
+	
+	self.matches                = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqualTo:valueAfterInvocation]
+																 : !(nil == valueAfterInvocation);
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should change value for key: '%@', of object: '%@',  forMessage: '%@', but didn't; is '%@'.", 
+								   self.actual, self.expected, messageString, anObject, valueAfterInvocation];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"'%@' should not change value for key: '%@', of object: '%@', forMessage: '%@', but did:Before: '%@', After: '@%'.", 
+								   self.actual, self.expected, messageString, anObject,  valueBeforeInvocation,  valueAfterInvocation];
+	
+	
+	[self handleExpectation];
+	return self.expected;
+}
+
+
+
 
 @end

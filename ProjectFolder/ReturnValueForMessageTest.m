@@ -59,4 +59,65 @@
 													   @"andOtherArg:", @"Hello Again", nil];
 }
 
+
+
+- (void) testReturnValueForMessagePositiveFail
+{
+	OMMatcher * matcher = [objThatReturnsHelloForMessage should];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"returnValue:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"Not Hello", @"message", [NSArray array], nil]];
+}
+
+- (void) testReturnValueForMessageNegativeFail
+{
+	OMMatcher * matcher = [objThatReturnsHelloForMessage shouldNot];
+	
+    [[matcher should] throw:OMFailure 
+		 forMessage: @"returnValue:forMessage:withArguments:"
+		  withArguments: [NSArray arrayWithObjects:@"Hello", @"message", [NSArray array], nil]];
+}
+
+- (void) testReturnValueForMessage_andArg_PositiveFail
+{
+	
+	OMMatcher * matcher = [objThatReturnsHelloForMessage should];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"returnValue:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"Not Hello", @"message:", [NSArray arrayWithObject:@"Hello"],  nil]];
+}
+
+- (void) testReturnValueForMessage_andArg_NegativeFail
+{
+	
+	OMMatcher * matcher = [objThatReturnsHelloForMessage shouldNot];
+	
+    [[matcher should] throw:OMFailure 
+				 forMessage: @"returnValue:forMessage:withArguments:"
+			  withArguments: [NSArray arrayWithObjects:@"Hello", @"message:", [NSArray arrayWithObject:@"Hello"], nil]];
+}
+
+- (void) testReturnValueForMessage_andArg_andOtherArg_PositiveFail
+{
+	
+	OMMatcher * matcher = [objThatReturnsHelloForMessage should];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"returnValue:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"Not Hello", @"message:andOtherArg:", [NSArray arrayWithObjects:@"Hello", @"Something",nil],  nil]];
+}
+
+
+- (void) testReturnValueForMessage_andArg_andOtherArg_NegativeFail
+{
+	
+	OMMatcher * matcher = [objThatReturnsHelloForMessage shouldNot];
+	
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"returnValue:forMessage:withArguments:"
+			  withArguments:[NSArray arrayWithObjects:@"Hello", @"message:andOtherArg:", [NSArray arrayWithObjects:@"Hello", @"Hello",nil],  nil]];
+}
+
 @end

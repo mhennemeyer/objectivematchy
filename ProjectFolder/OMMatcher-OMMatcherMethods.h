@@ -19,7 +19,15 @@
 - (id) haveKey:(NSString *)aKey;
 - (id) haveKey:(NSString *)aKey withValue:(id)value;
 - (id) returnValue:(id)expectedValue forMessage:(id) aMessage, ...;
+- (id) returnValue:(id)expectedValue forMessage:(NSString *) aMessageString withArguments:(NSArray *) arguments;
 - (id) throw:(NSString *)expectedException forMessage:(id) aMessage, ...;
-- (id) be:(id)expectedValue, ... ;
+- (id) throw:(NSString *)expectedException forMessage:(NSString *) aMessageString withArguments:(NSArray *) arguments;
+- (id) be:(NSString *)omitIs;
+- (id) be:(NSString *)omitIs with:(id)anObject;
+- (id) changeValueForKey:(NSString *)aKey forMessage:(id) aMessage, ...;
+- (id) changeValueForKey:(NSString *)aKey forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
+- (id) changeValueForKey:(NSString *)aKey from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
+- (id) changeValueForKey:(NSString *)aKey ofObject:(id)anObject forMessage:(NSString *)messageString withArguments:(NSArray *)arguments;
+
 
 @end

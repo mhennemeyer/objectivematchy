@@ -38,9 +38,12 @@ standalone as an alternative to NSAssert().
 
 ## Install ObjectiveMatchy:
 
-1. Download [ObjectiveMatchy.zip](http://cloud.github.com/downloads/mhennemeyer/objectivematchy/ObjectiveMatchy.zip)
-2. Copy the included 'ObjectiveMatchy.framework' to your Frameworks folder.
-3. `#import  <ObjectiveMatchy/ObjectiveMatchy.h>`
+There will be a .dmg image with an installer package soon.   
+If you want to try ObjectiveMatchy, please clone the project:   
+
+		$ git clone git://github.com/mhennemeyer/objectivematchy.git
+		
+and build it with Xcode or run the tests.
 
 ## Using ObjectiveMatchy standalone
 
@@ -94,32 +97,41 @@ You can use the Assertion building system in your tests now:
 
 ## Built in matchers - Quick ShowCase
 
-* eql:(id)obj
+### eql:(id)obj
     
         [[@"Hello, World!" should] eql:@"Hello, World"];
+
         [[@"Hello, World!" shouldNot] eql:@"Something Else"];
         
-* haveKey:(NSString *)akey
+### haveKey:(NSString *)akey
 
         ObjectWithKey * o = [[ObjectWithKey alloc] init];
+
         [[o should] haveKey:@"Key"];
+
         [[o shouldNot] haveKey:@"nonexisting"];
        
-* haveKey:(NSString *)aKey withValue:(id)value
+### haveKey:(NSString *)aKey withValue:(id)value
 
         ObjectWithKey * o = [[ObjectWithKey alloc] init];
+
         [o setValue:@"Value" forKey:@"Key"];
+
         [[o should] haveKey:@"Key" withValue:@"Value"];
+
         [[o shouldNot] haveKey:@"Key" withValue:@"OtherValue"];
         
-* returnValue:(id)expectedValue forMessage:(id) aMessage, ...
+### returnValue:(id)expectedValue forMessage:(NSString *) withArguments:(NSArray *)
 
 		ObjectWithKey * o = [[ObjectWithKey alloc] init];
+		
         [o setValue:@"Value" forKey:@"Key"];
-		[[o should] returnValue:@"Value" 
-		             forMessage:@"valueForKey:", @"Key", nil];
 
-* containObject:(id)anObject
+		[[o should] returnValue:@"Value" 
+		             forMessage:@"valueForKey:"
+		 		  withArguments:[NSArray arrayWithObject:@"Key"]];
+
+### containObject:(id)anObject
   
 	    NSNumber * aContainedObject    = [NSNumber numberWithInt:1];    
 		NSNumber * two                 = [NSNumber numberWithInt:2];
@@ -127,55 +139,102 @@ You can use the Assertion building system in your tests now:
 		NSObject * anUnContainedObject = [[NSObject alloc] init];
 	
 		[[anArray should]    containObject:aContainedObject];
+		
 		[[anArray shouldNot] containObject:anUnContainedObject];
 
-* be:(id)expectedValue, ... 
+### be:(NSString *)omitIs
 
-    	[[anObject should]    be:@"Equal:", anObject, nil];
-		[[anObject shouldNot] be:@"Equal:", anotherObject, nil];
+		BadObject * badObject = [BadObject badObject];	
+		
+    	[[badObject should] be:@"Bad"];     // passes if [badObject isBad] returns YES
 
-* throw:(NSString *)expectedException forMessage:(id) aMessage, ...
+		[[badObject shouldNot] be:@"Good"]; // passes if [badObject isGood] returns NO
+
+### be:(NSString *)omitIs with:(id)object
+
+    	[[anObject should]    be:@"Equal:" with:anObject];
+
+		[[anObject shouldNot] be:@"Equal:" with:anotherObject];
+
+### throw:(NSString *)expectedException forMessage:(NSString *) withArguments:(NSArray *)arguments
 
     	// BadObject throws an Exception for 'raise'
+
 		BadObject * badObject = [[BadObject alloc] init];
-		[[badObject should] throw:@"" forMessage:@"raise", nil]; 
+		
+		[[badObject should] throw:@"" // Empty String matches any Exception
+		               forMessage:@"raise"
+				    withArguments:nil]; 
 
-* changeValueForKey:forMessage: ...
+### changeValueForKey:(NSString *)aKey forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+
+		ObjectWithKey * obj = [ObjectWithKey object];
+		
+	    [[obj should] changeValueForKey:@"aKey" 
+							 forMessage:@"setValue:forKey:" 
+						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", nil]];
+
+### changeValueForKey:from:to:forMessage:(NSString *) withArguments:(NSArray *)
+
+		ObjectWithKey * obj = [ObjectWithKey object];
+		
+    	[[obj should] changeValueForKey:@"aKey" 
+								   from:nil 
+									 to:@"aValue"
+							 forMessage:@"setValue:forKey:" 
+						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", nil]];
+		
+
+### changeValueForKey:(NSString *)aKey ofObject:(id)anObject forMessage:(NSString *)messageString withArguments:(NSArray *)arguments
+		
+		ObjectWithKey * obj      = [ObjectWithKey object];
+		
+		ObjectWithKey * otherObj = [ObjectWithKey object];
+		
+    	[[obj should] changeValueForKey:@"aKey" 
+							   ofObject:otherObj
+							 forMessage:@"setValue:forKey:ofObject:" 
+						  withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
+
+### changeValueForKey:from:to:ofObject:forMessage:(NSString *) withArguments:(NSArray *)
 
     ...soon
 
-* changeValueForKey:from:to:forMessage: ...
 
-    ...soon
-
-* respondToSelector:(SEL)selector
+### respondToSelector:(SEL)selector
        
         NSObject * o = [[NSObject alloc] init];
+
         [[o should] respondToSelector:@selector(copy)];
+
         [[o shouldNot] respondToSelector:@selector(nonexisting)];
         
         
-* respondToSelector:(SEL)selector andReturn:(id)expectedValue
+### respondToSelector:(SEL)selector andReturn:(id)expectedValue
 
         NSObject * o = [[NSObject alloc] init];
+
         [[o should] respondToSelector:@selector(description) 
         					          andReturn:[o description]];
+
         [[o shouldNot] respondToSelector:@selector(description) 
         					             andReturn:@"Something Else"];
         					             
-* respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue
+### respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue
 
         NSObject * o = [[NSObject alloc] init];
+
         [[o should] respondToSelector:@selector(isEqualTo:) 
         					  withObject:o 
         					   andReturn:OM_YES];
+
         [[o shouldNot] respondToSelector:@selector(isEqualTo:) 
          					        withObject:@"Something Else"
          					         andReturn:OM_YES];
          					             
 ## Scalar Value Wrapper
 
-Because ObjectiveMatchy can only handle Objects,   
+Because ObjectiveMatchy can (and should and will) only handle Objects,   
 there are Wrappers for scalar values for some special cases:  
 
 * `OM_YES` for YES 
@@ -247,8 +306,10 @@ interface, or the compiler will yell.
       	self.negativeFailureMessage = 
 				@"negative Failure: shouldn't but was. Actual Object: '%@', Expected Value: '%@', Actual Value: '%@'",
 					self.actual, self.expected, actualValue;
-
+		
+		// Calling handleExpectation is mandatory
       	[self handleExpectation];
+		
       	return self.expected;
       }
 

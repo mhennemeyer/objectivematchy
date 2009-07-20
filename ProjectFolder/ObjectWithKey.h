@@ -14,6 +14,10 @@
 	int aKeyWithIntValue;
 }
 
++ (ObjectWithKey *) object;
+
 - (int) integerValueOne;
+
+- (void) setValue:(id)aValue forKey:(NSString *)key ofObject:(id)anObject;
 
 @end

@@ -11,13 +11,35 @@
 
 @implementation BadObject
 
+
++ (BadObject *) badObject
+{
+	BadObject * badObject = [[BadObject alloc] init];
+	[badObject autorelease];
+	return badObject;
+}
+
 - (void) raise
 {
 	[NSException raise:@"BadThing" format:@""];
 }
 
+- (void) dontRaise
+{
+}
+
 - (void) raise:(NSString *) anException
 {
 	[NSException raise:anException format:@""];
+}
+
+- (BOOL) isBad
+{
+	return YES;
+}
+
+- (BOOL) isGood
+{
+	return NO;
 }
 @end
