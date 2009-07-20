@@ -142,10 +142,9 @@
 
 - (id) haveKey:(NSString *)aKey withValue:(id)value
 {
-	self.expected               = value;
+	self.expected = value;
 	id actualValue = [self isWrapped] ? [[self.expected class] wrapperWithValue:[self.actual valueForKey:aKey]] 
 							          : [self.actual valueForKey:aKey];
-	self.matches                = [self.expected isEqualTo:actualValue];
 	self.matches                = [self.expected isEqualTo:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should have key: '%@', with Value: '%@', but was '%@'.", 

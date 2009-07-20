@@ -33,6 +33,8 @@ standalone as an alternative to NSAssert().
 * Use ObjectiveMatchy's built in Matchers.
 * Specify Assertions for your TestCases.
 * Use it as an alternative to NSAssert().
+* Build your own custom matchers for special cases. This can save you   
+  from writing hundreds of lines of meaningless test-setUp code.
 
 ## Install ObjectiveMatchy:
 
