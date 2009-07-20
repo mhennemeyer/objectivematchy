@@ -1,5 +1,5 @@
 # xcode noise
-build/*
+ProjectFolder/build/*
 *.pbxuser
 *.mode1v3
 
@@ -11,4 +11,4 @@ build/*
 profile
 
 #Release Folder for Github
-ObjectiveMatchy/*
+ProjectFolder/ObjectiveMatchy/*
