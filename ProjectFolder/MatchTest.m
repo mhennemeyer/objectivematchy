@@ -12,6 +12,17 @@
 
 @implementation MatchTest
 
+
+
+- (void) setUp	
+{
+	multilineStringWithCriticalChars = @"Line Number One \" } '' % \n"
+									   @"Line Number Two \n"	
+					                   @"Line Number Three \n";
+}
+
+#pragma mark simple String without critical characters
+
 - (void) testStringMatchPositivePass
 {
 	[[@"Hello" should] match:@"/.*/"];
@@ -37,5 +48,42 @@
 				 forMessage:@"match:" 
 			  withArguments:[NSArray arrayWithObject:@"/.*/"]];
 }
+
+#pragma mark -
+
+#pragma mark multiline String
+
+- (void) testMultilineStringMatchPositivePass
+{
+	[[multilineStringWithCriticalChars should] match:@"/Three/"];
+}
+
+- (void) testMultilineStringMatchNegativePass
+{
+	[[multilineStringWithCriticalChars shouldNot] match:@"/^Blah/"];
+}
+
+- (void) testMultilineStringMatchPositiveFail
+{
+	OMMatcher * matcher = [multilineStringWithCriticalChars should];
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"match:" 
+			  withArguments:[NSArray arrayWithObject:@"/World/"]];
+}
+
+- (void) testMultilineStringMatchNegativeFail
+{
+	OMMatcher * matcher = [multilineStringWithCriticalChars shouldNot];
+	[[matcher should] throw:OMFailure 
+				 forMessage:@"match:" 
+			  withArguments:[NSArray arrayWithObject:@"/.*/"]];
+}
+
+- (void) testMatchRaisesIfThereIsAnApostropheInRegex
+{
+	OMMatcher * matcher = [multilineStringWithCriticalChars should];
+	[[matcher should] throw:@"" forMessage:@"match:" withArguments:[NSArray arrayWithObject:@"/'/"]];
+}
+
 
 @end

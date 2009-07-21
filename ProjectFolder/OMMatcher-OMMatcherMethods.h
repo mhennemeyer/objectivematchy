@@ -11,6 +11,13 @@
 
 @interface OMMatcher (OMMatcherMethods)
 
+/*!
+    @method     eql:
+    @abstract   Tests for equality.
+    @discussion Tests for equality by sending 'isEqualTo:' to the Object under test with the parameter applied to eql: as the parameter.
+    @param      anExpected The Object that The Object Under Test should be equal to.
+    @result     anExpected 
+*/
 - (id) eql:(id)anExpected;
 - (id) match:(NSString *)aRegEx;
 - (id) containObject:(id)anExpected;

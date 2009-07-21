@@ -11,7 +11,7 @@
 
 
 @interface MatchTest : SenTestCase {
-
+	NSString * multilineStringWithCriticalChars;
 }
 
 @end

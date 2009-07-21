@@ -39,14 +39,21 @@
 {
 	self.expected               = aRegEx;
 	
-	NSString * cmd = [NSString stringWithFormat:@"ruby -e ' exit 1 unless ( \"%@\" =~ %@ ) '", self.actual, self.expected];
-
+	// todo Refactor
+	NSRange range;
+	range = [self.expected rangeOfString:@"'"];
+	if (range.location != NSNotFound)
+		[NSException raise:@"Your Regex may not contain an apostrophe: >>'<< (U+0027). Sorry. " format:nil]; 
+	NSMutableString * cmd = [NSMutableString stringWithString:@"ruby -e ' exit 1 unless %<"];
+	[cmd appendString:[ [self.actual stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"]]; 
+	[cmd appendString:[NSString stringWithFormat:@"> =~ %@ ' ", self.expected]];
 	self.matches = system([cmd cStringUsingEncoding:NSASCIIStringEncoding]) ? NO : YES;
 
+	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should match: '%@', but didn't (using ruby).", self.actual, self.expected];
+								   @"String should match Regex: %@, but didn't (using ruby).String: '%@'", self.expected, self.actual];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not match: '%@', but did (using ruby).", self.actual, self.expected];
+								   @"String should not match Regex: %@, but did (using ruby).String: '%@'", self.expected, self.actual];
 	[self handleExpectation];
 	
 	return self.expected;

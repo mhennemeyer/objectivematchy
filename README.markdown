@@ -14,7 +14,7 @@ A Matcher System is a Framework that provides a painless way
 to compose Assertions without the need to provide custom Failure Messages.   
 Thus built Assertions consist of two parts:   
 
-1. An Expectation that is added to an Object.
+1. An Expectation that is built from an Object.
 2. A Matcher Message that is sent to the Expectation.
 
 The Expectation understands the Matcher Messages (like eql:) and verifies that    
