@@ -12,3 +12,6 @@ profile
 
 #Release Folder for Github
 ProjectFolder/ObjectiveMatchy/*
+
+#docs
+ProjectFolder/hdoc/*
