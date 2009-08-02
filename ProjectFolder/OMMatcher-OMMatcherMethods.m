@@ -10,6 +10,7 @@
 #import "OMSimpleInvocation-NSObject.h"
 #import "OMWrapper.h"
 #import "ObjectiveMatchyMacros.h"
+#import "OM-NSException.h"
 
 @implementation OMMatcher (OMMatcherMethods)
 
@@ -100,10 +101,15 @@
 - (id) respondToSelector:(SEL)selector andReturn:(id)expectedValue
 {
 	self.expected = expectedValue;
+	NSString * key = NSStringFromSelector(selector);
+	if (![self.actual respondsToSelector:selector])
+		@throw [NSException oMfailure:self.filename 
+							   atLine:self.linenumber 
+					  withDescription:[NSString stringWithFormat:@"'%@' won't respond to '%@' at all.",self.actual, key]];
+	
 	id actualValue = [self isWrapped] ? [[self.expected class] 
 								          wrapperWithValue:[self.actual performSelector:selector]]
 	                                  : [self.actual performSelector:selector];
-	NSString *              key = [NSString stringWithCString:(char *)selector];
 	self.matches                = [self.expected isEqualTo:actualValue];
 	self.matches                = [self.expected isEqualTo:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
@@ -120,11 +126,17 @@
 {
 	
 	self.expected               = expectedValue;
+	
+	NSString * key = NSStringFromSelector(selector);
+	if (![self.actual respondsToSelector:selector])
+		@throw [NSException oMfailure:self.filename 
+							   atLine:self.linenumber 
+					  withDescription:[NSString stringWithFormat:@"'%@' won't respond to '%@' at all.",self.actual, key]];
+	
 	id actualValue = [self isWrapped] ? [[ self.expected class] 
 								         wrapperWithValue:[self.actual performSelector:selector withObject:argument]] 
 	                                  : [self.actual performSelector:selector withObject:argument];
 
-	NSString *              key = [NSString stringWithCString:(char *)selector];
 	self.matches                = [self.expected isEqualTo:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
 								   @"'%@' should respond to: '%@' with '%@' and return '%@', but was '%@' (with isEqualTo).", 

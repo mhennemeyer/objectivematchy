@@ -16,3 +16,11 @@ testCase(HaveKeyWithMacro, ObjectWithKey * sut ,
 		 test(HasKey,
 			  [sut setValue:@"someValue"  forKey:@"aKey"];
 			  [[sut should] haveKey:@"aKey" withValue:@"someValue"]))
+
+
+testCase(HaveKeyWithMacro2, ObjectWithKey * sut ,
+		 setUp(sut = [[ObjectWithKey alloc] init])
+		 tearDown([sut release]) 
+		 test(HasKey,
+			  [sut setValue:@"someValue"  forKey:@"aKey"];
+			  [[sut should] haveKey:@"aKey" withValue:@"someValue"]))

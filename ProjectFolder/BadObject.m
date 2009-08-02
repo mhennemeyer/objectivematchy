@@ -16,6 +16,7 @@
 {
 	BadObject * badObject = [[BadObject alloc] init];
 	[badObject autorelease];
+	// Comment
 	return badObject;
 }
 

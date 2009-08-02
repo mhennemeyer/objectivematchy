@@ -28,7 +28,9 @@
 
 - (void) testThrowForMessageWithVeryBadExceptionPositivePass
 {
-	[[badObject should] throw:@"VeryBad" forMessage:@"raise:", @"VeryBad", nil]; 
+	[[badObject should] throw:@"VeryBad" 
+				   forMessage:@"raise:" 
+				withArguments:[NSArray arrayWithObject:@"VeryBad"]]; 
 }
 
 - (void) testThrowForMessageWithEmptyExceptionPositiveFail

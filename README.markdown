@@ -335,6 +335,25 @@ interface, or the compiler will yell.
 * source -> [GitHub](http://github.com/mhennemeyer/objectivematchy)
 * talk? -> [GoogleGroup](http://groups.google.de/group/objective-matchy)
 
+## Thanks to
+
+* David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, et.al. for RSpec.
+* sen:te for OCUnit and the SenTestingKit.
+* Erik Doernenburg for OCMock.
+* Steve Jobs for the iPhone.
+* Dan North for BDD.
+* Kent Beck for TDD.
+
+## Links
+
+* [RSpec](http://rspec.info) 
+* [OCMock](http://www.mulle-kybernetik.com/software/OCMock/)
+* [OCUnit/SenTestingKit](http://www.sente.ch/software/ocunit/)
+* [behaviour-driven](http://behaviour-driven.org/)
+* [Dan North. Introducing BDD](http://dannorth.net/introducing-bdd)
+
+
+
 ## License
 
 (The MIT License)

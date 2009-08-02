@@ -11,7 +11,7 @@
     @abstract   Built in Matcher Methods.
     @discussion Matcher Methods are instance methods of OMMatcher. All Built In Matchers are added as a category to OMMatcher.
 */
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import "OMMatcher.h"
 
 /*!
@@ -35,6 +35,7 @@
     @method     match:
     @abstract   Matches against aRegEx.
     @discussion Object Under Test must be a String. Matches against the regular expression that is applied as a literal in the string argument.
+    @throws     OMFailure
     @param      aRegEx A regular expression literal as a string.
     @result     aRegEx
 */

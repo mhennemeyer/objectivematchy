@@ -6,7 +6,8 @@
 //  Copyright 2009 Matthias Hennemeyer. All rights reserved.
 //  Released under the terms of the MIT Licence.
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+
 #import "OMWrapper.h"
 
 

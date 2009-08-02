@@ -8,11 +8,11 @@
 
 #import "OMExpectations-NSObject.h"
 #import "OMMatcher.h"
-#import "ObjectiveMatchyMacros.h"
+
 
 @implementation NSObject (OMExpectations)
 
-- (id) addPositiveExpectation:(NSString *)file line:(int)line
+- (OMMatcher *) addPositiveExpectation:(NSString *)file line:(int)line
 {
 	return [[[OMMatcher alloc] initWithActual:self 
 							    andIsPositive:YES 
@@ -20,7 +20,7 @@
 								   linenumber:line] autorelease];
 }
 
-- (id) addNegativeExpectation:(NSString *)file line:(int)line
+- (OMMatcher *) addNegativeExpectation:(NSString *)file line:(int)line
 {
 	return [[[OMMatcher alloc] initWithActual:self 
 							    andIsPositive:NO 
