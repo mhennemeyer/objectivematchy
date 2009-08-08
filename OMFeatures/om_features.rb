@@ -2,7 +2,14 @@ class Feature
   attr_reader :title, :body
   def initialize(hash)
     @title = hash[:title]
-    @body = hash[:body]
+    @body  = hash[:body]
+  end
+  
+  def self.from_string(string)
+    string =~ /Feature:(.*)(\n*.*)/
+    title = $1
+    body = $2
+    self.new({:title => title, :body => body})
   end
 end
 
@@ -13,15 +20,26 @@ class Parser
     @string = array_of_strings.inject("") do |m, o|
       m << o
     end
+    raise "No Features given." unless /Feature:(.*)/.match(string)
   end
   
   def parse
-    ""
+    []
   end
 end
 
+
 class FeatureParser < Parser
+  def parse
+    # todo this regex sucks!
+    puts string.scan(/(Feature:[\S\s]*)/).join("###############")
+    
+    string.scan(/(Feature:(.*)(\n*.*))/).map do |s|
+      Feature.from_string(s)
+    end
+  end
 end
+
 
 class Suite
   attr_reader :feature_files, :feature_files_path, 

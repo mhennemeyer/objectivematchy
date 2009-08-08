@@ -31,6 +31,7 @@ describe Suite do
   end
   
   it "reads the feature files" do
+    @suite.should_receive(:feature_files).and_return([@feature_files_path + "/HelloWorld.feature"])
     File.should_receive(:open).with(@feature_files_path + "/HelloWorld.feature")
     @suite.all_feature_files_as_strings
   end

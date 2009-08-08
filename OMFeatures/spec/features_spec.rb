@@ -23,16 +23,15 @@ describe Feature do
   context ", New" do
     
     before(:each) do
-      @feature = Feature.new
+      @feature = Feature.new({:title => "Title", 
+                              :body => @feature_body})
     end
     
     it "has a title" do
-      @feature.title = 'a features title'
-      @feature.title.should eql('a features title')
+      @feature.title.should eql('Title')
     end
     
     it "has a body" do
-      @feature.body = @feature_body
       @feature.body.should eql(@feature_body)
     end
   end
