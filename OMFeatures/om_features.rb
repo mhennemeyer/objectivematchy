@@ -1,68 +1,107 @@
-class Feature
+class Aggregator
   attr_reader :title, :body
   def initialize(hash)
     @title = hash[:title]
     @body  = hash[:body]
+    raise "No title given" unless title
+    raise "No body given" unless body
+    aggregate
+  end
+  def aggregate
+  end
+end
+
+class Feature < Aggregator
+  attr_reader :scenarios
+  def aggregate
+    parser = Parser.new({
+      :strings => [body],
+      :keyword => "Scenario:",
+      :create  => Scenario
+    })
+    @scenarios = parser.parse
+  end
+end
+
+class Scenario < Aggregator
+  attr_reader :steps
+  def aggregate
+    lines = body.split(/\n+/)
+    raise "No Steps found" unless lines
+    @steps = lines.map {|l| Step.new({:title => l, :body => l})}
+  end
+end
+
+class Step < Aggregator
+  attr_reader :message
+  def aggregate
+    args = body.scan(/'(.*)'/)
+    
+    @message = body.split(/\s+/).join("_")
   end
 end
 
 
 class Parser
-  attr_reader :string
-  def initialize(array_of_strings)
-    @string = array_of_strings.inject("") do |m, o|
-      m << o
-    end
-    raise "No Features given." unless /Feature:(.*)/.match(string)
+  attr_reader :string, :keyword, :create
+  def initialize(hash)
+    @string  = hash[:strings].inject("") { |m, o| m << o }
+    @keyword = hash[:keyword]
+    @create  = hash[:create]
+    raise "No Keyword given" unless keyword
+    raise "No Class to create given" unless create
+    raise "No #{@create.to_s} given." unless /#{@keyword}(.*)/.match(string)
   end
   
   def parse
-    []
-  end
-end
-
-
-class FeatureParser < Parser
-  def parse
-
     titles = parse_titles
     bodies = parse_bodies
     
     # todo validate
     
-    features = []
+    created = []
     titles.each_with_index do |t,i|
-      features << Feature.new({:title => t, :body => bodies[i]})
+      created << create.new({:title => t, :body => bodies[i]})
     end
-    features
+    created
   end
   
   def parse_titles
-    string.scan(/^\s*Feature:(.*)$/).map {|a| a[0].strip}
+    string.scan(/^\s*#{keyword}(.*)$/).map {|a| a[0].strip}
   end
   
   def parse_bodies
-    string.split(/^\s*Feature:.*\s*$/).select {|s| !s.empty? }.map {|s| s.strip}
+    bodies = string.split(/^\s*(#{keyword}.*)\s*$/).select {|s| !s.empty? }.map {|s| s.strip}
+    start = 0
+    bodies.each_with_index do |o,i| 
+      if (o =~ /^\s*#{keyword}.*\s*$/)
+        start = i
+        break
+      end
+    end
+    bodies[start..bodies.length].select {|s| !(s =~ /^\s*#{keyword}.*\s*$/) }
   end
 end
-
 
 class Suite
   attr_reader :feature_files, :feature_files_path, 
               :feature_file_suffix, :feature_files_as_strings,
-              :feature_parser, :features
+              :parser, :features
   
   def initialize(hash)
     @feature_files_path       = hash[:feature_files_path]
     @feature_file_suffix      = hash[:feature_file_suffix]
     @feature_files            = all_feature_files
     @feature_files_as_strings = all_feature_files_as_strings
-    @feature_parser           = FeatureParser.new(@feature_files_as_strings)
+    @parser                   = Parser.new({ 
+                                  :strings => @feature_files_as_strings,
+                                  :keyword => "Feature:",
+                                  :create  => Feature})
     @features                 = parsed_features
   end
   
   def parsed_features
-    feature_parser.parse
+    parser.parse
   end
   
   def all_feature_files

@@ -49,21 +49,4 @@ describe Suite do
   it "has features" do
     @suite.features.should_not be_nil
   end
-  
-  describe "with FeatureParser" do
-    it "has a feature_parser" do
-      @suite.feature_parser.should_not be_nil
-    end
-    
-    context ", parsed" do
-      before(:each) do
-        @hello_world_feature = Feature.new({:title => "Say Hello World"})
-        @suite.feature_parser.should_receive(:parse).and_return([@hello_world_feature])
-      end
-      
-      it "has HelloWorld Feature" do
-        @suite.parsed_features.should include(@hello_world_feature)
-      end
-    end
-  end
 end
