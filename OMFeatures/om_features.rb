@@ -32,8 +32,9 @@ end
 class FeatureParser < Parser
   def parse
     # todo this regex sucks!
-    puts string.scan(/(Feature:[\S\s]*)/).join("###############")
-    
+    titles = string.scan(/^\s*Feature:(.*)$/)
+    bodies = string.split(/^\s*Feature:(.*)$/)
+    puts bodies.join("|||")
     string.scan(/(Feature:(.*)(\n*.*))/).map do |s|
       Feature.from_string(s)
     end
