@@ -84,16 +84,108 @@ describe FeatureParser do
     end
     
     it "returns Say Hello Feature" do
-      @feature_parser.parse.map {|f| f.title }.should include("Say Hello")
+      feature = @feature_parser.parse.detect {|f| f.title == "Say Hello"}
+      feature.should_not be_nil
+      body = <<-END
+      As a Developer 
+    	I want to let my system say 'Hello, World!'
+    	So that i have a starting point.
+
+    	Scenario: With a blank Object
+    		Given a blank Object
+    		When i send it hello
+    		It should return 'Hello, World!'
+
+    	Scenario: With a custom Object
+    		Given a custom Object with name 'Bob'
+    		When i send it hello
+    		It should return 'Hello, World! I am Bob.'
+    	END
+    	
+      feature.body.should eql(body.strip)
     end
     
     it "returns Say Hello World Feature" do
-      @feature_parser.parse.map {|f| f.title }.should include("Say Hello World")
+      feature = @feature_parser.parse.detect {|f| f.title == "Say Hello World"}
+      feature.should_not be_nil
+      body = <<-END
+      As a Developer 
+    	I want to let my system say 'Hello, World!'
+    	So that i have a starting point.
+
+    	Scenario: With a blank Object
+    		Given a blank Object
+    		When i send it hello
+    		It should return 'Hello, World!'
+
+    	Scenario: With a custom Object
+    		Given a custom Object with name 'Bob'
+    		When i send it hello
+    		It should return 'Hello, World! I am Bob.'
+    	END
+    	
+      feature.body.should eql(body.strip)
     end
     
     it "returns Say Hello Universe Feature" do
-      @feature_parser.parse.map {|f| f.title }.should include("Say Hello Universe")
+      feature = @feature_parser.parse.detect {|f| f.title == "Say Hello Universe"}
+      feature.should_not be_nil
+      body = <<-END
+      As a Developer 
+    	I want to let my system say 'Hello, Universe!'
+    	So that i have a starting point.
+
+    	Scenario: With a blank Object
+    		Given a blank Object
+    		When i send it helloUniverse
+    		It should return 'Hello, Universe!'
+
+    	Scenario: With a custom Object
+    		Given a custom Object with name 'Bob'
+    		When i send it helloUniverse
+    		It should return 'Hello, Universe! I am Bob.'
+    	END
+    	
+      feature.body.should eql(body.strip)
     end
+    
+    
+  end
+  
+  describe "#parse_titles" do
+    it "finds Say Hello" do
+      @feature_parser.parse_titles.should include("Say Hello")
+    end
+    
+    it "finds Say Hello World" do
+      @feature_parser.parse_titles.should include("Say Hello World")
+    end
+    
+    it "finds Say Hello Universe" do
+      @feature_parser.parse_titles.should include("Say Hello Universe")
+    end
+  end
+  
+  describe "#parse_bodies" do
+    it "finds feature_1s body" do
+      body = <<-END
+      As a Developer 
+    	I want to let my system say 'Hello, World!'
+    	So that i have a starting point.
+
+    	Scenario: With a blank Object
+    		Given a blank Object
+    		When i send it hello
+    		It should return 'Hello, World!'
+
+    	Scenario: With a custom Object
+    		Given a custom Object with name 'Bob'
+    		When i send it hello
+    		It should return 'Hello, World! I am Bob.'
+    	END
+      @feature_parser.parse_bodies.should include(body.strip)
+    end
+    
   end
   
 end

@@ -4,13 +4,6 @@ class Feature
     @title = hash[:title]
     @body  = hash[:body]
   end
-  
-  def self.from_string(string)
-    string =~ /Feature:(.*)(\n*.*)/
-    title = $1
-    body = $2
-    self.new({:title => title, :body => body})
-  end
 end
 
 
@@ -31,13 +24,25 @@ end
 
 class FeatureParser < Parser
   def parse
-    # todo this regex sucks!
-    titles = string.scan(/^\s*Feature:(.*)$/)
-    bodies = string.split(/^\s*Feature:(.*)$/)
-    puts bodies.join("|||")
-    string.scan(/(Feature:(.*)(\n*.*))/).map do |s|
-      Feature.from_string(s)
+
+    titles = parse_titles
+    bodies = parse_bodies
+    
+    # todo validate
+    
+    features = []
+    titles.each_with_index do |t,i|
+      features << Feature.new({:title => t, :body => bodies[i]})
     end
+    features
+  end
+  
+  def parse_titles
+    string.scan(/^\s*Feature:(.*)$/).map {|a| a[0].strip}
+  end
+  
+  def parse_bodies
+    string.split(/^\s*Feature:.*\s*$/).select {|s| !s.empty? }.map {|s| s.strip}
   end
 end
 
