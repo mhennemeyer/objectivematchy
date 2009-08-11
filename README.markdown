@@ -14,6 +14,8 @@ ObjectiveMatchy is a behaviour driven development framework for the iPhone Platf
 It consists of a Matcher System, a utility that enables isolated xib tests,   
 and a plain text feature parser.
 
+
+
 # The Matcher System
 
 A Matcher System is a Framework that provides a painless way   
@@ -332,14 +334,101 @@ interface, or the compiler will yell.
 
 # The Plain Text Feature Parser
 
+Consider the following Plain Text Feature Definition:
+
+
+	Feature: Say Hello World
+
+		As a Developer 
+		I want to let my system say 'Hello, World!'
+		So that i have a starting point.
+
+		Scenario: Just opened the app
+			Given i just opened the app
+			When i push the 'Hello' Button
+			Then the 'HelloLabel' Label should show 'Hello, World!'
+				
+ObjectiveMatchy's plain text feature parsing utility (OMFeatures)   
+will create the following TestCase File from it:
+
+    #import "OMFeature.h"
+
+    @interface SayHelloWorldTest : OMFeature
+    @end
+
+    @implementation SayHelloWorldTest
+	
+    -(void) testJustOpenedTheApp
+    {
+        [self Given_i_just_opened_the_app]; 
+        [self When_i_push_the____Button:@"Hello"]; 
+        [self Then_the____Label_should_show___:@"HelloLabel" arg:@"Hello, World!"];
+    }
+
+    @end
+
+
+The Step Definitions (eg. `Given_i_just_opened_the_app`) will be added    
+as instance methods to the OMFeature class. OMFeature inherits from SenTestCase.
+
+    //OMFeature.h 
+	
+	#import <SenTestingKit/SenTestingKit.h>
+	#import <UIKit/UIKit.h>
+
+	@interface OMFeature : SenTestCase {
+
+	}
+
+	-(void) Given_i_just_opened_the_app;
+
+	-(void) When_i_push_the____Button:(NSString *)button;
+
+	-(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue;
+
+	@end
+
+	
+	//OMFeature.h
+	
+	#import "OMFeature.h"
+
+	@implementation OMFeature
+
+	-(void) setUp
+	{
+
+	}
+
+	-(void) Given_i_just_opened_the_app
+	{
+		NSLog(@"\nHello!!!");
+	}
+
+	-(void) When_i_push_the____Button:(NSString *)button
+	{
+		NSLog(button);
+	}
+
+	-(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue
+	{
+		NSLog(labelName);
+	}
+
+	@end
+	
+
+
 ## Install ObjectiveMatchy:
 
-There will be a .dmg image with an installer package soon.   
-If you want to try ObjectiveMatchy, please clone the project:   
 
-		$ git clone git://github.com/mhennemeyer/objectivematchy.git
+* Download the latest ObjectiveMatchy-X.X.X.zip file.   
+* Extract it somewhere  (eg. to  ~/Resources)
+* Copy the 'OM Templates' Folder to ~/'Application Support'/Developer/Shared/Xcode/'Project Templates'/
+* Start or restart Xcode.
+* The 'New Project'-Wizard should provide an 'OM Templates' tab now.
+* Choose one of the provided Templates. They resemble the default ones.
 
-and build it with Xcode or run the tests.
 
 ## Contribution
 

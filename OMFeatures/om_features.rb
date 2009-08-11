@@ -1,3 +1,9 @@
+class String
+  def remove_invalid_chars
+    self.gsub(/[^\w\s]/, "")
+  end
+end
+
 class Aggregator
   attr_reader :title, :body, :parent
   def initialize(hash)
@@ -35,7 +41,7 @@ class Feature < Aggregator
   end
   
   def test_case_name
-    "#{title.split(/\s+/).map {|w| w.capitalize}.join('')}Test"
+    "#{title.remove_invalid_chars.split(/\s+/).map {|w| w.capitalize}.join('')}Test"
   end
 end
 
@@ -79,7 +85,7 @@ class Scenario < Aggregator
   end
   
   def test_name
-    "test#{title.split(/\s+/).map {|w| w.capitalize}.join('')}"
+    "test#{title.remove_invalid_chars.split(/\s+/).map {|w| w.capitalize}.join('')}"
   end
 end
 
@@ -90,7 +96,7 @@ class Step < Aggregator
   end
   
   def first_part
-    body.gsub(/\s+/,"_").gsub(/'[^']*'/, "__")
+    body.gsub(/\s+/,"_").gsub(/'[^']*'/, "__").remove_invalid_chars
   end
   
   def has_args?
@@ -112,6 +118,27 @@ class Step < Aggregator
   
   def to_s
     "[self #{message}];"
+  end
+  
+  def parameter_string
+    if has_args?
+      s = ":(NSString *)arg "
+      (args[1..args.length] || []).each_with_index do |a, i|
+        s << "arg:(NSString *)arg#{i+2} "
+      end
+      s
+    else
+      ""
+    end
+  end
+  
+  def to_ocmethod
+    <<-END
+-(void) #{first_part + parameter_string}
+{
+  
+}
+    END
   end
 end
 
@@ -161,27 +188,29 @@ end
 class Suite
   attr_reader :feature_files, :feature_files_path, 
               :feature_file_suffix, :feature_files_as_strings,
-              :parser, :features, :test_cases_file
+              :parser, :features, :test_cases_file, :feature_class_header_files
   
   def initialize(hash)
-    @feature_files_path       = hash[:feature_files_path]
-    @feature_file_suffix      = hash[:feature_file_suffix]
-    @test_cases_file          = hash[:test_cases_file]
-    @feature_files            = all_feature_files
-    @feature_files_as_strings = all_feature_files_as_strings
-    @parser                   = Parser.new({ 
+    @feature_files_path         = hash[:feature_files_path]
+    @feature_file_suffix        = hash[:feature_file_suffix] || "feature"
+    @test_cases_file            = hash[:test_cases_file]
+    @feature_class_header_files = hash[:feature_class_header_files] || ["OMFeature.h"]
+    @feature_files              = all_feature_files
+    @feature_files_as_strings   = all_feature_files_as_strings
+    @parser                     = Parser.new({ 
                                   :strings => @feature_files_as_strings,
                                   :keyword => "Feature:",
                                   :create  => Feature,
                                   :parsing => self})
-    @features                 = parsed_features
+                                  
+    @features = parsed_features
     
     File.open(test_cases_file, "w") { |f| f.puts self }
   end
   
   def to_s
     <<-END
-    #import "OMFeature.h"
+    #{feature_class_header_files.map { |f| "#import \"" + f + "\"" }.join(" ")}
     #{features.map {|f| f.to_s }.join(" ")}
     END
   end

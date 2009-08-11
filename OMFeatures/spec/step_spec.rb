@@ -38,6 +38,20 @@ describe Step do
       @step.to_s.should eql("[self Given_a_blank_Object];")
     end
     
+    it "has a parameter_string" do
+      @step.parameter_string.should eql("")
+    end
+    
+    it "knows its skeleton instance method implementation" do
+      expected = <<-END
+-(void) Given_a_blank_Object
+{
+  
+}
+      END
+      @step.to_ocmethod.should eql(expected)
+    end
+    
   end
   
   describe "'Given a custom Object 'Bob'', with one arg 'Bob'" do
@@ -67,6 +81,20 @@ describe Step do
     
     it "exposes itself as a string" do
       @step.to_s.should eql("[self Given_a_custom_Object___:@\"Bob\"];")
+    end
+    
+    it "has a parameter_string" do
+      @step.parameter_string.should eql(":(NSString *)arg ")
+    end
+    
+    it "knows its skeleton instance method implementation" do
+      expected = <<-END
+-(void) Given_a_custom_Object___:(NSString *)arg 
+{
+  
+}
+      END
+      @step.to_ocmethod.should eql(expected)
     end
   end
   
@@ -127,6 +155,20 @@ describe Step do
     
     it "exposes itself as a string" do
       @step.to_s.should eql("[self Given_a_custom_Object____with_attribute___:@\"Bob\" arg:@\"Jim\"];")
+    end
+    
+    it "has a parameter_string" do
+      @step.parameter_string.should eql(":(NSString *)arg arg:(NSString *)arg2 ")
+    end
+    
+    it "knows its skeleton instance method implementation" do
+      expected = <<-END
+-(void) Given_a_custom_Object____with_attribute___:(NSString *)arg arg:(NSString *)arg2 
+{
+  
+}
+      END
+      @step.to_ocmethod.should eql(expected)
     end
   end
   

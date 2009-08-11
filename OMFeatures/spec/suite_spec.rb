@@ -6,8 +6,13 @@ describe Suite do
     @suite = Suite.new({
       :feature_files_path => @feature_files_path,
       :feature_file_suffix => "feature",
-      :test_cases_file => @feature_files_path + "/OMFeatureTestCases.m"
+      :test_cases_file => @feature_files_path + "/OMFeatureTestCases.m",
+      :feature_class_header_files => ["OMFeature.h"]
     })
+  end
+  
+  it "has  feature_class_header_files" do
+    @suite.feature_class_header_files.should eql(["OMFeature.h"])
   end
 
   it "has a test_cases_file" do
