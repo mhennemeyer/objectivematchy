@@ -8,7 +8,13 @@ Xcode Project and build the framework or run the tests.
 
     [[@"Hello, World!" should] eql:@"Hello, World!"];
 
-ObjectiveMatchy is a Matcher System for Objective C 2.0.
+
+
+ObjectiveMatchy is a behaviour driven development framework for the iPhone Platform.    
+It consists of a Matcher System, a utility that enables isolated xib tests,   
+and a plain text feature parser.
+
+# The Matcher System
 
 A Matcher System is a Framework that provides a painless way   
 to compose Assertions without the need to provide custom Failure Messages.   
@@ -33,18 +39,11 @@ standalone as an alternative to NSAssert().
 * Use ObjectiveMatchy's built in Matchers.
 * Specify Assertions for your TestCases.
 * Use it as an alternative to NSAssert().
-* Regular Expectation Matcher.
+* Regular Expression Matcher.
 * Build your own custom matchers for special cases. This can save you   
   from writing hundreds of lines of meaningless test-setUp code.
 
-## Install ObjectiveMatchy:
 
-There will be a .dmg image with an installer package soon.   
-If you want to try ObjectiveMatchy, please clone the project:   
-
-		$ git clone git://github.com/mhennemeyer/objectivematchy.git
-		
-and build it with Xcode or run the tests.
 
 ## Using ObjectiveMatchy standalone
 
@@ -329,6 +328,19 @@ interface, or the compiler will yell.
       	return self.expected;
       }
 
+# Isolated XIB (aka View) Tests
+
+# The Plain Text Feature Parser
+
+## Install ObjectiveMatchy:
+
+There will be a .dmg image with an installer package soon.   
+If you want to try ObjectiveMatchy, please clone the project:   
+
+		$ git clone git://github.com/mhennemeyer/objectivematchy.git
+
+and build it with Xcode or run the tests.
+
 ## Contribution
 
 * Idea?, Feature Request?, Bug? -> [Lighthouse](http://300.lighthouseapp.com/projects/33499-objective-matchy/overview)
@@ -337,7 +349,8 @@ interface, or the compiler will yell.
 
 ## Thanks to
 
-* David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, et.al. for RSpec.
+* David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, Aslak Hellesoy et.al. for RSpec.
+* Aslak Hellesoy, David Chelimsky and Dan North for RBehave/RSpecUserStories/Cucumber.
 * sen:te for OCUnit and the SenTestingKit.
 * Erik Doernenburg for OCMock.
 * Steve Jobs for the iPhone.
@@ -346,7 +359,8 @@ interface, or the compiler will yell.
 
 ## Links
 
-* [RSpec](http://rspec.info) 
+* [RSpec](http://rspec.info)
+* [Cucumber](http://cukes.info)
 * [OCMock](http://www.mulle-kybernetik.com/software/OCMock/)
 * [OCUnit/SenTestingKit](http://www.sente.ch/software/ocunit/)
 * [behaviour-driven](http://behaviour-driven.org/)
