@@ -1,8 +1,9 @@
 class Aggregator
-  attr_reader :title, :body
+  attr_reader :title, :body, :parent
   def initialize(hash)
-    @title = hash[:title]
-    @body  = hash[:body]
+    @title  = hash[:title]
+    @body   = hash[:body]
+    @parent = hash[:parent]
     raise "No title given" unless title
     raise "No body given" unless body
     aggregate
@@ -15,39 +16,113 @@ class Feature < Aggregator
   attr_reader :scenarios
   def aggregate
     parser = Parser.new({
-      :strings => [body],
-      :keyword => "Scenario:",
-      :create  => Scenario
+      :strings  => [body],
+      :keyword  => "Scenario:",
+      :create   => Scenario,
+      :parsing  => self
     })
     @scenarios = parser.parse
+  end
+  
+  def to_s
+    <<-END
+    @interface #{test_case_name} : OMFeature
+    @end
+    @implementation #{test_case_name}
+    #{scenarios.map {|s| s.to_s}.join(" ")}
+    @end
+    END
+  end
+  
+  def test_case_name
+    "#{title.split(/\s+/).map {|w| w.capitalize}.join('')}Test"
   end
 end
 
 class Scenario < Aggregator
-  attr_reader :steps
+  attr_reader :steps, :lines
   def aggregate
-    lines = body.split(/\n+/)
-    raise "No Steps found" unless lines
-    @steps = lines.map {|l| Step.new({:title => l, :body => l})}
+    
+    if Scenario.has_given_scenarios?(body)
+      @body = Scenario.expand_given_scenarios_in_body(self)
+    end
+    
+    
+    @lines = body.split(/\n+/).map {|s| s.strip}
+    raise "No Steps found" if lines.empty?
+    
+    @steps = parse_lines
+  end
+  
+  def Scenario.expand_given_scenarios_in_body(scenario)
+    scenario.body.gsub(/GivenScenario:(.*)/) do |m|
+      existing_scenario = scenario.parent.scenarios.detect {|s| s.title == $1.strip }
+      existing_scenario ? existing_scenario.body.strip : ""
+    end
+  end
+  
+  def parse_lines
+    lines.map {|l| Step.new({:title => l, :body => l})}
+  end
+  
+  def Scenario.has_given_scenarios?(body)
+    !!(body =~ /GivenScenario:(.*)/)
+  end
+  
+  def to_s
+    <<-END
+    -(void) #{test_name}
+    {
+        #{steps.map {|s| s.to_s}.join(" ")}
+    }
+    END
+  end
+  
+  def test_name
+    "test#{title.split(/\s+/).map {|w| w.capitalize}.join('')}"
   end
 end
 
 class Step < Aggregator
   attr_reader :message
   def aggregate
-    args = body.scan(/'(.*)'/)
-    
-    @message = body.split(/\s+/).join("_")
+    @message = first_part + args_string
+  end
+  
+  def first_part
+    body.gsub(/\s+/,"_").gsub(/'[^']*'/, "__")
+  end
+  
+  def has_args?
+    !args.empty?
+  end
+  
+  def args
+    @args ||= body.scan(/'([^']*)'/).map {|a| a[0]}
+  end
+  
+  def args_string
+    if has_args?
+      ([":@\"#{args[0]}\""] + 
+      (args[1..args.length] || []).map { |a| "arg:@\"#{a}\"" }).join(" ")
+    else
+      ""
+    end
+  end
+  
+  def to_s
+    "[self #{message}];"
   end
 end
 
 
 class Parser
-  attr_reader :string, :keyword, :create
+  attr_reader :string, :keyword, :create, :parsing
   def initialize(hash)
-    @string  = hash[:strings].inject("") { |m, o| m << o }
+    @string  = hash[:strings].join(" ")
     @keyword = hash[:keyword]
     @create  = hash[:create]
+    @parsing = hash[:parsing]
     raise "No Keyword given" unless keyword
     raise "No Class to create given" unless create
     raise "No #{@create.to_s} given." unless /#{@keyword}(.*)/.match(string)
@@ -61,17 +136,17 @@ class Parser
     
     created = []
     titles.each_with_index do |t,i|
-      created << create.new({:title => t, :body => bodies[i]})
+      created << create.new({:title => t, :body => bodies[i], :parent => parsing})
     end
     created
   end
   
   def parse_titles
-    string.scan(/^\s*#{keyword}(.*)$/).map {|a| a[0].strip}
+    string.scan(/#{keyword}(.*)/).map {|a| a[0].strip}
   end
   
   def parse_bodies
-    bodies = string.split(/^\s*(#{keyword}.*)\s*$/).select {|s| !s.empty? }.map {|s| s.strip}
+    bodies = string.split(/(#{keyword}.*)/).select {|s| !s.empty? }.map {|s| s.strip}
     start = 0
     bodies.each_with_index do |o,i| 
       if (o =~ /^\s*#{keyword}.*\s*$/)
@@ -79,25 +154,36 @@ class Parser
         break
       end
     end
-    bodies[start..bodies.length].select {|s| !(s =~ /^\s*#{keyword}.*\s*$/) }
+    bodies[start..bodies.length].select {|s| !(s =~ /#{keyword}.*/) }
   end
 end
 
 class Suite
   attr_reader :feature_files, :feature_files_path, 
               :feature_file_suffix, :feature_files_as_strings,
-              :parser, :features
+              :parser, :features, :test_cases_file
   
   def initialize(hash)
     @feature_files_path       = hash[:feature_files_path]
     @feature_file_suffix      = hash[:feature_file_suffix]
+    @test_cases_file          = hash[:test_cases_file]
     @feature_files            = all_feature_files
     @feature_files_as_strings = all_feature_files_as_strings
     @parser                   = Parser.new({ 
                                   :strings => @feature_files_as_strings,
                                   :keyword => "Feature:",
-                                  :create  => Feature})
+                                  :create  => Feature,
+                                  :parsing => self})
     @features                 = parsed_features
+    
+    File.open(test_cases_file, "w") { |f| f.puts self }
+  end
+  
+  def to_s
+    <<-END
+    #import "OMFeature.h"
+    #{features.map {|f| f.to_s }.join(" ")}
+    END
   end
   
   def parsed_features

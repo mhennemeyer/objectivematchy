@@ -38,7 +38,7 @@
 
 #pragma mark Properties
 
-- (void) testMatcherWithActualAndPositive
+- (void) test_MatcherWithActualAndPositive
 {
 	STAssertEquals((id) actual, positiveMatcherWithActual.actual, @"Matcher should set actual.");
 	STAssertTrue(positiveMatcherWithActual.isPositive, @"Matcher should set isPositive.");

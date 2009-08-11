@@ -35,12 +35,12 @@ describe Feature do
   context ", New" do
     
     before(:each) do
-      @feature = Feature.new({:title => "Title", 
+      @feature = Feature.new({:title => "Say Hello World", 
                               :body => @feature_body})
     end
     
     it "has a title" do
-      @feature.title.should eql('Title')
+      @feature.title.should eql('Say Hello World')
     end
     
     it "has a body" do
@@ -55,12 +55,88 @@ describe Feature do
       scenario = @feature.scenarios.detect {|s| s.title == 'With a blank Object'}
       scenario.should_not be_nil
       scenario.body.should eql(@with_blank_object_scenario_body.strip)
+      scenario.parent.should eql(@feature)
     end
     
     it "has 'With a custom Object' Scenario" do
       scenario = @feature.scenarios.detect {|s| s.title == 'With a custom Object'}
       scenario.should_not be_nil
       scenario.body.should eql(@with_custom_object_scenario_body.strip)
+      scenario.parent.should eql(@feature)
+    end
+    
+    it "exposes itself as a string" do
+      expected = <<-END
+    @interface SayHelloWorldTest : OMFeature
+    @end
+    @implementation SayHelloWorldTest
+    -(void) testWithABlankObject
+    {
+        [self Given_a_blank_Object]; [self When_i_send_it_hello]; [self It_should_return___:@"Hello, World!"];
+    }
+    -(void) testWithACustomObject
+    {
+        [self Given_a_custom_Object_with_name___:@"Bob"]; [self When_i_send_it_hello]; [self It_should_return___:@"Hello, World! I am Bob."];
+    }
+    @end
+    END
+      @feature.to_s.ignore_whitespace.should eql(expected.ignore_whitespace)
+    end
+    
+    describe "Scenario: 'With a custom Object' " do
+      
+      before(:each) do
+        @scenario = @feature.scenarios.detect {|s| s.title == 'With a custom Object'}
+      end
+      
+      it "has steps" do
+        @scenario.steps.should_not be_nil
+      end
+      
+      describe "'Given a custom Object with name 'Bob'' Step" do
+        before(:each) do
+          @step = @scenario.steps.detect {|s| s.title == "Given a custom Object with name 'Bob'"}
+        end
+        
+        it "exists" do
+          @step.should_not be_nil
+        end
+        
+        it "has message" do
+          @step.message.should eql("Given_a_custom_Object_with_name___:@\"Bob\"")
+        end
+        
+      end
+      
+      describe "'When i send it hello' Step" do
+        before(:each) do
+          @step = @scenario.steps.detect {|s| s.title == "When i send it hello"}
+        end
+        
+        it "exists" do
+          @step.should_not be_nil
+        end
+        
+        it "has message" do
+          @step.message.should eql("When_i_send_it_hello")
+        end
+        
+      end
+      
+      describe "'It should return 'Hello, World! I am Bob.' Step" do
+        before(:each) do
+          @step = @scenario.steps.detect {|s| s.title == "It should return 'Hello, World! I am Bob.'"}
+        end
+        
+        it "exists" do
+          @step.should_not be_nil
+        end
+        
+        it "has message" do
+          @step.message.should eql("It_should_return___:@\"Hello, World! I am Bob.\"")
+        end
+        
+      end
     end
   end
 end
