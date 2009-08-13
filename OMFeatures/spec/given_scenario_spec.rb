@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe "GivenScenario" do
   before(:each) do
+    
     @given_scenario_body = <<-END 
 Given a blank Object
 When i send it hello
@@ -19,29 +20,36 @@ When i send it hello
 It should return 'Hello, World!'
     END
   
+    @scenario = Scenario.new({
+      :title => "A Scenario", 
+      :body  => @scenario_body
+    })
   end
   
   it "knows that it has GivenScenarios" do
-    Scenario.has_given_scenarios?(@scenario_body).should be_true
+    @scenario.has_given_scenarios?.should be_true
   end
   
-  it "expands given_scenarios in body" do
-    scenario = mock(Scenario)
-    scenario.stub!(:body).and_return(@scenario_body.strip)
-    given_scenario = mock(Scenario)
-    given_scenario.stub!(:body).and_return(@given_scenario_body.strip)
-    given_scenario.stub!(:title).and_return("An existing Scenario")
-    feature = mock(Feature)
-    feature.should_receive(:scenarios).and_return([given_scenario])
-    scenario.should_receive(:parent).and_return(feature)
-    expected = <<-END 
+  context "aggregated" do
+    
+    before(:each) do
+      @mock_feature = mock(Feature)
+      @mock_feature.stub!(:scenarios).and_return([@scenario, @given_scenario])
+      @scenario.stub!(:parent).and_return(@mock_feature)
+      @scenario.collect_steps
+    end
+    
+    it "expands given_scenarios in body" do
+      expected = <<-END 
 Given a blank Object
 When i send it hello
 It should return 'Hello, World!'
 When i send it hello
 It should return 'Hello, World!'
-END
-    Scenario.expand_given_scenarios_in_body(scenario).should eql(expected.strip)
+  END
+      
+      @scenario.expand_given_scenarios_in_body.should eql(expected.strip)
+    end
   end
 
 end

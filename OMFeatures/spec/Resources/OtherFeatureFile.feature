@@ -10,6 +10,7 @@ Feature: Say Hello
 		It should return 'Hello, World!'
 		
 	Scenario: With a custom Object
+		GivenScenario: With a blank Object
 		Given a custom Object with name 'Bob'
 		When i send it hello
 		It should return 'Hello, World! I am Bob.'

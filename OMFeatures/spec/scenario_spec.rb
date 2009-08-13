@@ -18,7 +18,7 @@ describe Scenario do
         :title   => "With a blank Object", 
         :body    => @scenario_body,
         :parent  => @mock_feature
-      })
+      }).collect_steps
       
     end
     
@@ -28,6 +28,10 @@ describe Scenario do
     
     it "has a body" do
       @scenario.body.should eql(@scenario_body)
+    end
+    
+    it "has a given_scenario_keyword" do
+      @scenario.given_scenario_keyword.should eql("GivenScenario:")
     end
     
     it "has steps" do
@@ -80,5 +84,52 @@ describe Scenario do
         @step.args[0].should eql('Hello, World!')
       end
     end
+    
+    context "verification" do
+      
+      before(:each) do
+        @results = <<-END
+        Test Case '-[SayHelloWorldTest testWithACustomObject]' passed (0.001 seconds).
+        Hello!!!
+        2009-08-13 15:21:58.927 otest[1586:80f] HelloButtonHello
+        Test Case '-[SayHelloUniverseTest testWithACustomObject]' passed (0.001 seconds).
+        /Users/mhennemeyer/Projekte/ObjectiveMatchy/ObjectiveMatchyIphone/OMFeature.m:28: error: -[SayHelloWorldTest testJustOpenedTheApp] : '' should be equal to: 'h', but isn't (with isEqual:).
+        Test Case '-[SayHelloWorldTest testJustOpenedTheApp]' failed (0.001 seconds).
+        Test Case '-[SayHelloUniverseTest testWithABlankObject]' failed (0.001 seconds).
+        Test Case '-[SayHelloTest testWithABlankObject]' failed (0.001 seconds).
+        Test Case '-[SayHelloTest testWithACustomObject]' passed (0.001 seconds).
+        Test Suite 'SayHelloWorldTest' finished at 2009-08-13 15:21:58 +0200.
+        Executed 1 test, with 1 failure (1 unexpected) in 0.001 (0.001) seconds
+
+        Test Suite '/Users/mhennemeyer/Projekte/ObjectiveMatchy/ObjectiveMatchyIphone/build/Debug-iphonesimulator/ObjectiveMatchyIphoneTest.octest(Tests)' finished at 2009-08-13 15:21:58 +0200.
+        Executed 4 tests, with 3 failures (3 unexpected) in 0.004 (0.007) seconds
+
+        /Developer/Tools/RunPlatformUnitTests.include:390: error: Failed tests for architecture 'i386' (GC OFF)
+        /Developer/Tools/RunPlatformUnitTests.include:399: note: Completed tests for architectures 'i386'
+        
+        END
+        @mock_feature.should_receive(:test_case_name).and_return("SayHelloTest")
+        @scenario.verify_status(@results)
+      end
+      
+      it "verifies its status" do
+        @scenario.passed?.should be_false
+      end
+      
+      describe "#to_html" do
+        it "does something" do
+          @mock_feature.should_receive(:scenario_keyword).and_return("Scenario:")
+          @scenario.should_receive(:steps).and_return([mock(Step, :to_html => "steps")])
+          expected = <<-END
+        <div class="scenario failed">
+          <h2 class="scenario_title">Scenario: With a blank Object</h2>
+          steps
+        </div>
+          END
+          @scenario.to_html.ignore_whitespace.should == expected.ignore_whitespace
+        end
+      end
+    end
+    
   end
 end

@@ -8,15 +8,13 @@
 
 #import "OMFeature.h"
 
-
+#import "ObjectiveMatchy.h"
 @implementation OMFeature
 
 -(void) setUp
 {
 	
 }
-
-
 
 
 -(void) Given_i_just_opened_the_app
@@ -27,6 +25,7 @@
 -(void) When_i_push_the____Button:(NSString *)button
 {
 	NSLog(button);
+	[[@"h" should] eql:@"h"];
 }
 
 -(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue

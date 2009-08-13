@@ -7,11 +7,15 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
     
     it "knows if it has args" do
       @step.has_args?.should be_false
+    end
+    
+    it "knows itself to render as html" do
+      @step.to_html.should == '<h3 class="step">Given a blank Object</h3>'
     end
     
     it "finds the first part" do
@@ -60,7 +64,7 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
     
     it "knows if it has args" do
@@ -104,7 +108,7 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
     
     it "knows if it has args" do
@@ -134,7 +138,7 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
     
     it "knows if it has args" do
@@ -178,7 +182,7 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
 
     it "has a message 'Given_a_custom_Object____with_attribute____so_far:@\"Bob\" arg:@\"Jim\"'" do
@@ -192,7 +196,7 @@ describe Step do
       @step = Step.new({
         :title => @line, 
         :body  => @line
-      })
+      }).aggregate!
     end
     
     it "knows if it has args" do
@@ -210,5 +214,7 @@ describe Step do
     it "has a message 'Given_a_custom_Object____with_attribute___:@\"Bob\" arg:@\"Jim\" arg:@\"John\"'" do
       @step.message.should eql('Given_a_custom_Object____with_attribute____and___:@"Bob" arg:@"Jim" arg:@"John"')
     end
+    
+    
   end
 end

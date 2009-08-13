@@ -4,9 +4,8 @@ describe Parser do
   
   before(:each) do
     @valid_attributes = {
-      :strings => ["Feature: f1 \n body"],
+      :string => "Feature: f1 \n body",
       :keyword => "Feature:",
-      :create  => Feature
     }
     @parser = Parser.new(@valid_attributes)
   end
@@ -19,8 +18,24 @@ describe Parser do
     @parser.keyword.should_not be_nil
   end
   
-  it "has a class to create" do
-    @parser.create.should_not be_nil
+  describe ".title_and_body_by_keyword_from_string({:string => s, :keyword => 'Title:'})" do
+    it "returns :title => 'Title', body => 'Body' for :string => 'Title: Title \\n Body'" do
+      Parser.title_and_body_by_keyword_from_string({
+        :string => "Title: Title \n Body", 
+        :keyword => "Title:"
+      }).should == ([{
+          :title => "Title",
+          :body  => "Body"
+        }])
+    end
+    
+    it "returns [{:title => 'Title', body => 'Body'}, {:title => 'Title', body => 'Body'}] for :string => 'Title: Title \\n Body \\n Title: Title \\n Body'" do
+      Parser.title_and_body_by_keyword_from_string({
+        :string => "Title: Title \n Body \n Title: Title \n Body", 
+        :keyword => "Title:"
+      }).should == ([{ :title => "Title", :body  => "Body"},   
+                     { :title => "Title", :body  => "Body"}])
+    end
   end
   
   context "with :keyword => 'Feature:' and :create => Feature" do
@@ -74,6 +89,7 @@ describe Parser do
       		It should return 'Hello, World!'
 
       	Scenario: With a custom Object
+      	  GivenScenario: With a blank Object
       		Given a custom Object with name 'Bob'
       		When i send it hello
       		It should return 'Hello, World! I am Bob.'
@@ -128,46 +144,16 @@ describe Parser do
     	END
 
       @parser = Parser.new({
-        :strings => [@feature_file_string_1, @feature_file_string_2],
-        :keyword => "Feature:",
-        :create  => Feature})
+        :string => [@feature_file_string_1, @feature_file_string_2].join(" "),
+        :keyword => "Feature:"})
     end
 
     it "raises if there are no features" do
       lambda { 
         Parser.new({
-          :strings => ["NoFeature!"],
-          :keyword => "Feature:",
-          :create  => Feature }) 
+          :string  => "NoFeature!",
+          :keyword => "Feature:",}) 
         }.should raise_error(/No Feature/)
-    end
-
-    describe "#parse" do
-      it "returns features" do
-        @parser.parse.each do |f|
-          f.class.should eql(Feature)
-        end
-      end
-
-      it "returns Say Hello Feature" do
-        feature = @parser.parse.detect {|f| f.title == "Say Hello"}
-        feature.should_not be_nil
-        feature.body.should eql(@say_hello_features_body.strip)
-      end
-
-      it "returns Say Hello World Feature" do
-        feature = @parser.parse.detect {|f| f.title == "Say Hello World"}
-        feature.should_not be_nil
-        feature.body.should eql(@say_hello_world_features_body.strip)
-      end
-
-      it "returns Say Hello Universe Feature" do
-        feature = @parser.parse.detect {|f| f.title == "Say Hello Universe"}
-        feature.should_not be_nil
-        feature.body.should eql(@say_hello_universe_features_body.strip)
-      end
-
-
     end
 
     describe "#parse_titles" do
@@ -230,39 +216,17 @@ describe Parser do
     	END
 
       @parser = Parser.new({
-        :strings => [@scenarios_string],
-        :keyword => "Scenario:",
-        :create  => Scenario
+        :string => @scenarios_string,
+        :keyword => "Scenario:"
       })
     end
 
     it "raises if there are no Scenarios" do
       lambda { 
         Parser.new({
-          :strings => ["NoScenario!"],
-          :keyword => "Scenario:",
-          :create  => Scenario }) 
+          :string => "NoScenario!",
+          :keyword => "Scenario:"}) 
         }.should raise_error(/No Scenario/)
-    end
-
-    describe "#parse" do
-      it "returns scenarios" do
-        @parser.parse.each do |s|
-          s.class.should eql(Scenario)
-        end
-      end
-
-      it "returns 'With a blank Object' scenario" do
-        scenario = @parser.parse.detect {|s| s.title == "With a blank Object"}
-        scenario.should_not be_nil
-        scenario.body.should eql(@with_blank_object_body.strip)
-      end
-
-      it "returns 'With a custom Object' scenario" do
-        scenario = @parser.parse.detect {|s| s.title == "With a custom Object"}
-        scenario.should_not be_nil
-        scenario.body.should eql(@with_custom_object_body.strip)
-      end
     end
 
     describe "#parse_titles" do
