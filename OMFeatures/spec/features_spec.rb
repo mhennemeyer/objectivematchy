@@ -107,14 +107,23 @@ describe Feature do
       @feature.story.ignore_whitespace.should == story.ignore_whitespace
     end
     
+    it "exposes story as html" do
+      story = <<-END
+      As a Developer <br />
+    	I want to let my system say 'Hello World' <br />
+    	So that i have a starting point. 
+      END
+      @feature.story_html.ignore_whitespace.should == story.ignore_whitespace
+    end
+    
     it "exposes itself as html" do
       @feature.scenarios.each {|s| s.stub!(:to_html).and_return("scenario")}
       expected = <<-END
       <div class="feature">
         <h2 class="feature_title">Feature: Say Hello World</h2>
         <p class="story">
-          As a Developer 
-        	I want to let my system say 'Hello World'
+          As a Developer <br />
+        	I want to let my system say 'Hello World' <br />
         	So that i have a starting point.
         </p>
         scenario 

@@ -1,0 +1,62 @@
+objc[2038]: GC: forcing GC OFF because OBJC_DISABLE_GC is set
+objc[2038]: GC: forcing GC OFF because OBJC_DISABLE_GC is set
+Test Suite '/Users/mhennemeyer/Projekte/ObjectiveMatchy/ObjectiveMatchyIphone/build/Debug-iphonesimulator/ObjectiveMatchyIphoneTest.octest(Tests)' started at 2009-08-14 13:08:05 +0200
+Test Suite 'OMFeature' started at 2009-08-14 13:08:05 +0200
+Test Suite 'OMFeature' finished at 2009-08-14 13:08:05 +0200.
+Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+
+Test Suite 'RootViewControllerTest' started at 2009-08-14 13:08:05 +0200
+2009-08-14 13:08:05.964 otest[2038:80f] 
+ out: Hello
+Test Case '-[RootViewControllerTest testView]' passed (0.001 seconds).
+Test Suite 'RootViewControllerTest' finished at 2009-08-14 13:08:05 +0200.
+Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+
+Test Suite 'SayHelloWorldAgainAndAgainTest' started at 2009-08-14 13:08:05 +0200
+2009-08-14 13:08:05.964 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.966 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.967 otest[2038:80f] HelloAgainLabel
+Test Case '-[SayHelloWorldAgainAndAgainTest testJustOpenedTheApp]' passed (0.003 seconds).
+2009-08-14 13:08:05.967 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.967 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.968 otest[2038:80f] HelloAgainLabel
+2009-08-14 13:08:05.968 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.968 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.968 otest[2038:80f] HelloAgainLabel
+Test Case '-[SayHelloWorldAgainAndAgainTest testWithAGivenScenario]' passed (0.002 seconds).
+Test Suite 'SayHelloWorldAgainAndAgainTest' finished at 2009-08-14 13:08:05 +0200.
+Executed 2 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+
+Test Suite 'SayHelloWorldAgainTest' started at 2009-08-14 13:08:05 +0200
+2009-08-14 13:08:05.969 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.969 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.970 otest[2038:80f] HelloAgainLabel
+Test Case '-[SayHelloWorldAgainTest testJustOpenedTheApp]' passed (0.001 seconds).
+2009-08-14 13:08:05.970 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.970 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.970 otest[2038:80f] HelloAgainLabel
+2009-08-14 13:08:05.971 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.971 otest[2038:80f] HelloAgain
+2009-08-14 13:08:05.971 otest[2038:80f] HelloAgainLabel
+Test Case '-[SayHelloWorldAgainTest testWithAGivenScenario]' passed (0.002 seconds).
+Test Suite 'SayHelloWorldAgainTest' finished at 2009-08-14 13:08:05 +0200.
+Executed 2 tests, with 0 failures (0 unexpected) in 0.002 (0.003) seconds
+
+Test Suite 'SayHelloWorldTest' started at 2009-08-14 13:08:05 +0200
+2009-08-14 13:08:05.972 otest[2038:80f] 
+Hello!!!
+2009-08-14 13:08:05.972 otest[2038:80f] HelloButtonHello
+2009-08-14 13:08:05.972 otest[2038:80f] HelloHelloLabel
+Test Case '-[SayHelloWorldTest testJustOpenedTheApp]' passed (0.001 seconds).
+Test Suite 'SayHelloWorldTest' finished at 2009-08-14 13:08:05 +0200.
+Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+
+Test Suite '/Users/mhennemeyer/Projekte/ObjectiveMatchy/ObjectiveMatchyIphone/build/Debug-iphonesimulator/ObjectiveMatchyIphoneTest.octest(Tests)' finished at 2009-08-14 13:08:05 +0200.
+Executed 6 tests, with 0 failures (0 unexpected) in 0.008 (0.011) seconds
+

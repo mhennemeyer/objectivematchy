@@ -19,6 +19,10 @@ class Feature
     body.split(/#{scenario_keyword}/)[0].split(/#{keyword}\s#{title}/).join(" ").strip
   end
   
+  def story_html
+    story.split("\n").join(" <br />")
+  end
+  
   def parse_scenarios
     title_body_arr = Parser.title_and_body_by_keyword_from_string({
       :string => body,
@@ -47,7 +51,7 @@ class Feature
     <div class="feature">
       <h2 class="feature_title">#{keyword} #{title}</h2>
       <p class="story">
-        #{story}
+        #{story_html}
       </p>
       #{scenarios.map {|s| s.to_html }.join(" \n")}
     </div>

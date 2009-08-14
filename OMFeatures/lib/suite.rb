@@ -4,7 +4,7 @@ class Suite
               :features,                   :test_cases_file,  
               :feature_class_header_files, :given_scenario_keyword,
               :feature_keyword,            :scenario_keyword,
-              :project_name
+              :project_name,               :passed
   
   def initialize(hash)
     @feature_files_path          = hash[:feature_files_path]
@@ -19,14 +19,35 @@ class Suite
     @feature_files_as_strings    = all_feature_files_as_strings
   end
   
+  def parse_output_file_and_open_in_browser(file)
+    results = ""
+    File.open(file) do |f|
+      f.readlines.each do |l|
+        results << l
+      end
+    end
+    
+    html = parse_results(results).html
+
+    %x(touch '/tmp/out.html' && echo '#{html}' > /tmp/out.html && open '/tmp/out.html' )
+    
+  end
+  
   
   def parse_results(results="")
     parse
+    @passed = true
     features.each do |f|
       f.scenarios.each do |s|
         s.verify_status(results)
+        @passed &&= s.passed?
       end
     end
+    self
+  end
+  
+  def passed?
+    @passed
   end
   
   def html
@@ -39,16 +60,24 @@ class Suite
           background-color: #FEFEFE;
           padding: 10px;
         }
-        #wrap {  }
-        .feature { background-color: #AAA;padding: 10px;}
-        .failed {background-color: #F00;}
-        .passed {background-color: #0F0}
+        * {-webkit-border-radius: 10px;}
+        body {background-color: #EEE; -webkit-border-radius: 0px;}
+        .feature { background-color: #CCC;padding: 20px; margin: 20px;}
+        .scenario { padding: 20px; margin: 20px}
+        .failed {background-color: #C88;}
+        .passed {background-color: #8C8}
+        .feature_title {font-size: 24pt; }
+        .story { font-size: 18pt; padding-left: 40px;}
+        #indicator { width: 100%; height: 20px; }
+        #wrap { background-color: #EEE; padding: 20px }
         </style></head>
       </head>
       <body>
       <div id="wrap">
         <div id="header">
+          <div id="indicator" class="#{passed? ? "passed" : "failed"}">&nbsp;</div>
           <h1 class="project_name">#{project_name}</h1>
+          
         </div>
         #{features.map {|f| f.to_html }.join(" \n")}
       </div>

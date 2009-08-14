@@ -25,7 +25,7 @@
 -(void) When_i_push_the____Button:(NSString *)button
 {
 	NSLog(button);
-	[[@"h" should] eql:@"h"];
+	[[@"hello" should] eql:@"hello"];
 }
 
 -(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue

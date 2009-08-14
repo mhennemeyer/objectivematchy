@@ -276,6 +276,11 @@ describe Suite do
         scenarios.detect {|s| s.title == "With a blank Object"}.passed?.should be_false
     end
     
+    it "knows if it has passed or failed" do
+      @suite.parse_results(@results)
+      @suite.passed?.should be_false
+    end
+    
     describe "#html" do
       before(:each) do
         @suite.parse_results(@results)
@@ -292,9 +297,10 @@ describe Suite do
       end
       
       it "show in browser" do
-        
-        %x(touch '/tmp/out.html' && echo '#{@html}' > /tmp/out.html && open '/tmp/out.html' )
+        #%x(touch '/tmp/out.html' && echo '#{@html}' > /tmp/out.html && open '/tmp/out.html' )
       end
+      
+      
     end
     
   end
