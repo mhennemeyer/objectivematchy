@@ -57,15 +57,16 @@ class Suite
       <head>
         <style type="text/css">
         body { 
+          font-family: Lucida Grande;
           background-color: #FEFEFE;
-          padding: 10px;
+          padding: 5px;
         }
         * {-webkit-border-radius: 10px;}
         body {background-color: #EEE; -webkit-border-radius: 0px;}
         .feature { background-color: #CCC;padding: 20px; margin: 20px;}
-        .scenario { padding: 20px; margin: 20px}
-        .failed {background-color: #C88;}
-        .passed {background-color: #8C8}
+        .scenario { background-color: #EEE; padding: 20px; margin: 20px}
+        .failed {border: 1px solid #C88; background-color: #B77; }
+        .passed {border: 1px solid #8C8; background-color: #7B7; }
         .feature_title {font-size: 24pt; }
         .story { font-size: 18pt; padding-left: 40px;}
         #indicator { width: 100%; height: 20px; }

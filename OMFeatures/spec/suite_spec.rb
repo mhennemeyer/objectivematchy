@@ -297,7 +297,7 @@ describe Suite do
       end
       
       it "show in browser" do
-        #%x(touch '/tmp/out.html' && echo '#{@html}' > /tmp/out.html && open '/tmp/out.html' )
+        %x(touch '/tmp/out.html' && echo '#{@html}' > /tmp/out.html && open '/tmp/out.html' )
       end
       
       
