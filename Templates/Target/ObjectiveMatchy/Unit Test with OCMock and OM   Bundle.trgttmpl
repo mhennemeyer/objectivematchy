@@ -1,17 +1,17 @@
 {
     Class = Native;
     ProductType = "com.apple.product-type.bundle";
-    Description = "Target for building a unit test bundle for iPhoneOS";
+    Description = "Target for building a unit test bundle for iPhoneOS. With OCMock and ObjectiveMatchy";
     CustomBuildSettings = {
         ALWAYS_SEARCH_USER_PATHS = NO;
         INFOPLIST_FILE = "«PRODUCTNAME»-Info.plist";
-        OTHER_LDFLAGS =	"-framework Foundation -framework SenTestingKit -framework UIKit";
+        OTHER_LDFLAGS =	"-framework Foundation -framework SenTestingKit -framework ObjectiveMatchyIphone -framework OCMock -framework UIKit";
 		GCC_ENABLE_OBJC_EXCEPTIONS = YES;
         PRODUCT_NAME = "«PRODUCTNAME»";
         PREBINDING = NO;
         WRAPPER_EXTENSION = "octest";
 		GCC_ENABLE_FIX_AND_CONTINUE = NO;
-		FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+		FRAMEWORK_SEARCH_PATHS = "$(SRCROOT) $(DEVELOPER_LIBRARY_DIR)/Frameworks";
     };
     CustomProductSettings = {
         CFBundleExecutable = "${EXECUTABLE_NAME}";
