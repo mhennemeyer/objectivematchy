@@ -94,10 +94,20 @@ puts "Library Templates: <br /> #{lib_dirs.join(' <br />')} <br />"
 dirs = app_dirs + lib_dirs
 
 dirs.each do |d|
-  `cd #{release_folder} && cp    libObjectiveMatchyIphone.a '#{d}'`
+  `cd #{d} && rm -rf libObjectiveMatchyIphone.a && cd #{release_folder} && cp    libObjectiveMatchyIphone.a '#{d}'`
   raise "lib has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /libObjectiveMatchyIphone\.a/
-  `cd #{release_folder} && cp -R ObjectiveMatchyIphone.framework '#{d}'`
+  
+  `cd #{d} && rm -rf ObjectiveMatchyIphone.framework &&  cd #{release_folder} && cp -R ObjectiveMatchyIphone.framework '#{d}'`
   raise "framework has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /ObjectiveMatchyIphone\.framework/
+  
+  `cd #{d} && rm -rf SenTestingKit.framework && cd #{project_folder} && cp -R SenTestingKit.framework '#{d}'`
+  raise "SenTestingKit has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /SenTestingKit\.framework/
+  
+  `cd #{d} && rm -rf OCMock.framework && cd #{project_folder} && cp -R OCMock.framework '#{d}'`
+  raise "OCMock has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /OCMock\.framework/
+  
+  `cd #{d} && rm -rf OMFeatures && cd #{release_folder} && cp -R OMFeatures '#{d}'`
+  raise "OMFeatures has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /OMFeatures/
 end
 
 puts "Updated Templates with new Libraries. <br />"
@@ -105,7 +115,7 @@ puts "Updated Templates with new Libraries. <br />"
 
 ## zip
 
-`cd #{project_folder} && /usr/bin/zip -r ObjectiveMatchy-#{version}.zip ObjectiveMatchy-#{version}`
-raise "Zip couldn't be created. <br />" unless Dir.entries(project_folder).join(" ") =~ /ObjectiveMatchy-#{version}/
+# `cd #{project_folder} && /usr/bin/zip -r ObjectiveMatchy-#{version}.zip ObjectiveMatchy-#{version}`
+# raise "Zip couldn't be created. <br />" unless Dir.entries(project_folder).join(" ") =~ /ObjectiveMatchy-#{version}/
 
-puts "Release Folder zipped: ObjectiveMatchy-#{version}.zip <br />"
+# puts "Release Folder zipped: ObjectiveMatchy-#{version}.zip <br />"
