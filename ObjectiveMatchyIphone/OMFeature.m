@@ -33,4 +33,11 @@
 	NSLog(labelName);
 }
 
+-(void) Then_everything_should_be_fine
+{
+	[[@"Hello" should] eql:@"Hello"];
+}
+
+
+
 @end

@@ -29,6 +29,11 @@ describe Step do
     it "has a title" do
       @step.title.should eql(@line)
     end
+    
+    it "preserves single quotes" do
+      s = Step.new({:title => "Given 'Blah'", :body => "Given 'Blah'"}).aggregate!
+      s.to_html.should =~ /'/
+    end
 
     it "has a body" do
       @step.body.should eql(@line)

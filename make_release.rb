@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-# read version number
+project_folder = File.expand_path(".")
+raise "Project Folder corrupt" unless Dir.entries(project_folder).join(" ") =~ /ObjectiveMatchyIphone/
+puts "Project Folder: #{project_folder} <br />"
+## read version number
 
 m, mm, mmm = 0,0,0
 version = ""
@@ -13,9 +16,11 @@ File.open("version", File::RDWR) do |f|
   f.write version
 end
 
-# create release folder
+puts "Version: #{version} <br />"
 
-release_folder = "ObjectiveMatchy-#{version}"
+## create release folder
+
+release_folder = File.expand_path("ObjectiveMatchy-#{version}")
 
 if File.exist?(release_folder)
   raise "Release Folder #{release_folder} already exists"
@@ -23,39 +28,84 @@ else
   `mkdir ObjectiveMatchy-#{version}`
 end
 
-# build lib and framework
+puts "Release Folder: #{release_folder} <br />"
 
-#`cd ObjectiveMatchyIphone && xcodebuild -target ObjectiveMatchyIphone clean  build && xcodebuild -target ObjectiveMatchyIphoneStatic clean build && cd ..`
+## build lib and framework
 
-# copy lib and framework
+puts "Start building libraries <br />"
 
-`cd #{release_folder} && cp -R ../ObjectiveMatchyIphone/build/Release/ObjectiveMatchyIphone.framework . && cp ../ObjectiveMatchyIphone/build/Release-iphoneos/libObjectiveMatchyIphone.a . && cd ..`
+# out = `cd ObjectiveMatchyIphone && touch /tmp/null && xcodebuild -target ObjectiveMatchyIphone clean  build 3> /tmp/null 2> /tmp/null 1> /tmp/null && xcodebuild -target ObjectiveMatchyIphoneStatic clean build 3> /tmp/null 2> /tmp/null 1> /tmp/null && cd ..  `
+# 
+# raise "There was a Problem with building the libraries. Output: #{out}" unless $?.exitstatus == 0
 
-# copy OMFeatures
+puts "Finished building libraries <br />"
+
+
+## copy lib and framework
+
+`cd #{release_folder} &&  cp -R ../ObjectiveMatchyIphone/build/Release/ObjectiveMatchyIphone.framework . && cp ../ObjectiveMatchyIphone/build/Release-iphoneos/libObjectiveMatchyIphone.a . && cd ..`
+
+raise "Framework has not been copied over to Release Folder." unless Dir.entries(release_folder).join(" ") =~ /ObjectiveMatchyIphone\.framework/
+raise "Library has not been copied over to Release Folder." unless Dir.entries(release_folder).join(" ") =~ /libObjectiveMatchyIphone\.a/
+puts "Framework and lib copied to Release Folder <br />"
+
+
+## copy OMFeatures
 
 `cd #{release_folder} && cp -R ../OMFeatures . && cd ..`
+raise "OMFeatures has not been copied over to Release Folder." unless Dir.entries(release_folder).join(" ") =~ /OMFeatures/
+puts "OMFeatures copied to Release Folder. <br />"
 
-# copy Templates
+
+## copy Templates
 
 `cd #{release_folder} && cp -R ../Templates . && cd ..`
+raise "Templates Folder has not been copied over to Release Folder." unless Dir.entries(release_folder).join(" ") =~ /Templates/
+puts "Templates Folder copied to Release Folder. <br />"
 
-# copy install_templates.sh
+
+## copy install_templates.sh
 
 `cd #{release_folder} && cp  ../install_templates.sh . && cd ..`
+raise "Install Script has not been copied over to Release Folder." unless Dir.entries(release_folder).join(" ") =~ /install_templates/
+puts "Install Script copied to Release Folder. <br />"
 
-# update Templates
 
-# for each folder $dir in Templates/Project/Application and Templates/Project/Library
-#   copy framework and lib to $dir
-# app_templates="${release_folder}/Templates/Project/ObjectiveMatchy/Application"
-# 
-# cd $app_templates
-# for f in (find . \( ! -name .  -prune \) -type d)
-# do
-#   echo $f
-# done
-# 
-# 
-# # zip
-# 
-# #/usr/bin/zip -r "${release_folder}.zip" $release_folder
+## update Templates
+
+# find all project templates
+def project_templates(path)
+  all_dirs = `cd #{path} && find . -type d`
+  dirs = all_dirs.reject {|f| f =~ /\.\Z/ || f =~ /\.\.\Z/}.map {|f| ((f =~ /\A\.\/(.*)/) && f = $1) || f }.map {|f| path + "/" + f}.select {|f| File.directory?(f)}
+  dirs_with_project = dirs.select {|d| Dir.entries(d).join(" ") =~ /\.xcodeproj/}
+end
+
+app_templates_folder = "#{release_folder}/Templates/Project/ObjectiveMatchy/Application"
+lib_templates_folder = "#{release_folder}/Templates/Project/ObjectiveMatchy/Library"
+
+app_dirs = project_templates(app_templates_folder)
+raise "No Application Templates were found" unless app_dirs
+puts "Application Templates: <br /> #{app_dirs.join(' <br />')} <br />"
+
+lib_dirs = project_templates(lib_templates_folder)
+raise "No Library Templates were found" unless lib_dirs
+puts "Library Templates: <br /> #{lib_dirs.join(' <br />')} <br />"
+
+dirs = app_dirs + lib_dirs
+
+dirs.each do |d|
+  `cd #{release_folder} && cp    libObjectiveMatchyIphone.a '#{d}'`
+  raise "lib has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /libObjectiveMatchyIphone\.a/
+  `cd #{release_folder} && cp -R ObjectiveMatchyIphone.framework '#{d}'`
+  raise "framework has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /ObjectiveMatchyIphone\.framework/
+end
+
+puts "Updated Templates with new Libraries. <br />"
+
+
+## zip
+
+`cd #{project_folder} && /usr/bin/zip -r ObjectiveMatchy-#{version}.zip ObjectiveMatchy-#{version}`
+raise "Zip couldn't be created. <br />" unless Dir.entries(project_folder).join(" ") =~ /ObjectiveMatchy-#{version}/
+
+puts "Release Folder zipped: ObjectiveMatchy-#{version}.zip <br />"

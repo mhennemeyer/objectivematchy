@@ -18,4 +18,6 @@
 
 -(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue;
 
+-(void) Then_everything_should_be_fine;
+
 @end
