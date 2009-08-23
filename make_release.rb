@@ -34,9 +34,9 @@ puts "Release Folder: #{release_folder} <br />"
 
 puts "Start building libraries <br />"
 
-# out = `cd ObjectiveMatchyIphone && touch /tmp/null && xcodebuild -target ObjectiveMatchyIphone clean  build 3> /tmp/null 2> /tmp/null 1> /tmp/null && xcodebuild -target ObjectiveMatchyIphoneStatic clean build 3> /tmp/null 2> /tmp/null 1> /tmp/null && cd ..  `
-# 
-# raise "There was a Problem with building the libraries. Output: #{out}" unless $?.exitstatus == 0
+out = `cd ObjectiveMatchyIphone && touch /tmp/null && xcodebuild -target ObjectiveMatchyIphone clean  build 3> /tmp/null 2> /tmp/null 1> /tmp/null && xcodebuild -target ObjectiveMatchyIphoneStatic clean build 3> /tmp/null 2> /tmp/null 1> /tmp/null && cd ..  `
+
+raise "There was a Problem with building the libraries. Output: #{out}" unless $?.exitstatus == 0
 
 puts "Finished building libraries <br />"
 
@@ -94,19 +94,19 @@ puts "Library Templates: <br /> #{lib_dirs.join(' <br />')} <br />"
 dirs = app_dirs + lib_dirs
 
 dirs.each do |d|
-  `cd #{d} && rm -rf libObjectiveMatchyIphone.a && cd #{release_folder} && cp    libObjectiveMatchyIphone.a '#{d}'`
+  `cd '#{d}' && rm -rf libObjectiveMatchyIphone.a && cd #{release_folder} && cp    libObjectiveMatchyIphone.a '#{d}'`
   raise "lib has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /libObjectiveMatchyIphone\.a/
   
-  `cd #{d} && rm -rf ObjectiveMatchyIphone.framework &&  cd #{release_folder} && cp -R ObjectiveMatchyIphone.framework '#{d}'`
+  `cd '#{d}' && rm -rf ObjectiveMatchyIphone.framework &&  cd #{release_folder} && cp -R ObjectiveMatchyIphone.framework '#{d}'`
   raise "framework has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /ObjectiveMatchyIphone\.framework/
   
-  `cd #{d} && rm -rf SenTestingKit.framework && cd #{project_folder} && cp -R SenTestingKit.framework '#{d}'`
+  `cd '#{d}' && rm -rf SenTestingKit.framework && cd #{project_folder} && cp -R SenTestingKit.framework '#{d}'`
   raise "SenTestingKit has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /SenTestingKit\.framework/
   
-  `cd #{d} && rm -rf OCMock.framework && cd #{project_folder} && cp -R OCMock.framework '#{d}'`
+  `cd '#{d}' && rm -rf OCMock.framework && cd #{project_folder} && cp -R OCMock.framework '#{d}'`
   raise "OCMock has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /OCMock\.framework/
   
-  `cd #{d} && rm -rf OMFeatures && cd #{release_folder} && cp -R OMFeatures '#{d}'`
+  `cd '#{d}' && rm -rf OMFeatures && cd #{release_folder} && cp -R OMFeatures '#{d}'`
   raise "OMFeatures has not been copied over to '#{d}'." unless Dir.entries(d).join(" ") =~ /OMFeatures/
 end
 

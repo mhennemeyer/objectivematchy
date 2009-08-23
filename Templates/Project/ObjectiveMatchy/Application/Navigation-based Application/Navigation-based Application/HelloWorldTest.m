@@ -5,7 +5,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <ObjectiveMatchyIphone/ObjectiveMatchy.h>
-#import <OCMock/OCMock.h>
+//#import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
 
 
@@ -17,7 +17,7 @@
 @implementation HelloWorldTest
 
 - (void) testHelloWorld {
-    [[@"Hello, World!" should] eql:@"Hello, World!"];
+  [[@"Hello, World!" should] eql:@"Hello, World!"];
 }
 
 @end
