@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{lang:}">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="iphone, bdd, tdd, matcher, features" />
+    <meta name="author" content="Matthias Hennemeyer" />
+    <link rel="stylesheet" type="text/css" href="{relocatable: default.css}" />
+    <!--[if IE 6]>
+        <link rel="stylesheet" href="{relocatable: browserfix.css}" type="text/css" />
+        <![endif]-->
+    <title>{title:}</title>
+  </head>
+
+<body>
+	<div id="wrap">
+		<div id="page">
+
+			<div id="page-top">
+				&nbsp;
+			</div>
+
+			<div id="page-inner">
+				
+				<div id="site-actions">
+					<div id="site-actions-inner">
+						<ul>
+							<li><a href="mailto:mhennemeyer@me.com">
+								Contact
+							</a> |</li>
+							<li><a href="impressum.html">
+								Info
+							</a> |</li>
+							<li><a href="licence.html">
+								Licence
+							</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div id="site-name">
+					<div id="site-name-inner">
+						<img src="images/icon.png">
+					</div>
+				</div>
+				
+				<div id="top-links">
+					<div id="top-links-inner">
+						<ul>
+							<li><a href="features/index.html">
+								Features Parser
+							</a></li>
+							<li><a href="matchers/index.html">
+								Matcher System
+							</a></li>
+							<li><a href="tutorials/index.html">
+								Tutorials
+							</a></li>
+							<li><a href="cookbook/index.html">
+								Cookbook
+							</a></li>
+						</ul>
+					</div>
+				</div>
+				
+	  		<div id="header">
+					<div id="header-inner">
+						<webgen:block name="header-menu" />
+						<div class="clearer">&nbsp;</div>
+					</div>
+				</div>
+
+				<div class="clearer">&nbsp;</div>
+
+				<div id="main">
+					<div id="main-inner">
+						<div id="content">
+
+							<div id="content-inner">
+								 <div id="content-inner-container">
+								 	 <webgen:block name="content" />
+								 </div>
+
+							</div>
+						</div>
+
+						
+						<div class="clearer">&nbsp;</div>
+					</div>
+					<div class="clearer">&nbsp;</div>
+				</div>
+
+				<div class="clearer">&nbsp;</div>
+
+
+			</div>
+
+			<div id="page-bottom">
+				&nbsp;
+			</div>
+
+			<div id="footer">
+				<div id="footer-inner">
+					&copy; 2009 Matthias Hennemeyer. All Rights Reserved.
+				</div>
+			</div>
+
+		</div>
+		
+	</div>	
+</body>
+</html>

@@ -1,0 +1,114 @@
+body {
+  background: #F0F0F0;
+  font-family: Lucida Grande, Helvetica ;
+}
+
+.clearer {
+  clear: both;
+  height: 0px;
+}
+
+#wrap {
+  width: 918px;
+  margin: 0 auto;
+}
+
+#header {
+  background: url('images/engel-header.png');
+  width: 918px;
+  height: 150px;
+}
+
+#site-actions {
+  float: right;
+}
+
+
+#site-actions ul {
+	margin: auto;
+	padding: 0;
+}
+
+#site-actions ul li {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style-type: none;
+	font-size:80%;
+	font-weight:bold;
+}
+
+#site-actions ul li a:link, #site-actions ul li a:visited {
+  color: black;
+	line-height: 24px;
+	text-decoration: none;
+	text-align: center;
+	padding: 0px 15px;
+}
+
+#site-name {
+  font-size: 16pt;
+  color: #91457A;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+#site-name ul li a:link, #site-name ul li a:visited {
+  color: #91457A;
+	text-decoration: none;
+}
+
+#site-name img{
+  margin-right: -10px;
+}
+
+#top-links {
+  text-align: center;
+  color: #555;
+  margin-top: 20px;
+  width: 900px;
+}
+
+#top-links ul {
+	margin: auto;
+	padding: 0;
+}
+
+#top-links ul li {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style-type: none;
+}
+
+#top-links ul li a:link, #top-links ul li a:visited {
+  color: #555;
+	line-height: 24px;
+	text-decoration: none;
+	text-align: center;
+	padding: 0px 15px;
+}
+
+#main {
+  width: 918px;
+}
+
+#content {
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+  width: 918px;
+  float: left;
+}
+
+#page-bottom {
+  background: url('images/content-bottom.png');
+  width: 918px;
+  height: 25px;
+}
+
+#footer {
+  text-align: center;
+}
