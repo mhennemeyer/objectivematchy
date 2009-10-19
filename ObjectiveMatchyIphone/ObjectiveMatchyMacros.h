@@ -9,10 +9,10 @@
 #pragma mark Expectations
 
 #define should \
-addPositiveExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
+addPositiveExpectation:[NSString stringWithUTF8String:__FILE__] line:__LINE__
 
 #define shouldNot \
-addNegativeExpectation:[NSString stringWithCString:__FILE__] line:__LINE__
+addNegativeExpectation:[NSString stringWithUTF8String:__FILE__] line:__LINE__
 
 #pragma mark -
 

@@ -23,7 +23,7 @@
 
 - (void) testView {
 	[@"" simpleInvoke:@selector(copy) withArguments:nil ];
-	[[@"Hello" should] eql:@"Hello"];
+	[[@"Hello" should] eql:@"Hllo"];
     OMMatcher * m = [[OMMatcher alloc] initWithActual:self andIsPositive:YES filename:@"Hello" linenumber:12];
 	NSLog(@"\n out: %@", [m filename]);
 	[[[NSObject alloc] init] addPositiveExpectation:@"" line:10];

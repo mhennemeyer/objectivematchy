@@ -21,10 +21,10 @@
 	self.expected               = anExpected;
 	self.matches                = [self.actual isEqual:self.expected];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should be equal to: '%@', but isn't (with isEqual:).", 
+								   @"'%@' should be equal to '%@', but isn't (with isEqual:).", 
 								   self.actual, self.expected];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not be equal to: '%@', but is (with isEqual:).", 
+								   @"'%@' should not be equal to '%@', but is (with isEqual:).", 
 								   self.actual, self.expected];
 	
 	[self handleExpectation];
@@ -69,9 +69,9 @@
 	self.expected               = anExpected;
 	self.matches                = [self.actual containsObject:self.expected];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"Array should contain: '%@', but didn't (with containsObject:).", self.expected];
+								   @"Array should contain '%@', but didn't (with containsObject:).", self.expected];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"Array should not contain: '%@', but did (with containsObject:).", self.expected];	
+								   @"Array should not contain '%@', but did (with containsObject:).", self.expected];	
 	[self handleExpectation];
 	
 	return self.expected;
@@ -84,13 +84,13 @@
 
 - (id) respondToSelector:(SEL)selector
 {
-	self.expected               = [NSString stringWithCString:(char *)selector];
+	self.expected               = NSStringFromSelector(selector);
 	self.matches                = [self.actual respondsToSelector:selector];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should respond to: '%@', but did't.", 
+								   @"'%@' should respond to '%@', but did't.", 
 								   self.actual, self.expected];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not respond to: '%@', but did.", 
+								   @"'%@' should not respond to '%@', but did.", 
 								   self.actual, self.expected];
 	
 	[self handleExpectation];
@@ -112,10 +112,10 @@
 	                                  : [self.actual performSelector:selector];
 	self.matches                = [self.expected isEqual:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should respond to: '%@' and return '%@', but was '%@' (with isEqualTo).", 
+								   @"'%@' should respond to '%@' and return '%@', but was '%@' (with isEqualTo).", 
 								   self.actual, key, self.expected, actualValue];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not respond to: '%@' and return '%@', but did (with isEqualTo).", 
+								   @"'%@' should not respond to '%@' and return '%@', but did (with isEqualTo).", 
 								   self.actual, key, self.expected];
 	[self handleExpectation];
 	return self.expected;
@@ -138,10 +138,10 @@
 
 	self.matches                = [self.expected isEqual:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should respond to: '%@' with '%@' and return '%@', but was '%@' (with isEqual:).", 
+								   @"'%@' should respond to '%@' with '%@' and return '%@', but was '%@' (with isEqual:).", 
 								   self.actual, key, argument, self.expected, actualValue];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not respond to: '%@' with '%@' and return '%@', but did (with isEqual:).", 
+								   @"'%@' should not respond to '%@' with '%@' and return '%@', but did (with isEqual:).", 
 								   self.actual, key, argument, self.expected];
 	[self handleExpectation];
 	return self.expected;
@@ -186,10 +186,10 @@
 							          : [self.actual valueForKey:aKey];
 	self.matches                = [self.expected isEqual:actualValue];
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should have key: '%@', with Value: '%@', but was '%@'.", 
+								   @"'%@' should have key '%@', with Value: '%@', but was '%@'.", 
 								   self.actual, aKey ,self.expected, actualValue];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not have key: '%@', with Value: '%@'. But it has.", 
+								   @"'%@' should not have key '%@', with Value: '%@'. But it has.", 
 								   self.actual, aKey, self.expected];
 	[self handleExpectation];
 	
@@ -253,10 +253,10 @@
 	self.matches                = [self.expected isEqual:actualValue];
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should return: '%@', forMessage: '%@', but was '%@'.", 
+								   @"'%@' should return '%@', forMessage: '%@', but was '%@'.", 
 								   self.actual, self.expected, aMessageString, actualValue];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not return: '%@', forMessage: '%@', but did.", 
+								   @"'%@' should not return '%@', forMessage: '%@', but did.", 
 								   self.actual, actualValue, aMessageString];
 	
 	
@@ -310,10 +310,10 @@
 	self.matches                = [self.expected isEqual:@""] ? !!exception : [[exception name] isEqual:self.expected];
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should throw: '%@', forMessage: '%@', but was '%@'.", 
+								   @"'%@' should throw '%@', for Message '%@', but was '%@'.", 
 								   self.actual, self.expected, aMessageString, ((nil == exception) ? @"none" : [exception name])];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not throw: '%@', forMessage: '%@', but did.", 
+								   @"'%@' should not throw '%@', for Message '%@', but did.", 
 								   self.actual, self.expected, aMessageString];
 	
 	
@@ -353,10 +353,10 @@
 	self.matches                = *buffer;
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should return true for: '%@' but didn't.", 
+								   @"'%@' should return true for '%@' but didn't.", 
 								   self.actual, messageString];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not return true for: '%@' but did.", 
+								   @"'%@' should not return true for '%@' but did.", 
 								   self.actual, messageString];
 	
 	
@@ -392,10 +392,10 @@
 	self.matches                = *buffer;
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should return true for: '%@' with: '%@' but didn't.", 
+								   @"'%@' should return true for '%@' with '%@' but didn't.", 
 								   self.actual, messageString, anObject];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not return true for: '%@' with: '%@' but did.", 
+								   @"'%@' should not return true for '%@' with '%@' but did.", 
 								   self.actual, messageString, anObject];
 	
 	
@@ -444,10 +444,10 @@
 	self.matches                = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqual:valueAfterInvocation]
 																 : !(nil == valueAfterInvocation);
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should change value for key: '%@', forMessage: '%@', but didn't; is '%@'.", 
+								   @"'%@' should change value for key '%@', for Message '%@', but didn't; is '%@'.", 
 								   self.actual, self.expected, messageString, valueAfterInvocation];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not change value for key: '%@', forMessage: '%@', but did:Before: '%@', After: '@%'.", 
+								   @"'%@' should not change value for key '%@', for Message '%@', but did:Before: '%@', After '@%'.", 
 								   self.actual, self.expected, messageString, valueBeforeInvocation,  valueAfterInvocation];
 	
 	
@@ -487,10 +487,10 @@
 	self.matches = (fromValue == toValue) ? !didChange : fromCondition && toCondition && didChange;
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' expected change: '%@', from: '%@', to: '%@', for: '%@', but: Before '%@', After: '%@'.", 
+								   @"'%@' expected change '%@', from '%@', to '%@', for '%@', but Before '%@', After '%@'.", 
 								   self.actual, self.expected, fromValue, toValue, messageString, valueBeforeInvocation,  valueAfterInvocation];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' expected not change: '%@', from: '%@', to: '%@', for: '%@', but did.", 
+								   @"'%@' expected not change '%@', from '%@', to '%@', for '%@', but did.", 
 								   self.actual, self.expected, fromValue, toValue, messageString];
 	
 	[self handleExpectation];
@@ -520,10 +520,10 @@
 	self.matches                = (nil != valueBeforeInvocation) ? ![valueBeforeInvocation isEqual:valueAfterInvocation]
 																 : !(nil == valueAfterInvocation);
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should change value for key: '%@', of object: '%@',  forMessage: '%@', but didn't; is '%@'.", 
+								   @"'%@' should change value for key '%@', of object '%@',  for Message '%@', but didn't; is '%@'.", 
 								   self.actual, self.expected, messageString, anObject, valueAfterInvocation];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' should not change value for key: '%@', of object: '%@', forMessage: '%@', but did:Before: '%@', After: '@%'.", 
+								   @"'%@' should not change value for key '%@', of object '%@', for Message '%@', but did Before '%@', After '@%'.", 
 								   self.actual, self.expected, messageString, anObject,  valueBeforeInvocation,  valueAfterInvocation];
 	
 	
@@ -563,10 +563,10 @@
 	self.matches = (fromValue == toValue) ? !didChange : fromCondition && toCondition && didChange;
 	
 	self.positiveFailureMessage = [NSString stringWithFormat:
-								   @"'%@' expected change: '%@', of: '%@', from: '%@', to: '%@', for: '%@', but: Before '%@', After: '%@'.", 
+								   @"'%@' expected change '%@', of '%@', from '%@', to '%@', for '%@', but Before '%@', After '%@'.", 
 								   self.actual, self.expected, anObject,  fromValue, toValue, messageString, valueBeforeInvocation,  valueAfterInvocation];
 	self.negativeFailureMessage = [NSString stringWithFormat:
-								   @"'%@' expected not change: '%@', of: '%@', from: '%@', to: '%@', for: '%@', but did.", 
+								   @"'%@' expected not change '%@', of '%@', from '%@', to '%@', for '%@', but did.", 
 								   self.actual, self.expected, anObject, fromValue, toValue, messageString];
 	
 	[self handleExpectation];
