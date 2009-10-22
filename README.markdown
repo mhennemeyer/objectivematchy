@@ -40,11 +40,11 @@ rebuild RSpec's way of specifying this behavior.
 With RSpec you could write the following example:
 
     obj      = ObjectWithKey.new
-		otherObj = ObjectWithKey.new
-    
-		lambda { obj.setValue(:forKey => "aKey", :ofObject => otherObj) }.should change {
-			otherObj.aKey
-		}.from(nil).to("aValue")
+    otherObj = ObjectWithKey.new
+
+    lambda { obj.setValue(:forKey => "aKey", :ofObject => otherObj) }.should change {
+	    otherObj.aKey
+    }.from(nil).to("aValue")
 
 With ObjectiveMatchy all information must be part of the matcher message.
 
