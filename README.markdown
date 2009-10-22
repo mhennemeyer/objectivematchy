@@ -20,10 +20,10 @@ ObjectiveMatchy is a Matcher System enabling behaviour driven development for th
 
 * Open the Information Window of your Testing Target by right clicking and choosing "get info".
 * In the Linker Group of the Build tab, search for the "Other Linker Flag" row and add -ObjC and `-all_load`.
-* In the Search Path's Group of the Build tab, search for the "Header Search Paths" row and add `$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework`.
-* Check the Recursive checkbox.
-* In the Search Path's Group of the Build tab, search for the "Library Search Paths" row and add `$(SRCROOT)`.
-* Add an import statement to the header file of your testcase: `#import 'ObjectiveMatchy.h'`
+* In the "Search Paths" Group of the Build tab, search for the "Header Search Paths" row and add `$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework`.
+* Check the "Recursive" checkbox.
+* In the "Search Paths" Group of the Build tab, search for the "Library Search Paths" row and add `$(SRCROOT)`.
+* Add an import statement to the header file of your TestCase: `#import 'ObjectiveMatchy.h'`
 * That's it!
 
 ## One sophisiticated Example as proof of Nontriavialness
