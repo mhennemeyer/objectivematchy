@@ -8,6 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
+#import "ObjectiveMatchy.h"
 
 @interface OMFeature : SenTestCase {
 }

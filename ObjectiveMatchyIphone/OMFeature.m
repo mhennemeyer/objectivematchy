@@ -8,7 +8,7 @@
 
 #import "OMFeature.h"
 
-#import "ObjectiveMatchy.h"
+
 @implementation OMFeature
 
 -(void) setUp
@@ -24,13 +24,13 @@
 
 -(void) When_i_push_the____Button:(NSString *)button
 {
-	NSLog(button);
+	NSLog(@"%@", button);
 	[[@"hello" should] eql:@"hello"];
 }
 
 -(void) Then_the____Label_should_show___:(NSString *)labelName arg:(NSString *)labelValue
 {
-	NSLog(labelName);
+	NSLog(@"%@",labelName);
 }
 
 -(void) Then_everything_should_be_fine

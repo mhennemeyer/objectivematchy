@@ -4,7 +4,7 @@
     @implementation SayHelloWorldTest
         -(void) testJustOpenedTheApp
     {
-        [self Given_i_just_opened_the_app]; [self When_i_push_the____Button:@"HelloButtonHello"]; [self Then_the____Label_should_show___:@"HelloHelloLabel" arg:@"Hello, World!"]; [self Then_everything_should_be_fine];
+        [self Given_i_just_opened_the_app]; [self When_i_push_the____Button:@"Hello"]; [self Then_the____Label_should_show___:@"HelloHelloLabel" arg:@"Hello, World!"]; [self Then_everything_should_be_fine];
     }
 
     @end

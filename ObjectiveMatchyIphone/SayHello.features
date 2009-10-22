@@ -7,7 +7,7 @@ Feature: Say Hello World
 	
 	Scenario: Just opened the app
 		Given i just opened the app
-		When i push the 'HelloButtonHello' Button
+		When i push the 'Hello' Button
 		Then the 'HelloHelloLabel' Label should show 'Hello, World!'
 		Then everything should be fine
 		
