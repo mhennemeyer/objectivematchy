@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="iphone, bdd, tdd, matcher, features" />
+    <meta name="author" content="Matthias Hennemeyer" />
+    <link rel="stylesheet" type="text/css" href="default.css" />
+    <!--[if IE 6]>
+        <link rel="stylesheet" href="browserfix.css" type="text/css" />
+        <![endif]-->
+    <title>ObjectiveMatchy</title>
+  </head>
+
+<body>
+	<div id="wrap">
+		<div id="page">
+
+			<div id="page-top">
+				&nbsp;
+			</div>
+
+			<div id="page-inner">
+				
+				<div id="site-actions">
+					<div id="site-actions-inner">
+						<ul>
+							<li><a href="mailto:mhennemeyer@me.com">
+								Email
+							</a> 
+						</ul>
+					</div>
+				</div>
+				
+				<div id="site-name">
+					<div id="site-name-inner">
+						ObjectiveMatchy
+					</div>
+				</div>
+				
+			
+				
+	  
+
+				<div class="clearer">&nbsp;</div>
+
+				<div id="main">
+					<div id="main-inner">
+						<div id="content">
+
+							<div id="content-inner">
+								 <div id="content-inner-container">
+								 	 <p>This is just the README. A real website will follow.</p>
+
+<p>Please visit ObjectiveMatchy&#8217;s Project Site at Github:</p>
+
+<p><a href='http://github.com/mhennemeyer/objectivematchy'>github.com/mhennemeyer/objectivematchy</a></p>
+
+<h1 id='objectivematchy'>ObjectiveMatchy</h1>
+
+<pre><code>[[@&quot;Hello, World!&quot; should] eql:@&quot;Hello, World!&quot;];</code></pre>
+
+<p>ObjectiveMatchy is a Matcher System enabling behaviour driven development for the iPhone Platform.</p>
+
+<h2 id='installation'>Installation</h2>
+
+<ul>
+<li>Download the latest ObjectiveMatchy-X.X.X.zip file.</li>
+
+<li>Extract it somewhere (eg. to ~/Resources)</li>
+
+<li>The extracted folder contains static libraries for both the device and the simulater and a framework.</li>
+
+<li>Copy the ObjectiveMatchy.framework to /Developer/Library/Frameworks.</li>
+
+<li>Copy the static libraries (libObjectiveMatchyIphoneSimulator.a, libObjectiveMatchyIphoneDevice.a) to your projects root.</li>
+
+<li>Add the libObjectiveMatchyIphoneSimulator.a static library to your Simulator Testing Target.</li>
+
+<li>Add the libObjectiveMatchyIphoneDevice.a static library to your Application (Device) Testing Target.</li>
+</ul>
+
+<h2 id='usage'>Usage</h2>
+
+<ul>
+<li>Open the Information Window of your Testing Target by right clicking and choosing &#8220;get info&#8221;.</li>
+
+<li>In the Linker Group of the Build tab, search for the &#8220;Other Linker Flag&#8221; row and add -ObjC and <code>-all_load</code>.</li>
+
+<li>In the &#8220;Search Paths&#8221; Group of the Build tab, search for the &#8220;Header Search Paths&#8221; row and add <code>$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework</code>.</li>
+
+<li>Check the &#8220;Recursive&#8221; checkbox.</li>
+
+<li>In the &#8220;Search Paths&#8221; Group of the Build tab, search for the &#8220;Library Search Paths&#8221; row and add <code>$(SRCROOT)</code>.</li>
+
+<li>Add an import statement to the header file of your TestCase: <code>#import &#39;ObjectiveMatchy.h&#39;</code></li>
+
+<li>That&#8217;s it!</li>
+</ul>
+
+<h2 id='one_sophisiticated_example_as_proof_of_nontriavialness'>One sophisiticated Example as proof of Nontriavialness</h2>
+
+<p>Assume an Object that has a Key &#8220;aKey&#8221; and a method<br />that can change the key of <em>another</em> Object.</p>
+
+<p>This setup resembles the common situation where i have two objects that are somehow associated and <br />sending the first object some message results in the second object changing some attribute.</p>
+
+<p>Because there are no blocks (closures) in Objective C, it is not possible to directly<br />rebuild RSpec&#8217;s way of specifying this behavior.</p>
+
+<p>With RSpec you could write the following example:</p>
+
+<pre><code>obj      = ObjectWithKey.new
+otherObj = ObjectWithKey.new
+
+lambda { obj.setValue(:forKey =&gt; &quot;aKey&quot;, :ofObject =&gt; otherObj) }.should change {
+    otherObj.aKey
+}.from(nil).to(&quot;aValue&quot;)</code></pre>
+
+<p>With ObjectiveMatchy all information must be part of the matcher message.</p>
+
+<h3 id='specification_of_the_desired_behavior_with_objectivematchy'>Specification of the desired behavior with ObjectiveMatchy</h3>
+
+<pre><code>obj      = [ObjectWithKey object];
+otherObj = [ObjectWithKey object];
+
+[[obj should] changeValueForKey:@&quot;aKey&quot; 
+                       ofObject:otherObj
+                           from:nil 
+                             to:@&quot;aValue&quot;
+                     forMessage:@&quot;setValue:forKey:ofObject:&quot; 
+                  withArguments:[NSArray arrayWithObjects:@&quot;aValue&quot;, @&quot;aKey&quot;, otherObj, nil]];
+
+(Xcode will autocomplete such long messages for you!)</code></pre>
+
+<p>This matcher assures that the value of aKey is nil before sending the message to obj<br />and that it is @&#8221;aValue&#8221; afterwards. It will also give you a meaningful failuremessage if the expectation is not met, together with the actual values of the attributes in question. <br />Using standard assertions, you would have a bit more to do to achieve all this.</p>
+
+<h3 id='implementation_of_objectwithkey_for_the_sake_of_completeness'>Implementation of ObjectWithKey (for the sake of completeness)</h3>
+
+<pre><code>@interface ObjectWithKey : NSObject {
+	id aKey;
+	int aKeyWithIntValue;
+}
+
++ (ObjectWithKey *) object; 
+
+- (void) setValue:(id)aValue forKey:(NSString *)key ofObject:(id)anObject;
+
+@end
+
+@implementation ObjectWithKey
+
++ (ObjectWithKey *) object
+{
+	ObjectWithKey * obj = [[ObjectWithKey alloc] init];
+	[obj autorelease];
+	return obj;
+}
+
+- (void) setValue:(id)aValue forKey:(NSString *)key ofObject:(id)anObject
+{
+	[anObject setValue:aValue forKey:key];
+}
+
+@end</code></pre>
+
+<h2 id='what_is_a_matcher_system'>What is a Matcher System?</h2>
+
+<p>A Matcher System is a Framework that provides a painless way <br />to <strong>compose Assertions</strong> without the need to provide custom Failure Messages. <br />Thus built Assertions consist of two parts:</p>
+
+<ol>
+<li>An Expectation that is built from an Object.</li>
+
+<li>A Matcher Message that is sent to the Expectation.</li>
+</ol>
+
+<p>The Expectation understands the Matcher Messages (like eql:) and verifies that <br />the object that was used to build the Expectation actually satisfies the condition <br />that is specified by the Matcher Message or throws an Exception.</p>
+
+<p>If an Exception is thrown, it will be shown inline in Xcode, together with a <br />meaningful Failure Message.</p>
+
+<p>ObjectiveMatchy can be used together with a Unit Testing Framework or <br />standalone as an alternative to NSAssert().</p>
+
+<h2 id='features'>Features:</h2>
+
+<ul>
+<li>Build Expectations by sending an object the &#8216;should&#8217; or &#8216;shouldNot&#8217; Messages.</li>
+
+<li>Use ObjectiveMatchy&#8217;s built in Matchers.</li>
+
+<li>Specify Assertions for your TestCases.</li>
+
+<li>Use it as an alternative to NSAssert().</li>
+
+<li>Regular Expression Matcher.</li>
+
+<li>Build your own custom matchers for special cases. This can save you <br />from writing hundreds of lines of meaningless test-setUp code.</li>
+</ul>
+
+<h2 id='using_objectivematchy_with_ocunitsentesting'>Using ObjectiveMatchy with OCUnit/SenTesting</h2>
+
+<p>At first you have to import the ObjectiveMatchy library: <code>#import &#39;ObjectiveMatchy.h&#39;</code> Now you can use the Assertion building system in your tests:</p>
+
+<pre><code>  - (void) testEqualArrays
+  {
+  	NSNumber * one = [NSNumber numberWithInt:1];
+  	NSNumber * two = [NSNumber numberWithInt:2];
+  	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+  	NSArray  * equalArr = [NSArray arrayWithObjects:one, two, nil];
+
+  	[[arr should] eql:equalArr];
+  }
+
+  - (void) testDistinctArrays
+  {
+  	NSNumber * one = [NSNumber numberWithInt:1];
+  	NSNumber * two = [NSNumber numberWithInt:2];
+  	NSArray  * arr = [NSArray arrayWithObjects:one, two, nil];
+  	NSArray  * distinctArr = [NSArray arrayWithObjects:one, two, nil];
+
+  	[[arr shouldNot] eql:distinctArr];
+  }</code></pre>
+
+<h2 id='built_in_matchers__quick_showcase'>Built in matchers - Quick ShowCase</h2>
+
+<h3 id='eqlidobj'>eql:(id)obj</h3>
+
+<pre><code>    [[@&quot;Hello, World!&quot; should] eql:@&quot;Hello, World&quot;];
+
+    [[@&quot;Hello, World!&quot; shouldNot] eql:@&quot;Something Else&quot;];</code></pre>
+
+<h3 id='id1'><code>haveKey:(NSString *)akey</code></h3>
+
+<pre><code>    ObjectWithKey * o = [[ObjectWithKey alloc] init];
+
+    [[o should] haveKey:@&quot;Key&quot;];
+
+    [[o shouldNot] haveKey:@&quot;nonexisting&quot;];</code></pre>
+
+<h3 id='id2'><code>haveKey:(NSString *)aKey withValue:(id)value</code></h3>
+
+<pre><code>    ObjectWithKey * o = [[ObjectWithKey alloc] init];
+
+    [o setValue:@&quot;Value&quot; forKey:@&quot;Key&quot;];
+
+    [[o should] haveKey:@&quot;Key&quot; withValue:@&quot;Value&quot;];
+
+    [[o shouldNot] haveKey:@&quot;Key&quot; withValue:@&quot;OtherValue&quot;];</code></pre>
+
+<h3 id='id3'><code>returnValue:(id)expectedValue forMessage:(NSString *) withArguments:(NSArray *)</code></h3>
+
+<pre><code>	ObjectWithKey * o = [[ObjectWithKey alloc] init];
+
+    [o setValue:@&quot;Value&quot; forKey:@&quot;Key&quot;];
+
+	[[o should] returnValue:@&quot;Value&quot; 
+	             forMessage:@&quot;valueForKey:&quot;
+	 		  withArguments:[NSArray arrayWithObject:@&quot;Key&quot;]];</code></pre>
+
+<h3 id='containobjectidanobject'>containObject:(id)anObject</h3>
+
+<pre><code>    NSNumber * aContainedObject    = [NSNumber numberWithInt:1];    
+	NSNumber * two                 = [NSNumber numberWithInt:2];
+	NSArray  * anArray             = [NSArray arrayWithObjects:aContainedObject, two, nil];
+	NSObject * anUnContainedObject = [[NSObject alloc] init];
+
+	[[anArray should]    containObject:aContainedObject];
+
+	[[anArray shouldNot] containObject:anUnContainedObject];</code></pre>
+
+<h3 id='id4'><code>be:(NSString *)omitIs</code></h3>
+
+<pre><code>	BadObject * badObject = [BadObject badObject];	
+
+	[[badObject should] be:@&quot;Bad&quot;];     // passes if [badObject isBad] returns YES
+
+	[[badObject shouldNot] be:@&quot;Good&quot;]; // passes if [badObject isGood] returns NO</code></pre>
+
+<h3 id='id5'><code>be:(NSString *)omitIs with:(id)object</code></h3>
+
+<pre><code>	[[anObject should]    be:@&quot;Equal:&quot; with:anObject];
+
+	[[anObject shouldNot] be:@&quot;Equal:&quot; with:anotherObject];</code></pre>
+
+<h3 id='id6'><code>throw:(NSString *)expectedException forMessage:(NSString *) withArguments:(NSArray *)arguments</code></h3>
+
+<pre><code>	// BadObject throws an Exception for &#39;raise&#39;
+
+	BadObject * badObject = [[BadObject alloc] init];
+
+	[[badObject should] throw:@&quot;&quot; // Empty String matches any Exception
+	               forMessage:@&quot;raise&quot;
+			    withArguments:nil]; </code></pre>
+
+<h3 id='id7'><code>changeValueForKey:(NSString *)aKey forMessage:(NSString *)messageString withArguments:(NSArray *)arguments</code></h3>
+
+<pre><code>	ObjectWithKey * obj = [ObjectWithKey object];
+
+    [[obj should] changeValueForKey:@&quot;aKey&quot; 
+						 forMessage:@&quot;setValue:forKey:&quot; 
+					  withArguments:[NSArray arrayWithObjects:@&quot;aValue&quot;, @&quot;aKey&quot;, nil]];</code></pre>
+
+<h3 id='id8'><code>changeValueForKey:(NSString *)aKey from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments</code></h3>
+
+<pre><code>	ObjectWithKey * obj = [ObjectWithKey object];
+
+	[[obj should] changeValueForKey:@&quot;aKey&quot; 
+							   from:nil 
+								 to:@&quot;aValue&quot;
+						 forMessage:@&quot;setValue:forKey:&quot; 
+					  withArguments:[NSArray arrayWithObjects:@&quot;aValue&quot;, @&quot;aKey&quot;, nil]];</code></pre>
+
+<h3 id='id9'><code>changeValueForKey:(NSString *)aKey ofObject:(id)anObject forMessage:(NSString *)messageString withArguments:(NSArray *)arguments</code></h3>
+
+<pre><code>	ObjectWithKey * obj      = [ObjectWithKey object];
+
+	ObjectWithKey * otherObj = [ObjectWithKey object];
+
+	[[obj should] changeValueForKey:@&quot;aKey&quot; 
+						   ofObject:otherObj
+						 forMessage:@&quot;setValue:forKey:ofObject:&quot; 
+					  withArguments:[NSArray arrayWithObjects:@&quot;aValue&quot;, @&quot;aKey&quot;, otherObj, nil]];</code></pre>
+
+<h3 id='id10'><code>changeValueForKey:(NSString *)aKey ofObject:(id)anObject from:(id)fromValue to:(id)toValue forMessage:(NSString *)messageString withArguments:(NSArray *)arguments</code></h3>
+
+<pre><code>	ObjectWithKey * obj      = [ObjectWithKey object];
+
+	ObjectWithKey * otherObj = [ObjectWithKey object];
+
+	[[obj should] changeValueForKey:@&quot;aKey&quot; 
+						   ofObject:otherObj
+							   from:nil 
+								 to:@&quot;aValue&quot;
+						 forMessage:@&quot;setValue:forKey:ofObject:&quot; 
+					  withArguments:[NSArray arrayWithObjects:@&quot;aValue&quot;, @&quot;aKey&quot;, otherObj, nil]];</code></pre>
+
+<h3 id='id11'><code>respondToSelector:(SEL)selector</code></h3>
+
+<pre><code>    NSObject * o = [[NSObject alloc] init];
+
+    [[o should] respondToSelector:@selector(copy)];
+
+    [[o shouldNot] respondToSelector:@selector(nonexisting)];</code></pre>
+
+<h3 id='id12'><code>respondToSelector:(SEL)selector andReturn:(id)expectedValue</code></h3>
+
+<pre><code>    NSObject * o = [[NSObject alloc] init];
+
+    [[o should] respondToSelector:@selector(description) 
+    					          andReturn:[o description]];
+
+    [[o shouldNot] respondToSelector:@selector(description) 
+    					             andReturn:@&quot;Something Else&quot;];</code></pre>
+
+<h3 id='id13'><code>respondToSelector:(SEL)selector withObject:(id)argument andReturn:(id)expectedValue</code></h3>
+
+<pre><code>    NSObject * o = [[NSObject alloc] init];
+
+    [[o should] respondToSelector:@selector(isEqualTo:) 
+    					  withObject:o 
+    					   andReturn:OM_YES];
+
+    [[o shouldNot] respondToSelector:@selector(isEqualTo:) 
+     					        withObject:@&quot;Something Else&quot;
+     					         andReturn:OM_YES];</code></pre>
+
+<h2 id='scalar_value_wrapper'>Scalar Value Wrapper</h2>
+
+<p>Because ObjectiveMatchy can (and should and will) only handle Objects, <br />there are Wrappers for scalar values for some special cases:</p>
+
+<ul>
+<li><code>OM_YES</code> for YES</li>
+
+<li><code>OM_NO</code> for NO</li>
+
+<li><code>OM_INT(some_int_value)</code> for int values</li>
+
+<li><code>OM_FLOAT(some_float_value)</code> for float values</li>
+
+<li><code>OM_SEL(some_SEL_value)</code> for selectors</li>
+</ul>
+
+<h2 id='using_objectivematchy_standalone'>Using ObjectiveMatchy standalone</h2>
+
+<p>Let&#8217;s say you have an Object: &#8216;obj&#8217;. <br />At Runtime, you want to assure that &#8216;obj&#8217; <br />maintains a key: &#8216;assoc&#8217; with the value of <br />a pointer to some other Object: &#8216;assocObj&#8217;.</p>
+
+<p>With ObjectiveMatchy you can express this intent as follows:</p>
+
+<pre><code>	[[obj should] haveKey:@&quot;assoc&quot; 
+	            withValue:assocObj];</code></pre>
+
+<p>With NSAssert it would rather sound like:</p>
+
+<pre><code>	NSAssert([assocObj isEqualTo:[obj valueForKey:@&quot;assoc&quot;]], 
+	     @&quot;obj should have key &#39;assoc&#39; with value assocObj.&quot;);</code></pre>
+
+<p>Don&#8217;t forget to include the ObjectiveMatchy-Framework <br />in the implementation file that should use it.: <br /><code>#import  &lt;ObjectiveMatchy/ObjectiveMatchy.h&gt;</code></p>
+
+<h2 id='custom_matchers'>Custom Matchers</h2>
+
+<p>Matchers are Instance-Methods of the OMMatcher class,<br />so custom matchers can be added as a category to OMMatcher.<br />In the implementation of your custom matcher method, you have to<br />configure the matcher object (ie set some properties),<br />that is available as the current self object. <br />You have to set the matchers &#8216;matches&#8217; property that <br />the matcher will use to decide if the expectation has <br />been satisfied or not and call handleExpectation on self. <br />One should further provide custom positive (should) <br />and negative (shouldNot) failure messages, <br />set self.expected and return the expected Object. <br />Also add the method definition to the category&#8217;s <br />interface, or the compiler will yell.</p>
+
+<h3 id='example_eqlmatcher_mandatory_implementation'>Example: eql-Matcher: Mandatory Implementation</h3>
+
+<pre><code>- (id) eql:(id)anExpected
+{ 
+	self.matches = [self.actual isEqualTo:anExpected];
+	[self handleExpectation];
+	return anExpected;
+}</code></pre>
+
+<h3 id='example_eqlmatcher_complete_implementation'>Example: eql-Matcher: Complete Implementation</h3>
+
+<pre><code>  - (id) eql:(id)anExpected
+  { 
+  	self.expected               = anExpected;
+  	self.matches                = [self.actual isEqualTo:self.expected];
+  	self.positiveFailureMessage = [NSString stringWithFormat:
+  			@&quot;&#39;%@&#39; should be equal to: &#39;%@&#39;, but isn&#39;t (with isEqualTo).&quot;, 
+  			self.actual, self.expected];
+  	self.negativeFailureMessage = [NSString stringWithFormat:
+  			@&quot;&#39;%@&#39; should not be equal to: &#39;%@&#39;, but is (with isEqualTo).&quot;, 
+  			self.actual, self.expected];
+
+  	[self handleExpectation];
+
+  	return self.expected;
+  }</code></pre>
+
+<h3 id='template'>Template</h3>
+
+<pre><code>  - (id) matcherName:(id)expectedValue
+  {
+  	self.expected = expectedValue;
+
+	// expectedValue might be an OMWrapper Object. In that case, 
+	// the actual Value is expected to be scalar and thus must also be wrapped.
+	id actualValue = [self isWrapped] ? [[self.expected class] wrapperWithValue:[self.actual doSomethingToGetActualValue]] 
+								      : [self.actual doSomethingToGetActualValue];
+								
+	// Specify the condition ...
+  	self.matches = NO; // todo
+
+	// Set the failure messages that will be shown inline if the condition evaluates to false.
+  	self.positiveFailureMessage = 
+			@&quot;positive Failure: should but wasn&#39;t. Actual Object: &#39;%@&#39;, Expected Value: &#39;%@&#39;, Actual Value: &#39;%@&#39;&quot;, 
+		    	self.actual, self.expected, actualValue;
+  	self.negativeFailureMessage = 
+			@&quot;negative Failure: shouldn&#39;t but was. Actual Object: &#39;%@&#39;, Expected Value: &#39;%@&#39;, Actual Value: &#39;%@&#39;&quot;,
+				self.actual, self.expected, actualValue;
+	
+	// Calling handleExpectation is mandatory
+  	[self handleExpectation];
+	
+  	return self.expected;
+  }</code></pre>
+
+<h2 id='contribution'>Contribution</h2>
+
+<ul>
+<li>Idea?, Feature Request?, Bug? -&gt; <a href='http://300.lighthouseapp.com/projects/33499-objective-matchy/overview'>Lighthouse</a></li>
+
+<li>source -&gt; <a href='http://github.com/mhennemeyer/objectivematchy'>GitHub</a></li>
+
+<li>talk? -&gt; <a href='http://groups.google.de/group/objective-matchy'>GoogleGroup</a></li>
+</ul>
+
+<h2 id='thanks_to'>Thanks to</h2>
+
+<ul>
+<li>David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, Aslak Hellesoy et.al. for RSpec.</li>
+
+<li>sen:te for OCUnit and the SenTestingKit.</li>
+
+<li>Erik Doernenburg for OCMock.</li>
+
+<li>Steve Jobs for the iPhone.</li>
+
+<li>Dan North for BDD.</li>
+
+<li>Kent Beck for TDD.</li>
+</ul>
+
+<h2 id='links'>Links</h2>
+
+<ul>
+<li><a href='http://rspec.info'>RSpec</a></li>
+
+<li><a href='http://www.mulle-kybernetik.com/software/OCMock/'>OCMock</a></li>
+
+<li><a href='http://www.sente.ch/software/ocunit/'>OCUnit/SenTestingKit</a></li>
+
+<li><a href='http://behaviour-driven.org/'>behaviour-driven</a></li>
+
+<li><a href='http://dannorth.net/introducing-bdd'>Dan North. Introducing BDD</a></li>
+</ul>
+
+<h2 id='license'>License</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) Matthias Hennemeyer</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining <br />a copy of this software and associated documentation files (the <br />&#8216;Software&#8217;), to deal in the Software without restriction, including <br />without limitation the rights to use, copy, modify, merge, publish, <br />distribute, sublicense, and/or sell copies of the Software, and to <br />permit persons to whom the Software is furnished to do so, subject to <br />the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be <br />included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &#8216;AS IS&#8217;, WITHOUT WARRANTY OF ANY KIND, <br />EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF <br />MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. <br />IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY <br />CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, <br />TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE <br />SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+								 </div>
+
+							</div>
+						</div>
+
+						
+						<div class="clearer">&nbsp;</div>
+					</div>
+					<div class="clearer">&nbsp;</div>
+				</div>
+
+				<div class="clearer">&nbsp;</div>
+
+
+			</div>
+
+			<div id="page-bottom">
+				&nbsp;
+			</div>
+
+			<div id="footer">
+				<div id="footer-inner">
+					&copy; 2009 Matthias Hennemeyer. All Rights Reserved.
+				</div>
+			</div>
+
+		</div>
+		
+	</div>	
+</body>
+</html>

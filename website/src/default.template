@@ -26,49 +26,21 @@
 					<div id="site-actions-inner">
 						<ul>
 							<li><a href="mailto:mhennemeyer@me.com">
-								Contact
-							</a> |</li>
-							<li><a href="impressum.html">
-								Info
-							</a> |</li>
-							<li><a href="licence.html">
-								Licence
-							</a></li>
+								Email
+							</a> 
 						</ul>
 					</div>
 				</div>
 				
 				<div id="site-name">
 					<div id="site-name-inner">
-						<img src="images/icon.png">
+						ObjectiveMatchy
 					</div>
 				</div>
 				
-				<div id="top-links">
-					<div id="top-links-inner">
-						<ul>
-							<li><a href="features/index.html">
-								Features Parser
-							</a></li>
-							<li><a href="matchers/index.html">
-								Matcher System
-							</a></li>
-							<li><a href="tutorials/index.html">
-								Tutorials
-							</a></li>
-							<li><a href="cookbook/index.html">
-								Cookbook
-							</a></li>
-						</ul>
-					</div>
-				</div>
+			
 				
-	  		<div id="header">
-					<div id="header-inner">
-						<webgen:block name="header-menu" />
-						<div class="clearer">&nbsp;</div>
-					</div>
-				</div>
+	  
 
 				<div class="clearer">&nbsp;</div>
 

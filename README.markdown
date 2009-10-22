@@ -165,7 +165,7 @@ Now you can use the Assertion building system in your tests:
         [[@"Hello, World!" shouldNot] eql:@"Something Else"];
 
 
-### haveKey:(NSString *)akey
+### `haveKey:(NSString *)akey`
 
         ObjectWithKey * o = [[ObjectWithKey alloc] init];
 
@@ -411,11 +411,12 @@ interface, or the compiler will yell.
 
 
 
-## Contribution
+## More Information
 
 * Idea?, Feature Request?, Bug? -> [Lighthouse](http://300.lighthouseapp.com/projects/33499-objective-matchy/overview)
 * source -> [GitHub](http://github.com/mhennemeyer/objectivematchy)
 * talk? -> [GoogleGroup](http://groups.google.de/group/objective-matchy)
+* [Website](http://objective.matchy.org) 
 
 ## Thanks to
 
