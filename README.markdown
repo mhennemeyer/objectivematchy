@@ -1,9 +1,3 @@
-This is prealpha software that hasn't been released yet.  
-This Software is developed testdriven, so there may   
-be fewer bugs than in other prealpha software but be careful anyway.  
-If you want to try it, please clone the repository, open the   
-Xcode Project and build the framework or run the tests.   
-
 # ObjectiveMatchy
 
     [[@"Hello, World!" should] eql:@"Hello, World!"];
@@ -16,14 +10,95 @@ ObjectiveMatchy is a Matcher System enabling behaviour driven development for th
 
 * Download the latest ObjectiveMatchy-X.X.X.zip file.   
 * Extract it somewhere  (eg. to  ~/Resources)
-* The extracted folder contains a static library and a framework.
-* Copy the ObjectiveMatchyIphone.framework to /Developer/Library/Frameworks. This is necessary to enable Xcode's code-completion for ObjectiveMatchy messages.
-* Add the libObjectiveMatchyIphone.a static library to your Testing Target.
+* The extracted folder contains static libraries for both the device and the simulater and a framework.
+* Copy the ObjectiveMatchy.framework to /Developer/Library/Frameworks.
+* Copy the static libraries (libObjectiveMatchyIphoneSimulator.a, libObjectiveMatchyIphoneDevice.a) to your projects root. 
+* Add the libObjectiveMatchyIphoneSimulator.a static library to your Simulator Testing Target.
+* Add the libObjectiveMatchyIphoneDevice.a static library to your Application (Device) Testing Target.
 
 ## Usage
 
+* Open the Information Window of your Testing Target by right clicking and choosing "get info".
+* In the Linker Group of the Build tab, search for the "Other Linker Flag" row and add -ObjC and `-all_load`.
+* In the Search Path's Group of the Build tab, search for the "Header Search Paths" row and add `$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework`.
+* Check the Recursive checkbox.
+* In the Search Path's Group of the Build tab, search for the "Library Search Paths" row and add `$(SRCROOT)`.
 * Add an import statement to the header file of your testcase: `#import 'ObjectiveMatchy.h'`
 * That's it!
+
+## One sophisiticated Example as proof of Nontriavialness
+
+Assume an Object that has a Key "aKey" and a method  
+that can change the key of *another* Object.
+
+This setup resembles the common situation where i have two objects that are somehow associated and   
+sending the first object some message results in the second object changing some attribute.
+
+Because there are no blocks (closures) in Objective C, it is not possible to directly  
+rebuild RSpec's way of specifying this behavior. 
+
+With RSpec you could write the following example:
+
+    obj      = ObjectWithKey.new
+		otherObj = ObjectWithKey.new
+    
+		lambda { obj.setValue(:forKey => "aKey", :ofObject => otherObj) }.should change {
+			otherObj.aKey
+		}.from(nil).to("aValue")
+
+With ObjectiveMatchy all information must be part of the matcher message.
+
+
+### Specification of the desired behavior with ObjectiveMatchy
+
+	obj      = [ObjectWithKey object];
+	otherObj = [ObjectWithKey object];
+
+    [[obj should] changeValueForKey:@"aKey" 
+                           ofObject:otherObj
+                               from:nil 
+                                 to:@"aValue"
+                         forMessage:@"setValue:forKey:ofObject:" 
+                      withArguments:[NSArray arrayWithObjects:@"aValue", @"aKey", otherObj, nil]];
+
+    (Xcode will autocomplete such long messages for you!)
+
+
+
+This matcher assures that the value of aKey is nil before sending the message to obj  
+and that it is @"aValue" afterwards. It will also give you a meaningful failuremessage if the expectation is not 
+met, together with the actual values of the attributes in question.   
+Using standard assertions, you would have a bit more to do to achieve all this. 
+
+### Implementation of ObjectWithKey (for the sake of completeness)
+
+	@interface ObjectWithKey : NSObject {
+		id aKey;
+		int aKeyWithIntValue;
+	}
+
+	+ (ObjectWithKey *) object; 
+
+	- (void) setValue:(id)aValue forKey:(NSString *)key ofObject:(id)anObject;
+
+	@end
+
+	@implementation ObjectWithKey
+
+	+ (ObjectWithKey *) object
+	{
+		ObjectWithKey * obj = [[ObjectWithKey alloc] init];
+		[obj autorelease];
+		return obj;
+	}
+
+	- (void) setValue:(id)aValue forKey:(NSString *)key ofObject:(id)anObject
+	{
+		[anObject setValue:aValue forKey:key];
+	}
+
+	@end
+	
 
 
 ## What is a Matcher System?
@@ -89,11 +164,6 @@ Now you can use the Assertion building system in your tests:
 
         [[@"Hello, World!" shouldNot] eql:@"Something Else"];
 
-### match:(NSString *)regEx
-
-        [[@"Hello" should] match:@"/.*/"];
-
-		[[@"Hello" shouldNot] match:@"/World/"];
 
 ### haveKey:(NSString *)akey
 
@@ -240,9 +310,9 @@ there are Wrappers for scalar values for some special cases:
 
 * `OM_YES` for YES 
 * `OM_NO` for NO
-* `OM_INT(int)` for int values
-* `OM_FLOAT(float)` for float values
-* `OM_SEL(SEL)` for selectors
+* `OM_INT(some_int_value)` for int values
+* `OM_FLOAT(some_float_value)` for float values
+* `OM_SEL(some_SEL_value)` for selectors
 
 
 ## Using ObjectiveMatchy standalone
@@ -350,7 +420,6 @@ interface, or the compiler will yell.
 ## Thanks to
 
 * David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, Aslak Hellesoy et.al. for RSpec.
-* Aslak Hellesoy, David Chelimsky and Dan North for RBehave/RSpecUserStories/Cucumber.
 * sen:te for OCUnit and the SenTestingKit.
 * Erik Doernenburg for OCMock.
 * Steve Jobs for the iPhone.
@@ -360,7 +429,6 @@ interface, or the compiler will yell.
 ## Links
 
 * [RSpec](http://rspec.info)
-* [Cucumber](http://cukes.info)
 * [OCMock](http://www.mulle-kybernetik.com/software/OCMock/)
 * [OCUnit/SenTestingKit](http://www.sente.ch/software/ocunit/)
 * [behaviour-driven](http://behaviour-driven.org/)

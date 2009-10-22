@@ -35,30 +35,31 @@
 #pragma mark -
 
 #pragma mark match:
+#ifdef TARGET_MAC_OS
+- (id) match:(NSString *)aRegEx
+{
+	self.expected               = aRegEx;
+	
+	// todo Refactor
+	NSRange range;
+	range = [self.expected rangeOfString:@"'"];
+	if (range.location != NSNotFound)
+		[NSException raise:@"Your Regex may not contain an apostrophe: >>'<< (U+0027). Sorry. " format:nil]; 
+	NSMutableString * cmd = [NSMutableString stringWithString:@"ruby -e ' exit 1 unless %<"];
+	[cmd appendString:[ [self.actual stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"]]; 
+	[cmd appendString:[NSString stringWithFormat:@"> =~ %@ ' ", self.expected]];
+	self.matches = system([cmd cStringUsingEncoding:NSASCIIStringEncoding]) ? NO : YES;
 
-//- (id) match:(NSString *)aRegEx
-//{
-//	self.expected               = aRegEx;
-//	
-//	// todo Refactor
-//	NSRange range;
-//	range = [self.expected rangeOfString:@"'"];
-//	if (range.location != NSNotFound)
-//		[NSException raise:@"Your Regex may not contain an apostrophe: >>'<< (U+0027). Sorry. " format:nil]; 
-//	NSMutableString * cmd = [NSMutableString stringWithString:@"ruby -e ' exit 1 unless %<"];
-//	[cmd appendString:[ [self.actual stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"]]; 
-//	[cmd appendString:[NSString stringWithFormat:@"> =~ %@ ' ", self.expected]];
-//	self.matches = system([cmd cStringUsingEncoding:NSASCIIStringEncoding]) ? NO : YES;
-//
-//	
-//	self.positiveFailureMessage = [NSString stringWithFormat:
-//								   @"String should match Regex: %@, but didn't (using ruby).String: '%@'", self.expected, self.actual];
-//	self.negativeFailureMessage = [NSString stringWithFormat:
-//								   @"String should not match Regex: %@, but did (using ruby).String: '%@'", self.expected, self.actual];
-//	[self handleExpectation];
-//	
-//	return self.expected;
-//}
+	
+	self.positiveFailureMessage = [NSString stringWithFormat:
+								   @"String should match Regex: %@, but didn't (using ruby).String: '%@'", self.expected, self.actual];
+	self.negativeFailureMessage = [NSString stringWithFormat:
+								   @"String should not match Regex: %@, but did (using ruby).String: '%@'", self.expected, self.actual];
+	[self handleExpectation];
+	
+	return self.expected;
+}
+#endif
 
 #pragma mark -
 
