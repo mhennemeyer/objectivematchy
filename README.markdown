@@ -173,7 +173,7 @@ Now you can use the Assertion building system in your tests:
         [[@"Hello, World!" shouldNot] eql:@"Something Else"];
 
 
-### `haveKey:(NSString *)akey`
+### haveKey:(NSString *)akey
 
         ObjectWithKey * o = [[ObjectWithKey alloc] init];
 
