@@ -30,7 +30,13 @@ One more catch: In order to have the latest version of Xcode showing the failure
 you have to do the following:
 
 1. Open the Information Window of the "Run Script" Build Phase of your Testing Target. (Right click and choose "Get info")
+2. Replace the content of the 'Script' Textarea with the following:
 
+    # Run the unit tests in this test bundle, save stderr as /tmp/run_unit_test_output.txt and write it to stdout
+		file='/tmp/run_unit_test_output.txt'
+		touch $file
+		"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests" 2> $file
+		cat $file
 
 ## One sophisiticated Example as proof of Nontriavialness
 
