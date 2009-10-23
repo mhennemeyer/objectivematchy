@@ -9,6 +9,7 @@ Feature: Say Hello World
 		Given i just opened the app
 		When i push the 'Hello' Button
 		Then the 'HelloHelloLabel' Label should show 'Hello, World!'
+		And |Other Label|Something Else|
 		Then everything should be fine
 		
 		
