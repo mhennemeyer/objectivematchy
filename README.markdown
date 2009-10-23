@@ -26,6 +26,14 @@ ObjectiveMatchy is a Matcher System enabling behaviour driven development for th
 * Add an import statement to the header file of your TestCase: `#import 'ObjectiveMatchy.h'`
 * That's it!
 
+One more catch: In order to have the latest version of Xcode showing the failure messages inline,  
+you have to do the following:
+
+1. Open the Information Window of the "Run Script" Build Phase of your Testing Target. (Right click and choose "Get info")
+2. Add `| echo` to the last line of the Script, so that it reads:
+  
+    "${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests" | echo
+
 ## One sophisiticated Example as proof of Nontriavialness
 
 Assume an Object that has a Key "aKey" and a method  

@@ -20,6 +20,7 @@
 -(void) Given_i_just_opened_the_app
 {
 	NSLog(@"\nHello!!!");
+		[[@"str" should] eql:@"Something Else"];
 }
 
 -(void) When_i_push_the____Button:(NSString *)button

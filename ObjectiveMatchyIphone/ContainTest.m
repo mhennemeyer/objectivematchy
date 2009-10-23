@@ -31,6 +31,7 @@
 - (void) testArrayContainsObjectPositivePass
 {
 	[[arr should] containObject:aContainedObject];
+
 }
 
 - (void) testArrayContainsObjectNegativePass
