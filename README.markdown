@@ -8,7 +8,7 @@ ObjectiveMatchy is a Matcher System enabling behaviour driven development for th
 
 ## Installation
 
-* Download the latest ObjectiveMatchy-X.X.X.zip file.   
+* [Download](http://github.com/mhennemeyer/objectivematchy/downloads) the latest ObjectiveMatchy-X.X.X.zip file.   
 * Extract it somewhere  (eg. to  ~/Resources)
 * The extracted folder contains static libraries for both the device and the simulater and a framework.
 * Copy the ObjectiveMatchy.framework to /Developer/Library/Frameworks.
