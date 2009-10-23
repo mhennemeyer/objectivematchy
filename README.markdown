@@ -8,23 +8,26 @@ ObjectiveMatchy is a Matcher System enabling behaviour driven development for th
 
 ## Installation
 
-* [Download](http://github.com/mhennemeyer/objectivematchy/downloads) the latest ObjectiveMatchy-X.X.X.zip file.   
-* Extract it somewhere  (eg. to  ~/Resources)
-* The extracted folder contains static libraries for both the device and the simulater and a framework.
-* Copy the ObjectiveMatchy.framework to /Developer/Library/Frameworks.
-* Copy the static libraries (libObjectiveMatchyIphoneSimulator.a, libObjectiveMatchyIphoneDevice.a) to your projects root. 
-* Add the libObjectiveMatchyIphoneSimulator.a static library to your Simulator Testing Target.
-* Add the libObjectiveMatchyIphoneDevice.a static library to your Application (Device) Testing Target.
+1. Download   
+	    1.1 [Download](http://github.com/mhennemeyer/objectivematchy/downloads) the latest ObjectiveMatchy-X.X.X.zip file.   
+      1.2 Extract it somewhere  (eg. to  ~/Resources). The extracted folder contains static libraries for both the device and the simulater and a framework.    
+2. Copy the ObjectiveMatchy.framework to /Developer/Library/Frameworks. 
+3. Copy the static libraries (libObjectiveMatchyIphoneSimulator.a, libObjectiveMatchyIphoneDevice.a) to your projects root. 
+4. Add the libObjectiveMatchyIphoneSimulator.a static library to your Simulator Testing Target.
+5. Add the libObjectiveMatchyIphoneDevice.a static library to your Application (Device) Testing Target.
 
 ## Usage
 
-* Open the Information Window of your Testing Target by right clicking and choosing "get info".
-* In the Linker Group of the Build tab, search for the "Other Linker Flag" row and add -ObjC and `-all_load`.
-* In the "Search Paths" Group of the Build tab, search for the "Header Search Paths" row and add `$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework`.
-* Check the "Recursive" checkbox.
-* In the "Search Paths" Group of the Build tab, search for the "Library Search Paths" row and add `$(SRCROOT)`.
-* Add an import statement to the header file of your TestCase: `#import 'ObjectiveMatchy.h'`
-* That's it!
+1. Set linker flags
+    1.1 Open the Information Window of your Testing Target by right clicking and choosing "get info".
+    1.2 In the Linker Group of the Build tab, search for the "Other Linker Flag" row and add -ObjC and `-all_load`.
+2. Adjust Paths
+    2.1 In the "Search Paths" Group of the Build tab, search for the "Header Search Paths" row and add `$(DEVELOPER_LIBRARY_DIR)/Frameworks/ObjectiveMatchy.framework`.
+    2.2 Check the "Recursive" checkbox.   
+    2.3 In the "Search Paths" Group of the Build tab, search for the "Library Search Paths" row and add `$(SRCROOT)`.   
+3. Add an import statement to the header file of your TestCase: `#import 'ObjectiveMatchy.h'` 
+
+That's it! Now you can use ObjectiveMatchy in your tests.
 
 One more catch: In order to have the latest version of Xcode showing the failure messages inline,  
 you have to do the following:
