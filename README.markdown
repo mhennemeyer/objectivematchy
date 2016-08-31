@@ -41,7 +41,7 @@ you have to do the following:
 			"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests" 2> $file
 			cat $file
 
-## One sophisiticated Example as proof of Nontriavialness
+## One sophisticated Example as proof of Nontriavialness
 
 Assume an Object that has a Key "aKey" and a method  
 that can change the key of *another* Object.
@@ -438,7 +438,6 @@ interface, or the compiler will yell.
 * David Chelimsky, Dave Astels, Dan North, Pat Maddox, Steven Baker, Aslak Hellesoy et.al. for RSpec.
 * sen:te for OCUnit and the SenTestingKit.
 * Erik Doernenburg for OCMock.
-* Steve Jobs for the iPhone.
 * Dan North for BDD.
 * Kent Beck for TDD.
 
